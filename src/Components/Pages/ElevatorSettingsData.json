@@ -1,0 +1,22 @@
+{
+    "apiElevatorViewUrl" : "",
+    "apiElevatorViewMethod": "GET",
+    "apiElevatorViewHeaders" : {
+        "Content-Type": "application/json"
+    },
+
+    "ElevatorView-ViewModel":{
+        "ElevatorId" : "",
+        "ElevatorName" : "",
+        "BuildingName" : "",
+        "isFunctioning": false,
+        "Status": "",
+        "AreDoorsOpen": false
+    },
+
+    "DeviceMethodCallBody" :
+    {
+        "ElevatorId" : "",
+        "FunctionName": ""
+    }
+}
