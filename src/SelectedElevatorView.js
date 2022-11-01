@@ -40,6 +40,13 @@ export const SelectedElevatorView = (props) => {
                 Name : "John Krasinski",
                 Content : "Lorem"
             }
+        ],
+        HistoryLog : [
+            {
+               DateNow : 2022,
+               Status : "Not Functioning",
+               Value : 5 
+            }
         ]
 
         }
@@ -52,6 +59,29 @@ export const SelectedElevatorView = (props) => {
                 <h4 className='CommentUser'>{comment.Name}</h4>
                 <p className='CommentContent'>{comment.Content}</p>
             </div>
+        );
+        
+        const listHistoryLog = data.HistoryLog.map((log) => 
+            <table className='historyLogSection'>
+                <thead className='historyLogTableHeader'>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody className='historyLogTableBody'>
+                    <tr>
+                        <td>{log.DateNow}</td>
+                    </tr>
+                    <tr>
+                        <td>{log.Status}</td>
+                    </tr>
+                    <tr>
+                        <td>{log.Value}</td>
+                    </tr>
+                </tbody>
+            </table>
         );
    
         const listInformation = data.Information.map((info) => 
@@ -106,10 +136,17 @@ export const SelectedElevatorView = (props) => {
         </div>
 
         <div>
+            <h3>History log events: </h3>
+            {listHistoryLog}
+        </div>
+        
+        {/* Comment section ska in till update error report vyn */}
+        <div>
             <h3>Comments: </h3>
             {listComments}
         </div>
         
+
 
         <script>
             {console.log()}
