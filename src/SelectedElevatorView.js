@@ -1,10 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 
 
 export const SelectedElevatorView = (props) => {
 
-        
+    const fetchAPI = () => {
+        fetch("")
+          .then(response => {
+            return response.json()
+          })
+          .then(data => {
+            
+          })
+      }
+
+      useEffect(() => {
+        fetchAPI()
+      }, [])
 
         var data = {
         ElevatorId : "1",
