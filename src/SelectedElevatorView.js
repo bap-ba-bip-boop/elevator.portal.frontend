@@ -10,6 +10,12 @@ export const SelectedElevatorView = (props) => {
         ElevatorId : "1",
         Status : "Functioning",
         Technichan : "John",
+        ErrorReports : [
+            {
+                ErrorReportId : "001",
+                ErrorReportDesc : "Lights broken."
+            }
+        ],
         Information : [
             {
                 MaxWeight : 1200,
@@ -50,12 +56,25 @@ export const SelectedElevatorView = (props) => {
    
         const listInformation = data.Information.map((info) => 
             <div className='InformationSection'>
-                <p className='CommentContent'>Building: {info.Building}</p>
+                <p className='informationContent'>Building: {info.Building}</p>
                 
-                <p className='CommentContent'>City: {info.City}</p>
+                <p className='informationContent'>City: {info.City}</p>
                 
-                <p className='CommentContent'>Max weight: {info.MaxWeight}</p>
+                <p className='informationContent'>Max weight: {info.MaxWeight}</p>
             </div>
+        );
+
+        const listErrorReports = data.ErrorReports.map((ErrorReport) => 
+            <div className='prevErrorReports'>
+                <div className='errorReportName'>
+                    <h4>{ErrorReport.ErrorReportId}</h4>
+                    <p>{ErrorReport.ErrorReportDesc}</p>
+                <div className='errorReportButton'>
+                    <button>Update errorReport</button> 
+                </div>
+            </div>
+        </div>
+            
         );
 
   return (
@@ -71,18 +90,25 @@ export const SelectedElevatorView = (props) => {
             <h4>{data.Status}</h4>
         </div>
 
-        <div className="descriptionSection"> 
+        <div className="informationSection"> 
             <h3>Information: </h3>
             {listInformation}
         </div>
 
-        <div className="technichanSection"> 
+        <div>
             <h3>Technichan: </h3>
             <h4>{data.Technichan}</h4>
+        </div>  
+
+        <div>
+            <h3>Current error reports: </h3>
+            {listErrorReports}
         </div>
 
-        <h3>Comments: </h3>
-        {listComments}
+        <div>
+            <h3>Comments: </h3>
+            {listComments}
+        </div>
         
 
         <script>
