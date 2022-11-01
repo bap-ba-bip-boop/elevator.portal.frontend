@@ -2,7 +2,7 @@ import './ErrorReport.css';
 import React from "react"
 import { Component } from "react"
 
-export class ErrorReport extends Component {
+export class UpdateErrorReport extends Component {
     constructor(props) {
         super(props)
 
@@ -70,4 +70,4 @@ export class ErrorReport extends Component {
   }
 }
 
-export default ErrorReport
+export default UpdateErrorReport
