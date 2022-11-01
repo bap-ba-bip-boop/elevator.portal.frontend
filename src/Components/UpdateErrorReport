@@ -36,6 +36,15 @@ export class UpdateErrorReport extends Component {
         event.preventDefault()
     }
   
+    /* 
+        const listComments = data.CommentContent.map((comment) => 
+            <div className='CommentSection'>
+                <h4 className='CommentUser'>{comment.Name}</h4>
+                <p className='CommentContent'>{comment.Content}</p>
+            </div>
+        );
+    */
+
     render() {
         const { status, assignedTechnician, comments } = this.state
      return (
@@ -63,6 +72,13 @@ export class UpdateErrorReport extends Component {
             <button type="submit">Send Comment</button>
             <br>
             </br>
+
+            {/* 
+            <div>
+                <h3>Comments: </h3>
+                {listComments}
+            </div>
+         */}
             <button type="submit">Submit</button>
         </form>
       
