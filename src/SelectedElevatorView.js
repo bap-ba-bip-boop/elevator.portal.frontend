@@ -55,8 +55,6 @@ export const SelectedElevatorView = (props) => {
                 <p className='CommentContent'>City: {info.City}</p>
                 
                 <p className='CommentContent'>Max weight: {info.MaxWeight}</p>
-                
-                <p className='CommentContent'>Type: {}</p>
             </div>
         );
 
@@ -74,8 +72,8 @@ export const SelectedElevatorView = (props) => {
         </div>
 
         <div className="descriptionSection"> 
-            <h3>Description: </h3>
-            <p>{data.Description}</p>
+            <h3>Information: </h3>
+            {listInformation}
         </div>
 
         <div className="technichanSection"> 
