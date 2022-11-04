@@ -1,4 +1,4 @@
-import './ErrorReport.css';
+import '../../Style/ErrorReport.css';
 import React from "react"
 import { Component } from "react"
 
@@ -44,7 +44,7 @@ export class ErrorReport extends Component {
                 <label>Status</label>
                 <select value={status} onChange={this.handleStatusChange}>
                     <option value="outoforder">Out of order</option>
-                    <option value="undercontruction">Under Contruction</option>
+                    <option value="undercontruction">Under Construction</option>
                     <option value="functioning">Functioning</option>
                 </select>
             </div>

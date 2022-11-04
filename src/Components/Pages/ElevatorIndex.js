@@ -43,7 +43,7 @@ export const ElevatorIndex = () => {
             ErrorReportId: "13",
             BuildingName: "Building2",
             BuildingId: "22",
-            DeadLine: DateTime(14)
+            DeadLine: DateTime(2)
         },
         {
             ElevatorId: "2",

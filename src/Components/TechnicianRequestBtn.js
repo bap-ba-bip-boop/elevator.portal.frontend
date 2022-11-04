@@ -1,6 +1,6 @@
-import { sum } from "../Services/technicianApiService";
-import { useState, React } from "react";
+import React, { useState } from "react";
 import { Test, GetTechnician } from "../Services/technicianApiService";
+
 export default function TechnicianRequestBtn() {
   const [technicianId, setTechnicianId] = useState(0);
 
