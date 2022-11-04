@@ -1,4 +1,5 @@
-import '../../Style/ErrorReport.css';
+//import '/Style/ErrorReport.css';
+import '../../../Style/ErrorReport.css'
 import React from "react"
 import { Component } from "react"
 

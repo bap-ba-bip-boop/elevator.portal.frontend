@@ -1,5 +1,5 @@
 import React from 'react'
-import { ElevatorIndexPanel } from '../ElevatorIndexPanel';
+import { ElevatorIndexPanel } from '../../ElevatorIndexPanel';
 
 export const ElevatorIndex = (props) => {
 

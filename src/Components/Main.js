@@ -1,8 +1,8 @@
 import React from 'react'
-import { ElevatorView } from './Pages/ElevatorView'
-import ErrorReport from './Pages/ErrorReport'
-import { SelectedElevatorView } from './Pages/SelectedElevatorView'
-import { ElevatorIndex } from './Pages/ElevatorIndex'
+import { ElevatorView } from './Pages/Elevator/ElevatorView'
+import ErrorReport from './Pages/ErrorReport/ErrorReport'
+import { SelectedElevatorView } from './Pages/Elevator/SelectedElevatorView'
+import { ElevatorIndex } from './Pages/Elevator/ElevatorIndex'
 
 export const Main = (props) => {
   return (
@@ -19,6 +19,7 @@ export const Main = (props) => {
         props.SelectedPage === "ElevatorView" && 
         <ElevatorView 
           ElevatorId={props.SelectedElevatorId}
+          SelectPageFunction={props.SelectPageFunction}
         />
       }
       {props.SelectedPage === "" && <SelectedElevatorView/>}

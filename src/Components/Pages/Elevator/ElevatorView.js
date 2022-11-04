@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getData } from '../Data/JSONData'
+import { getData } from '../../Data/JSONData'
 
 import elevatorViewData from './ElevatorSettingsData.json'
 
@@ -74,6 +74,7 @@ export const ElevatorView = (props) => {
 
     return (
         <>
+            <a href='#' onClick={()=>props.SelectPageFunction("ElevatorIndex")}>Back</a>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>
