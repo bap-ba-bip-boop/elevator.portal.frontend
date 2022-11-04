@@ -12,7 +12,7 @@ export const SelectedElevatorView = (props) => {
           .then(data => {
             
           })
-      }
+      } 
 
       useEffect(() => {
         fetchAPI()
@@ -25,7 +25,7 @@ export const SelectedElevatorView = (props) => {
         ErrorReports : [
             {
                 ErrorReportId : "001",
-                ErrorReportDesc : "Lights broken."
+                ErrorReportDesc : "Lights AP broken."
             }
         ],
         Information : [
