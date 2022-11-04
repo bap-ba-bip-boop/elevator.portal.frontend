@@ -1,0 +1,36 @@
+{
+    "apiElevatorViewUrl" : "",
+    "apiElevatorViewMethod": "GET",
+    "apiElevatorViewHeaders" : {
+        "Content-Type": "application/json"
+    },
+
+    "ElevatorView-ViewModel":{
+        "deviceId" : "",
+        "companyName": "",
+        "buildingName" : "",
+        "name" : "",
+        "isFunctioning": false,
+        "elevatorType": ""
+    },
+
+    "apiElevatorMethodCall" : "",
+    "DeviceMethodCallBody" :
+    {
+        "Id" : "",
+        "FunctionName": ""
+    },
+
+    "DeviceMethodCallResponse" :
+    {
+        "Success" : false,
+        "Message" : ""
+    },
+    "apiDeviceMethodCallUrl" : "",
+    "apiDeviceMethodCallMethod": "POST",
+    "apiDeviceMethodHeaders" : {
+        "Content-Type": "application/json"
+    },
+
+    "DoorToggleMethodName": "DoorToggle"
+}
