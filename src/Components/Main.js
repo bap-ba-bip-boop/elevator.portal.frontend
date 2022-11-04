@@ -1,10 +1,10 @@
 import React from 'react'
 import { ElevatorView } from './Pages/ElevatorView'
 
-export const Main = () => {
+export const Main = (props) => {
   return (
     <main>
-        <ElevatorView/>
+        <ElevatorView ElevatorId={props.SelectedElevatorId}/>
     </main>
   )
 }

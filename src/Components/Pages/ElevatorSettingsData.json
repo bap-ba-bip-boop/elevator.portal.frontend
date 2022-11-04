@@ -1,17 +1,17 @@
 {
-    "apiElevatorViewUrl" : "https://localhost:7132/Elevators",
+    "apiElevatorViewUrl" : "",
     "apiElevatorViewMethod": "GET",
     "apiElevatorViewHeaders" : {
         "Content-Type": "application/json"
     },
 
     "ElevatorView-ViewModel":{
-        "elevatorId" : "",
-        "elevatorName" : "",
+        "deviceId" : "",
+        "companyName": "",
         "buildingName" : "",
+        "name" : "",
         "isFunctioning": false,
-        "status": "",
-        "areDoorsOpen": false
+        "elevatorType": ""
     },
 
     "apiElevatorMethodCall" : "",
@@ -26,9 +26,11 @@
         "Success" : false,
         "Message" : ""
     },
-    "apiDeviceMethodCallUrl" : "https://localhost:7132/Elevators",
+    "apiDeviceMethodCallUrl" : "",
     "apiDeviceMethodCallMethod": "POST",
     "apiDeviceMethodHeaders" : {
         "Content-Type": "application/json"
-    }
+    },
+
+    "DoorToggleMethodName": "DoorToggle"
 }

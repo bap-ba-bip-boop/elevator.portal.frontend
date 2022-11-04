@@ -8,25 +8,48 @@ export const ElevatorView = (props) => {
     const [elevator, setElevator] = useState(null);
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(null)
 
-    useEffect(()=>{
+    useEffect( () => {
         getData(
             `${elevatorViewData.apiElevatorViewUrl}/${props.ElevatorId}`,//kommer säkerligen behövas skrivas om
             elevatorViewData.apiElevatorViewMethod,
             elevatorViewData.apiElevatorViewHeaders
-        ).then(
+        )
+        .then(
             result => {
                 setElevator(result);
             }
         );
-    },[])
+    },
+    []
+    );
 
-    const sendDeviceMethodCall = (event) =>
+    const OpenCloseDoors = event =>
     {
         event.preventDefault();
+
+        sendDeviceMethodCall("OpenCloseDoor");
+
+        if(deviceMethodResponse.Success)
+        {
+            //update page?
+        }
+    }
+
+    const processResponse = (Success, Message) =>
+    {
+        var response = elevatorViewData.DeviceMethodCallResponse;
+        response.Message = Message;
+        response.Success = Success;
+        console.log(response);
+        setDeviceMethodResponse(response);
+    }
+
+    const sendDeviceMethodCall = (methodName) =>
+    {
         var messageBody = elevatorViewData.DeviceMethodCallBody;
 
-        messageBody.ElevatorId = elevator.elevatorId;
-        messageBody.FunctionName = "methodName";
+        messageBody.ElevatorId = elevator.deviceId;
+        messageBody.FunctionName = methodName;
 
         fetch(
             elevatorViewData.apiDeviceMethodCallUrl,
@@ -36,31 +59,30 @@ export const ElevatorView = (props) => {
                 body: JSON.stringify(messageBody)
             }
         )
-        .then(r => r.json())
         .then(
-            result => {
-                var response = elevatorViewData.DeviceMethodCallResponse;
-                response.Message = result.message;
-                response.Success = result.success;
-                console.log(response);
-                setDeviceMethodResponse(response);
+            r => r.json()
+            )
+        .then(
+            result => processResponse(result.success, result.message)
+            )
+        .catch(
+            err => {
+                console.log("Error Posting data: " + err);
             }
-        ).catch(err => {
-            console.log("Error Posting data: " + err);
-          });
+          );
     }
 
     return (
         <>
-            <h2>{elevator && elevator.elevatorName}</h2>
-            <h3>{elevator && elevator.buildingName}</h3>
+            <h2>{elevator && elevator.name}</h2>
+            <h3>Building: {elevator && elevator.buildingName}</h3>
+            <h3>Company: {elevator && elevator.companyName}</h3>
             <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
-            <p>{elevator && elevator.status}</p>
-            <p>{elevator && elevator.areDoorsOpen === true ? "Doors are open" : "Doors are not open"}</p>
+            <p>Elevatortype: {elevator && elevator.elevatorType}</p>
 
             <div>
                 <h2>Button Panel:</h2>
-                <input type="submit"  onClick={e => sendDeviceMethodCall(e)} value="Open Doors"/>
+                <input type="submit"  onClick={e => OpenCloseDoors(e)} value="Open Doors"/>
                 {deviceMethodResponse && (deviceMethodResponse.Success === true ? <p>{deviceMethodResponse.Message}</p> : <p>{deviceMethodResponse.Message}</p>)}
             </div>
         </>
