@@ -1,7 +1,7 @@
 import React from 'react'
 import { ElevatorIndexPanel } from '../ElevatorIndexPanel';
 
-export const ElevatorIndex = () => {
+export const ElevatorIndex = (props) => {
 
     
     var calculateDaysLeft = (deadline) =>
@@ -71,6 +71,9 @@ export const ElevatorIndex = () => {
             BuildingId = {elevator.BuildingId}
             DeadLine = {elevator.DeadLine}
             DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
+            SelectPageFunction={props.SelectPageFunction}
+            SelectElevatorFunction={props.SelectElevatorFunction}
+            SelectErrorFunction={props.SelectErrorFunction}
             />
             )
         }

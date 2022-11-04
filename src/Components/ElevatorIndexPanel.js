@@ -6,14 +6,19 @@ export const ElevatorIndexPanel = (props) => {
     var redirectToErrorPage = (errorId) =>
     {
         console.log(`redirected to error page for error report with ID: ${errorId}`);
+        props.SelectPageFunction("ErrorReport");
+        props.SelectErrorFunction(errorId);
     }
     var redirectToBuildingPage = (buildingId) =>
     {
       console.log(`redirected to building page for building with ID: ${buildingId}`);
+      //props.SelectPageFunction("ErrorReport");
     }
     var redirectToElevator = (elevatorId) =>
     {
       console.log(`redirected to elevator page for elevator with ID: ${elevatorId}`);
+      props.SelectPageFunction("ElevatorView");
+      props.SelectElevatorFunction(elevatorId);
     }
     var setBackground = (timeLeft) =>
     {

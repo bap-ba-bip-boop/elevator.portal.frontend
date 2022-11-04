@@ -7,10 +7,27 @@ import { ElevatorIndex } from './Pages/ElevatorIndex'
 export const Main = (props) => {
   return (
     <main>
-        {props.selectedPage === "ElevatorView" && <ElevatorView ElevatorId={props.SelectedElevatorId}/>}
-        {props.selectedPage === "SelectedElevatorView" && <SelectedElevatorView />}
-        {props.selectedPage === "ErrorReport" && <ErrorReport />}
-        {props.selectedPage === "ElevatorIndex" && <ElevatorIndex />}
+      {
+        props.SelectedPage === "ElevatorIndex" &&
+        <ElevatorIndex
+          SelectPageFunction = {props.SelectPageFunction}
+          SelectElevatorFunction = {props.SelectElevatorFunction}
+          SelectErrorFunction = {props.SelectErrorFunction}
+        />
+      }
+      {
+        props.SelectedPage === "ElevatorView" && 
+        <ElevatorView 
+          ElevatorId={props.SelectedElevatorId}
+        />
+      }
+      {props.SelectedPage === "" && <SelectedElevatorView/>}
+      {
+        props.SelectedPage === "ErrorReport" &&
+        <ErrorReport
+          ErrorId = {props.SelectedErrorId}
+        />
+      }
     </main>
   )
 }
