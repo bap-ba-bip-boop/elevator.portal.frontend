@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { ErrorReportProvider } from '../../../Context/ErrorReportProvider';
-import { ElevatorIndexPanel } from '../../ElevatorIndexPanel';
+import { ElevatorIndexPanel } from './ElevatorIndexPanel';
 
 export const ElevatorIndex = () => {
 
