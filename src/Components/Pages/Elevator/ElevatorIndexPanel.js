@@ -2,7 +2,7 @@ import React from 'react'
 import { useElevatorUpdate } from '../../../Context/ElevatorProvider';
 import { usePageUpdate } from '../../../Context/PageProvider';
 import { useErrorReportUpdate } from '../../../Context/ErrorReportProvider';
-import '../Style/ElevatorIndexPanel.css'
+import '../../../Style/ElevatorIndexPanel.css'
 
 export const ElevatorIndexPanel = (props) => {
 
