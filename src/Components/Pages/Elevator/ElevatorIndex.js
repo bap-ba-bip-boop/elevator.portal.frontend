@@ -3,9 +3,9 @@ import { ElevatorIndexPanel } from '../../ElevatorIndexPanel';
 
 export const ElevatorIndex = (props) => {
 
-    var [sortingValue, setSortingValue] = useState("shortestErrors")
+    var [sortingValue, setSortingValue] = useState("")
     
-    var calculateDaysLeft = (deadline) =>
+    const calculateDaysLeft = (deadline) =>
     {
         var date1 = new Date(deadline);
         var date2 = new Date();
@@ -17,24 +17,18 @@ export const ElevatorIndex = (props) => {
     }
 
     const orderby = (elevatorList) => {
-        var returnList;
-        if(sortingValue === "shortestDate")
+        var returnList = elevatorList;
+
+        const sortByShortestDaysLeft = (list) =>
         {
-            returnList = elevatorList.sort( (elevator1, elevator2) => calculateDaysLeft(elevator1.DeadLine) > calculateDaysLeft(elevator2.DeadLine));
-        }
-        if(sortingValue === "errorsFirst")
-        {
-            returnList = elevatorList.sort((elevator1) => elevator1.ErrorStatus === "Ok");
-        }
+            return list.sort( (elevator1, elevator2) => calculateDaysLeft(elevator1.DeadLine) > calculateDaysLeft(elevator2.DeadLine));
+        } 
+
         if(sortingValue === "shortestErrors")
         {
-            returnList = elevatorList.sort(elevator => elevator.ErrorStatus === "Ok");
+            returnList = returnList.sort(elevator => elevator.ErrorStatus === "Ok");
             const splitIndex = returnList.findIndex(elevator => elevator.ErrorStatus === "Ok");
-            var errorList = returnList.slice(0, splitIndex );
-            errorList = errorList.sort( (elevator1, elevator2) => calculateDaysLeft(elevator1.DeadLine) > calculateDaysLeft(elevator2.DeadLine));
-            var okList = returnList.slice(splitIndex).sort( (elevator1, elevator2) => calculateDaysLeft(elevator1.DeadLine) > calculateDaysLeft(elevator2.DeadLine));
-
-            returnList = errorList.concat(okList);
+            returnList = sortByShortestDaysLeft(returnList.slice(0, splitIndex)).concat(sortByShortestDaysLeft(returnList.slice(splitIndex)));
         }
 
         return returnList;
@@ -126,9 +120,13 @@ export const ElevatorIndex = (props) => {
         }
     ];
     
-
-  return (
+    return (
     <>
+        <div>
+            <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
+            {sortingValue != "" && <button onClick={() => setSortingValue("")}>reset</button>}
+        </div>
+        <section>
         {
         orderby(Elevators).map( elevator => 
             <ElevatorIndexPanel
@@ -147,6 +145,7 @@ export const ElevatorIndex = (props) => {
             />
             )
         }
+        </section>
     </>
-  )
+    )
 }

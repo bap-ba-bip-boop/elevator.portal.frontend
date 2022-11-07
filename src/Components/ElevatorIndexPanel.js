@@ -37,14 +37,14 @@ export const ElevatorIndexPanel = (props) => {
     }
     return (
       <div className='ElevatorIndexPanelContainer' style={setBackground(props.DaysLeft)}>
-        <a href='#' onClick={() => redirectToBuildingPage(props.BuildingId)}><h2>{props.BuildingName}</h2></a>
+        <button onClick={() => redirectToBuildingPage(props.BuildingId)}><h2>{props.BuildingName}</h2></button>
 
         <p>{props.Name}</p>
         <span>Status:</span>
-        {props.ErrorStatus !== "Ok" ? <a href='#' onClick={() => redirectToErrorPage(props.ErrorReportId)}>{props.ErrorStatus}</a> : <span>{props.ErrorStatus}</span>}
+        {props.ErrorStatus !== "Ok" ? <button onClick={() => redirectToErrorPage(props.ErrorReportId)}>{props.ErrorStatus}</button> : <span>{props.ErrorStatus}</span>}
         <p>DeadLine: {props.DeadLine}</p>
         <p>DaysLeft: {props.DaysLeft}</p>
-        <a href='#' onClick={() => redirectToElevator(props.ElevatorId)}>Show Elevator</a>
+        <button onClick={() => redirectToElevator(props.ElevatorId)}>Show Elevator</button>
       </div>
     )
 }

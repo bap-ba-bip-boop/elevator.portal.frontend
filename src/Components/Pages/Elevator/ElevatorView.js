@@ -74,7 +74,7 @@ export const ElevatorView = (props) => {
 
     return (
         <>
-            <a href='#' onClick={()=>props.SelectPageFunction("ElevatorIndex")}>Back</a>
+            <button onClick={()=>props.SelectPageFunction("ElevatorIndex")}>Back</button>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>

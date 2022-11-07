@@ -10,7 +10,8 @@ export class ErrorReport extends Component {
         this.state = {
             status: '',
             assignedTechnician: '',
-            comments: ''
+            comments: '',
+            SelectPageFunction: props.SelectPageFunction
         }
     }
 
@@ -40,6 +41,8 @@ export class ErrorReport extends Component {
     render() {
         const { status, assignedTechnician, comments } = this.state
      return (
+        <>
+        <button onClick={()=>this.state.SelectPageFunction("ElevatorIndex")}>Back</button>
         <form onSubmit={this.handleSubmit}>
             <div>
                 <label>Status</label>
@@ -66,7 +69,7 @@ export class ErrorReport extends Component {
             </br>
             <button type="submit">Submit</button>
         </form>
-      
+        </>
     )
   }
 }
