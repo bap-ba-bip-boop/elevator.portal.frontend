@@ -1,13 +1,22 @@
 import React from 'react'
+import { useElevatorUpdate } from '../Context/ElevatorProvider';
+import { usePageUpdate } from '../Context/PageProvider';
+import { useErrorReportUpdate } from '../Context/ErrorReportProvider';
 import '../Style/ElevatorIndexPanel.css'
 
 export const ElevatorIndexPanel = (props) => {
 
+    const setSelectedPage = usePageUpdate();
+    const setSelectedElevatorId = useElevatorUpdate();
+    const setSelectedErrorId = useErrorReportUpdate();
+
     var redirectToErrorPage = (errorId) =>
     {
         console.log(`redirected to error page for error report with ID: ${errorId}`);
-        props.SelectPageFunction("ErrorReport");
-        props.SelectErrorFunction(errorId);
+        setSelectedErrorId(errorId);
+        setSelectedPage("ErrorReport");
+
+        
     }
     var redirectToBuildingPage = (buildingId) =>
     {
@@ -17,8 +26,8 @@ export const ElevatorIndexPanel = (props) => {
     var redirectToElevator = (elevatorId) =>
     {
       console.log(`redirected to elevator page for elevator with ID: ${elevatorId}`);
-      props.SelectPageFunction("ElevatorView");
-      props.SelectElevatorFunction(elevatorId);
+      setSelectedElevatorId(elevatorId);
+      setSelectedPage("ElevatorView");
     }
     var setBackground = (timeLeft) =>
     {

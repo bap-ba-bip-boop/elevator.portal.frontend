@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../Data/JSONData'
 
+import { useElevator } from '../../../Context/ElevatorProvider.js';
+
 import elevatorViewData from './ElevatorSettingsData.json'
+import { usePageUpdate } from '../../../Context/PageProvider';
 
-export const ElevatorView = (props) => {
+export const ElevatorView = () => {
 
-    const [elevator, setElevator] = useState(null);
-    const [deviceMethodResponse, setDeviceMethodResponse] = useState(null)
+    const [elevator, setElevator] = useState(() => null);
+    const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
+
+    const selectedElevatorId = useElevator();
+    const setSelectedPage = usePageUpdate();
 
     useEffect( () => {
         getData(
-            `${elevatorViewData.apiElevatorViewUrl}/${props.ElevatorId}`,//kommer säkerligen behövas skrivas om
+            `${elevatorViewData.apiElevatorViewUrl}/${selectedElevatorId}`,//kommer säkerligen behövas skrivas om
             elevatorViewData.apiElevatorViewMethod,
             elevatorViewData.apiElevatorViewHeaders
         )
@@ -28,11 +34,6 @@ export const ElevatorView = (props) => {
         event.preventDefault();
 
         sendDeviceMethodCall("OpenCloseDoor");
-
-        if(deviceMethodResponse.Success)
-        {
-            //update page?
-        }
     }
 
     const processResponse = (Success, Message) =>
@@ -74,7 +75,7 @@ export const ElevatorView = (props) => {
 
     return (
         <>
-            <button onClick={()=>props.SelectPageFunction("ElevatorIndex")}>Back</button>
+            <button onClick={()=>setSelectedPage("ElevatorIndex")}>Back</button>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>

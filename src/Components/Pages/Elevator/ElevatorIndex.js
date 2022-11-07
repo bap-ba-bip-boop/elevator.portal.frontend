@@ -1,9 +1,10 @@
 import React, {useState} from 'react'
+import { ErrorReportProvider } from '../../../Context/ErrorReportProvider';
 import { ElevatorIndexPanel } from '../../ElevatorIndexPanel';
 
-export const ElevatorIndex = (props) => {
+export const ElevatorIndex = () => {
 
-    var [sortingValue, setSortingValue] = useState("")
+    var [sortingValue, setSortingValue] = useState(() => "");
     
     const calculateDaysLeft = (deadline) =>
     {
@@ -124,28 +125,27 @@ export const ElevatorIndex = (props) => {
     <>
         <div>
             <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
-            {sortingValue != "" && <button onClick={() => setSortingValue("")}>reset</button>}
+            {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
         </div>
-        <section>
-        {
-        orderby(Elevators).map( elevator => 
-            <ElevatorIndexPanel
-            key = {elevator.ElevatorId}
-            ElevatorId = {elevator.ElevatorId}
-            Name = {elevator.Name}
-            ErrorStatus = {elevator.ErrorStatus}
-            ErrorReportId = {elevator.ErrorReportId}
-            BuildingName = {elevator.BuildingName}
-            BuildingId = {elevator.BuildingId}
-            DeadLine = {elevator.DeadLine}
-            DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
-            SelectPageFunction={props.SelectPageFunction}
-            SelectElevatorFunction={props.SelectElevatorFunction}
-            SelectErrorFunction={props.SelectErrorFunction}
-            />
-            )
-        }
-        </section>
+        <ErrorReportProvider>
+            <section>
+            {
+            orderby(Elevators).map( elevator => 
+                <ElevatorIndexPanel
+                key = {elevator.ElevatorId}
+                ElevatorId = {elevator.ElevatorId}
+                Name = {elevator.Name}
+                ErrorStatus = {elevator.ErrorStatus}
+                ErrorReportId = {elevator.ErrorReportId}
+                BuildingName = {elevator.BuildingName}
+                BuildingId = {elevator.BuildingId}
+                DeadLine = {elevator.DeadLine}
+                DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
+                />
+                )
+            }
+            </section>
+        </ErrorReportProvider>
     </>
     )
 }

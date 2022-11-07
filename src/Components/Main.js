@@ -3,31 +3,32 @@ import { ElevatorView } from './Pages/Elevator/ElevatorView'
 import ErrorReport from './Pages/ErrorReport/ErrorReport'
 import { SelectedElevatorView } from './Pages/Elevator/SelectedElevatorView'
 import { ElevatorIndex } from './Pages/Elevator/ElevatorIndex'
+import { ElevatorProvider } from '../Context/ElevatorProvider'
+import { usePage } from '../Context/PageProvider'
 
-export const Main = (props) => {
+
+export const Main = () => {
+
+  const selectedPage = usePage();
+
   return (
     <main>
       {
-        props.SelectedPage === "ElevatorIndex" &&
-        <ElevatorIndex
-          SelectPageFunction = {props.SelectPageFunction}
-          SelectElevatorFunction = {props.SelectElevatorFunction}
-          SelectErrorFunction = {props.SelectErrorFunction}
-        />
+        selectedPage === "ElevatorIndex" &&
+        <ElevatorProvider>
+          <ElevatorIndex />
+        </ElevatorProvider>
       }
       {
-        props.SelectedPage === "ElevatorView" && 
-        <ElevatorView 
-          ElevatorId={props.SelectedElevatorId}
-          SelectPageFunction={props.SelectPageFunction}
-        />
+        selectedPage === "ElevatorView" && 
+        <ElevatorProvider>
+          <ElevatorView/>
+        </ElevatorProvider>
       }
-      {props.SelectedPage === "" && <SelectedElevatorView/>}
+      {selectedPage === "" && <SelectedElevatorView/>}
       {
-        props.SelectedPage === "ErrorReport" &&
-        <ErrorReport
-          ErrorId = {props.SelectedErrorId}
-        />
+        selectedPage === "ErrorReport" &&
+        <ErrorReport />
       }
     </main>
   )
