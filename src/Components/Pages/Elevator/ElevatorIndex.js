@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { ElevatorIndexPanel } from '../../ElevatorIndexPanel';
 
 export const ElevatorIndex = (props) => {
 
+    var [sortingValue, setSortingValue] = useState("")
     
     var calculateDaysLeft = (deadline) =>
     {
@@ -14,6 +15,8 @@ export const ElevatorIndex = (props) => {
 
         return Math.round(daydiff);
     }
+
+
 
     //Temp Method
     var DateTime = (dayOffset = 0) =>
@@ -79,4 +82,4 @@ export const ElevatorIndex = (props) => {
         }
     </>
   )
-}
+}//.sort( (elevator1, elevator2) => calculateDaysLeft(elevator1.DeadLine) < calculateDaysLeft(elevator2.DeadLine))
