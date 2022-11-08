@@ -10,9 +10,7 @@ export const App = () => {
   return (
     <>
       <Header/>
-      <PageProvider>
-        <Main />
-      </PageProvider>
+      <Main />
       <Footer/>
     </>
   )

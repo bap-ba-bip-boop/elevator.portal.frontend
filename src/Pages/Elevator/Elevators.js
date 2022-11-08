@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import { ErrorReportProvider } from '../../../Context/ErrorReportProvider';
-import { ElevatorIndexPanel } from './ElevatorIndexPanel';
+import { Panel } from '../../Components/Elevators/Panel';
 
-export const ElevatorIndex = () => {
+export const Elevators = () => {
 
     var [sortingValue, setSortingValue] = useState(() => "");
     
@@ -127,25 +126,27 @@ export const ElevatorIndex = () => {
             <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
             {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
         </div>
-        <ErrorReportProvider>
-            <section>
-            {
-            orderby(Elevators).map( elevator => 
-                <ElevatorIndexPanel
-                key = {elevator.ElevatorId}
-                ElevatorId = {elevator.ElevatorId}
-                Name = {elevator.Name}
-                ErrorStatus = {elevator.ErrorStatus}
-                ErrorReportId = {elevator.ErrorReportId}
-                BuildingName = {elevator.BuildingName}
-                BuildingId = {elevator.BuildingId}
-                DeadLine = {elevator.DeadLine}
-                DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
-                />
-                )
-            }
-            </section>
-        </ErrorReportProvider>
+        <section>
+        {
+        orderby(Elevators).map( elevator => 
+            <Panel
+            key = {elevator.ElevatorId}
+            Elevator = {elevator}
+            DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
+            />
+            )
+        }
+        </section>
     </>
     )
 }
+/*
+key = {elevator.ElevatorId}
+      ElevatorId = {elevator.ElevatorId}
+      Name = {elevator.Name}
+      ErrorStatus = {elevator.ErrorStatus}
+      ErrorReportId = {elevator.ErrorReportId}
+      BuildingName = {elevator.BuildingName}
+      BuildingId = {elevator.BuildingId}
+      DeadLine = {elevator.DeadLine}
+*/

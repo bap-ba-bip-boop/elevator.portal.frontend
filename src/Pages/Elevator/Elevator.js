@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../Data/JSONData'
-
-import { useElevator } from '../../../Context/ElevatorProvider.js';
+import { Link } from "react-router-dom";
 
 import elevatorViewData from './ElevatorSettingsData.json'
-import { usePageUpdate } from '../../../Context/PageProvider';
 
-export const ElevatorView = () => {
+export const Elevator = ({ElevatorId}) => {
 
     const [elevator, setElevator] = useState(() => null);
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
-    const selectedElevatorId = useElevator();
-    const setSelectedPage = usePageUpdate();
+    const setSelectedPage = "";
 
     useEffect( () => {
         getData(
-            `${elevatorViewData.apiElevatorViewUrl}/${selectedElevatorId}`,//kommer säkerligen behövas skrivas om
+            `${elevatorViewData.apiElevatorViewUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
             elevatorViewData.apiElevatorViewMethod,
             elevatorViewData.apiElevatorViewHeaders
         )
@@ -75,7 +72,7 @@ export const ElevatorView = () => {
 
     return (
         <>
-            <button onClick={()=>setSelectedPage("ElevatorIndex")}>Back</button>
+            <Link to='/'>Back</Link>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>

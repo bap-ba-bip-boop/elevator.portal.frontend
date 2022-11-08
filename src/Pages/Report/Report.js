@@ -1,9 +1,9 @@
 //import '/Style/ErrorReport.css';
-import '../../../Style/ErrorReport.css'
+import '../../Style/ErrorReport.css'
 import React from "react"
 import { Component } from "react"
 
-export class ErrorReport extends Component {
+export class Report extends Component {
     constructor(props) {
         super(props)
 
@@ -66,9 +66,8 @@ export class ErrorReport extends Component {
             </br>
             <button type="submit">Submit</button>
         </form>
-      
     )
   }
 }
 
-export default ErrorReport
+export default Report
