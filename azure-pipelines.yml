@@ -31,7 +31,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy files'
   inputs:
-    sourceFolder: '/dist' 
+    sourceFolder: 'dist' 
     Contents: '**/*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     cleanTargetFolder: true
@@ -47,7 +47,7 @@ steps:
  
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
-  inputs: 
+  inputs:   
     pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
  
 - task: AzureWebApp@1
