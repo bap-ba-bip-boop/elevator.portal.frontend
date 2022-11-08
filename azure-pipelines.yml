@@ -12,7 +12,7 @@ pool:
 variables:
   stage: development
   appServiceName: reactazuredemo
-  serviceConnection: Azure for Students
+  serviceConnection: Web Service
  
 steps:
 - task: NodeTool@0
