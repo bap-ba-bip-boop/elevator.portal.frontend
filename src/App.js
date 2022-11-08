@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import TechnicianRequestBtn from "./Components/TechnicianRequestBtn";
+import TechnichiansList from "./Components/TechnichiansList";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           Learn React
         </a>
         <TechnicianRequestBtn />
+        <TechnichiansList />
       </header>
     </div>
   );
