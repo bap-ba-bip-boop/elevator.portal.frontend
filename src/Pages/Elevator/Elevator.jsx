@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { getData } from '../../Data/JSONData'
 import { Link } from "react-router-dom";
 
-import elevatorViewData from './ElevatorSettingsData.json'
-
 export const Elevator = ({ElevatorId}) => {
 
     const [elevator, setElevator] = useState(() => null);
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
-    const setSelectedPage = "";
+    const apiElevatorGETUrl = "";
+    const apiElevatorPOSTUrl = "";
 
     useEffect( () => {
         getData(
-            `${elevatorViewData.apiElevatorViewUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
-            elevatorViewData.apiElevatorViewMethod,
-            elevatorViewData.apiElevatorViewHeaders
+            `${apiElevatorGETUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
+            "GET",
+            {
+                "Content-Type": "application/json"
+            }
         )
         .then(
             result => {
@@ -35,7 +36,7 @@ export const Elevator = ({ElevatorId}) => {
 
     const processResponse = (Success, Message) =>
     {
-        var response = elevatorViewData.DeviceMethodCallResponse;
+        var response = {};
         response.Message = Message;
         response.Success = Success;
         console.log(response);
@@ -44,16 +45,21 @@ export const Elevator = ({ElevatorId}) => {
 
     const sendDeviceMethodCall = (methodName) =>
     {
-        var messageBody = elevatorViewData.DeviceMethodCallBody;
+        var messageBody = {
+            "Id" : "",
+            "FunctionName": ""
+        };
 
         messageBody.ElevatorId = elevator.deviceId;
         messageBody.FunctionName = methodName;
 
         fetch(
-            elevatorViewData.apiDeviceMethodCallUrl,
+            apiElevatorPOSTUrl,
             {
-                method: elevatorViewData.apiDeviceMethodCallMethod,
-                headers: elevatorViewData.apiDeviceMethodHeaders,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(messageBody)
             }
         )
