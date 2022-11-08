@@ -20,3 +20,17 @@ steps:
       npm install
       npm run build
     displayName: "npm install and build"
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)'
+      contents: '*' 
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm
+    displayName: 'Copy npm package'
+
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/npm'
+      artifactName: npm
+    displayName: 'Publish npm artifact'
