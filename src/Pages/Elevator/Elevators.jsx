@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
+import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { Panel } from '../../Components/Elevators/Panel';
+import { GetAllElevators } from '../../Services/elevatorFunctionService';
 
 export const Elevators = () => {
 
     var [sortingValue, setSortingValue] = useState(() => "");
+    var [elevators, SetElevators] = useState([]);
     
     const calculateDaysLeft = (deadline) =>
     {
@@ -45,80 +49,12 @@ export const Elevators = () => {
         return date.toDateString();
     }
     //tempList
-    var Elevators = [
-        {
-            ElevatorId: "1",
-            Name: "Elevator1",
-            ErrorStatus: "Ok",
-            ErrorReportId: "",
-            BuildingName: "Building1",
-            BuildingId: "21",
-            DeadLine: DateTime(5)
-        },
-        {
-            ElevatorId: "2",
-            Name: "Elevator2",
-            ErrorStatus: "Inte Ok",
-            ErrorReportId: "13",
-            BuildingName: "Building2",
-            BuildingId: "22",
-            DeadLine: DateTime(3)
-        },
-        {
-            ElevatorId: "3",
-            Name: "Elevator3",
-            ErrorStatus: "Ok",
-            ErrorReportId: "",
-            BuildingName: "Building3",
-            BuildingId: "23",
-            DeadLine: DateTime(4)
-        },
-        {
-            ElevatorId: "4",
-            Name: "Elevator4",
-            ErrorStatus: "Inte Ok",
-            ErrorReportId: "",
-            BuildingName: "Building1",
-            BuildingId: "21",
-            DeadLine: DateTime(5)
-        },
-        {
-            ElevatorId: "5",
-            Name: "Elevator5",
-            ErrorStatus: "Ok",
-            ErrorReportId: "13",
-            BuildingName: "Building2",
-            BuildingId: "22",
-            DeadLine: DateTime(3)
-        },
-        {
-            ElevatorId: "6",
-            Name: "Elevator6",
-            ErrorStatus: "Inte Ok",
-            ErrorReportId: "",
-            BuildingName: "Building3",
-            BuildingId: "23",
-            DeadLine: DateTime(2)
-        },
-        {
-            ElevatorId: "7",
-            Name: "Elevator7",
-            ErrorStatus: "Inte Ok",
-            ErrorReportId: "",
-            BuildingName: "Building3",
-            BuildingId: "23",
-            DeadLine: DateTime(2)
-        },
-        {
-            ElevatorId: "8",
-            Name: "Elevator8",
-            ErrorStatus: "Ok",
-            ErrorReportId: "",
-            BuildingName: "Building3",
-            BuildingId: "23",
-            DeadLine: DateTime(2)
-        }
-    ];
+    useState(() => {
+        GetAllElevators()
+        .then(
+            elevators => SetElevators(elevators)
+        )
+      }, []);
     
     return (
     <>
@@ -128,11 +64,11 @@ export const Elevators = () => {
         </div>
         <section>
         {
-        orderby(Elevators).map( elevator => 
+        elevators.map( Elevator => 
             <Panel
-            key = {elevator.ElevatorId}
-            Elevator = {elevator}
-            DaysLeft = {calculateDaysLeft(elevator.DeadLine)}
+            key={Elevator.id}
+            Elevator = {Elevator}
+            DaysLeft = {calculateDaysLeft(Elevator.DeadLine)}
             />
             )
         }
