@@ -11,8 +11,8 @@ pool:
 # Set variables
 variables:
   stage: development
-  appServiceName: reactazuredemo
-  serviceConnection: Web Service
+  appServiceName: ElevatorFrontendDev
+  serviceConnection: ElevatorWebDev
  
 steps:
 - task: NodeTool@0
