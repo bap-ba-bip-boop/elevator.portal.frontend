@@ -12,7 +12,7 @@ pool:
 variables:
   stage: development
   appServiceName: ElevatorFrontendDev
-  serviceConnection: Web Service
+  serviceConnection: ElevatorWebDev
  
 steps:
 - task: NodeTool@0
