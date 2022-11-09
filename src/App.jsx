@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from './Components/Layout';
 import { Elevators } from './Pages/Elevator/Elevators';
 import { Elevator } from './Pages/Elevator/Elevator';
-import { Reports } from './Pages/Report/Reports';
+import { ErrorReports } from './Pages/Report/ErrorReports';
 import { Statistics } from './Pages/Statistics/Statistics';
-import {Report} from './Pages/Report/Report';
+import {ErrorReport} from './Pages/Report/ErrorReport';
 import './Style/override.css'
 
 export const App = () => {
@@ -17,8 +17,8 @@ export const App = () => {
           <Route path='/' element={<Layout/>}>
             <Route index element={<Elevators />} />
             <Route path='Elevator/:ElevatorId' element={<Elevator />} />
-            <Route path='Reports' element={<Reports/>}/>
-            <Route path='Report/:ReportId' element={<Report />} />
+            <Route path='ErrorReports' element={<ErrorReports/>}/>
+            <Route path='ErrorReport/:ErrorReportId' element={<ErrorReport />} />
             <Route path='Statistics' element={<Statistics/>}/>
           </Route>
         </Routes>
