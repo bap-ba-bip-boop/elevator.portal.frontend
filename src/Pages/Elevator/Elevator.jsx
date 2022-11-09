@@ -27,11 +27,27 @@ export const Elevator = ({ElevatorId}) => {
     []
     );
 
-    const OpenCloseDoors = event =>
+    const OpenCloseDoors = (event) =>
     {
         event.preventDefault();
 
         sendDeviceMethodCall("OpenCloseDoor");
+    }
+
+    const ResetElevator = (event) =>
+    {
+        event.preventDefault();
+
+        var confirmed = confirm("Are you sure you want to reset the Elevator");
+
+        if (confirmed)
+        {
+            sendDeviceMethodCall("ResetElevator");
+        }
+        else
+        {
+            processResponse(false, "Reset Cancelled")
+        }
     }
 
     const processResponse = (Success, Message) =>
@@ -88,6 +104,7 @@ export const Elevator = ({ElevatorId}) => {
             <div>
                 <h2>Button Panel:</h2>
                 <input type="submit"  onClick={e => OpenCloseDoors(e)} value="Open Doors"/>
+                <input type="submit"  onClick={e => ResetElevator(e)} value="Reset Elevators"/>
                 {deviceMethodResponse && (deviceMethodResponse.Success === true ? <p>{deviceMethodResponse.Message}</p> : <p>{deviceMethodResponse.Message}</p>)}
             </div>
         </>
