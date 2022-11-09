@@ -8,7 +8,7 @@ export const Elevator = ({ElevatorId}) => {
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
     const apiElevatorGETUrl = "";
-    const apiElevatorPOSTUrl = "";
+    const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
 
     useEffect( () => {
         getData(
