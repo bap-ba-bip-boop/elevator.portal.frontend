@@ -8,6 +8,3 @@ export async function GetTechnician(id) {
   return console.log(response);
 }
 
-export function Test() {
-  return console.log("hej");
-}

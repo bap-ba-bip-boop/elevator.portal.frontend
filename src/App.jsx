@@ -10,7 +10,6 @@ import {Report} from './Pages/Report/Report';
 import './Style/override.css'
 
 export const App = () => {
-
   return (
       <BrowserRouter>
         <Routes>

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { useMemo } from 'react';
 import { useEffect } from 'react';
 import { Panel } from '../../Components/Elevators/Panel';
-import { GetAllElevators } from '../../Services/elevatorFunctionService';
+import { GetAllElevators } from '../../Services/elevatorServices.jsx';
 
 export const Elevators = () => {
 
@@ -21,7 +21,7 @@ export const Elevators = () => {
     }
 
     const orderby = (elevatorList) => {
-        var returnList = elevatorList;
+        let returnList = elevatorList;
 
         const sortByShortestDaysLeft = (list) =>
         {
@@ -39,15 +39,13 @@ export const Elevators = () => {
     }
 
     //Temp Method
-    var DateTime = (dayOffset = 0) =>
-    {
+    const DateTime = (dayOffset = 0) => {
         let oneDay = 1000 * 60 * 60 * 24;
-        var today = new Date();
-
-        var date = new Date(today.getTime() + oneDay*dayOffset);
-
+        const today = new Date();
+        const date = new Date(today.getTime() + oneDay * dayOffset);
         return date.toDateString();
-    }
+    };
+
     //tempList
     useState(() => {
         GetAllElevators()
@@ -76,13 +74,3 @@ export const Elevators = () => {
     </>
     )
 }
-/*
-key = {elevator.ElevatorId}
-      ElevatorId = {elevator.ElevatorId}
-      Name = {elevator.Name}
-      ErrorStatus = {elevator.ErrorStatus}
-      ErrorReportId = {elevator.ErrorReportId}
-      BuildingName = {elevator.BuildingName}
-      BuildingId = {elevator.BuildingId}
-      DeadLine = {elevator.DeadLine}
-*/

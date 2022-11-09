@@ -1,12 +1,21 @@
 import React from 'react'
-import {ToggleFunctionality} from '../../Services/elevatorFunctionService.jsx';
-import { useState } from 'react';
+import {ToggleFunctionality} from '../../Services/elevatorServices.jsx';
 
+const ActionPanel = ({Elevator: {id}}) => {
 
-const ActionPanel = ({Elevator}) => {
+  const InlineFunctionlity = async(Id) => {
+    await ToggleFunctionality(Id).then((res) => {
+      console.log(res);
+    });
+  }
 
   return (
-    <button type="button" onClick={()=>ToggleFunctionality(Elevator.ElevatorId)}>Disable</button>
+      <>
+
+        <button type="button" onClick={()=>InlineFunctionlity(id)}>
+            Disable
+        </button>
+      </>
   )
 }
 
