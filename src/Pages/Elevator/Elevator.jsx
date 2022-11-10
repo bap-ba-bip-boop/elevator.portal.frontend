@@ -1,38 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../Data/JSONData'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { OpenCloseDoors, GetElevatorById } from '../../Services/elevatorFunctionService';
+import ActionPanel from '../../Components/Elevators/ActionPanel';
 
-export const Elevator = ({ElevatorId}) => {
+export const Elevator = () => {
 
     const [elevator, setElevator] = useState(() => null);
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
-    const apiElevatorGETUrl = "";
     const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
 
-    useEffect( () => {
-        getData(
-            `${apiElevatorGETUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
-            "GET",
-            {
-                "Content-Type": "application/json"
-            }
-        )
-        .then(
-            result => {
-                setElevator(result);
-            }
-        );
+    const {ElevatorId} = useParams();
+
+    useEffect( () =>
+    {
+        const contain = async () =>
+            await GetElevatorById(ElevatorId)
+            .then(result => setElevator(result));
+        contain();
     },
     []
     );
 
-    const OpenCloseDoors = (event) =>
-    {
-        event.preventDefault();
-
-        sendDeviceMethodCall("OpenCloseDoor");
-    }
+    const ProcessOpenClose = () =>
+        OpenCloseDoors(elevator.id)
+        .then(item => processResponse(item));
 
     const ResetElevator = (event) =>
     {
@@ -50,12 +43,12 @@ export const Elevator = ({ElevatorId}) => {
         }
     }
 
-    const processResponse = (Success, Message) =>
+    const processResponse = ({success, value, message}) =>
     {
         var response = {};
-        response.Message = Message;
-        response.Success = Success;
-        console.log(response);
+        response.Message = message;
+        response.Value = value;
+        response.Success = success;
         setDeviceMethodResponse(response);
     }
 
@@ -94,19 +87,14 @@ export const Elevator = ({ElevatorId}) => {
 
     return (
         <>
-            <Link to='/'>Back</Link>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>
             <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
             <p>Elevatortype: {elevator && elevator.elevatorType}</p>
 
-            <div>
-                <h2>Button Panel:</h2>
-                <input type="submit"  onClick={e => OpenCloseDoors(e)} value="Open Doors"/>
-                <input type="submit"  onClick={e => ResetElevator(e)} value="Reset Elevators"/>
-                {deviceMethodResponse && (deviceMethodResponse.Success === true ? <p>{deviceMethodResponse.Message}</p> : <p>{deviceMethodResponse.Message}</p>)}
-            </div>
+            <ActionPanel />
+            
         </>
     )
 }

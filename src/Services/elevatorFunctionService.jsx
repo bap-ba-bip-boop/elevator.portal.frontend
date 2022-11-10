@@ -18,10 +18,16 @@ export async function ToggleFunctionality(ElevatorID){
     .then((response) => response.json());
 }
 
+export async function OpenCloseDoors(ElevatorID){
+    return await fetch(`${API_URL}/Elevator/Method`,
+    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'OpenCloseDoor'}))
+    .then((response) => response.json());
+}
+
 export async function GetAllElevators(){
     return await fetch(`${API_URL}/elevator`).then((response) => response.json());
 }
 
 export async function GetElevatorById(id){
-    return await fetch(`${API_URL}/elevator/${id}`).then((response) => response.json);
+    return await fetch(`${API_URL}/elevator/${id}`).then((response) => response.json());
 }
