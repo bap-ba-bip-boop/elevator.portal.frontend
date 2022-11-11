@@ -6,7 +6,6 @@ import { GetAllElevators } from '../../Services/elevatorServices.jsx';
 
 
 import Stack from '@mui/material/Stack';
-import {Panel} from '../../Components/Elevators/Panel'
 
 export const Elevators = () => {
 
