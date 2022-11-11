@@ -1,5 +1,5 @@
 
-const BaseURL = "https://localhost:7174/api/";
+const BaseURL = "http://192.168.1.47:1500/api/";
 
 const headersWithJSON = (type, json_body) => {
     return {

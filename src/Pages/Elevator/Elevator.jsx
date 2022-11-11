@@ -7,22 +7,28 @@ import {GetElevatorById} from "../../Services/elevatorFunctionService";
 export const Elevator = () => {
 
     const [elevator, setElevator] = useState(() => null);
-    const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
+    const [elevatorMeta, setElevatorMeta] = useState([]);
 
+    const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
     const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
     const {ElevatorId} = useParams();
 
-    useEffect( () =>
-    {
-        const result = async () => await GetElevatorById(ElevatorId)
-            .then(result => {
-                setElevator(result);
-                console.log(result);
-            });
-        result();
-    },
-    []
-    );
+    useEffect( () => {
+        GetElevatorById(ElevatorId).then(setElevator);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            console.log(elevator);
+        };
+    }, [elevator]);
+
+    useEffect(() => {
+        return () => {
+            console.table(elevatorMeta);
+        };
+    }, [elevatorMeta]);
+
 
 
 
@@ -51,7 +57,6 @@ export const Elevator = () => {
             <p>Elevatortype: {elevator && elevator.elevatorType}</p>
             {elevator && <MetaPanel Elevator={elevator}/> }
             <ActionPanel ElevatorId={ElevatorId}/>
-
         </>
     )
 }
