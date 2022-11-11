@@ -6,6 +6,18 @@ import React from "react";
 import "../../Style/ElevatorIndexPanel.css";
 import {ReportDetails} from "../Reports/ReportDetails";
 import {StyledLink} from "../StyledLink.jsx";
+import React from "react";
+import "../../Style/ElevatorIndexPanel.css";
+import { Link } from "react-router-dom";
+import ActionPanel from "./ActionPanel";
+import { useEffect } from "react";
+
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { ReportDetails } from '../Reports/ReportDetails';
 
 export const Panel = ({Elevator, DaysLeft}) => {
     const setBackground = (timeLeft) => {
