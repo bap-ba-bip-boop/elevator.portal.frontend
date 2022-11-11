@@ -4,7 +4,7 @@ import { getData } from '../../Data/JSONData'
 
 import errorReportViewData from './ErrorReportSettingsData.json'
 
-export const ErrorReport = ({FormData}) => {
+export const ErrorReport = ({ErrorReportId}) => {
 
 const [errorReport, setErrorReport] = useState(() => null);
 
@@ -19,12 +19,43 @@ const onChange = event => setValue(event.target.value);
 const setSelectedPage = "";
 
 
+useEffect( () => {
+    getData(
+        `${errorReportViewData.apiErrorReportViewUrl}/${ErrorReportId}`,
+        errorReportViewData.apiErrorReportViewMethod,
+        errorReportViewData.apiErrorReportViewHeaders
+    )
+    .then(
+        result => {
+            setErrorReport(result);
+        }
+    );
+},
+[]
+);
+
+useEffect( () => {
+    getData(
+        `${employeeViewData.apiEmployeeViewUrl}/${EmployeeId}`,
+        employeeViewData.apiEmployeeViewMethod,
+        employeeViewData.apiEmployeeViewHeaders
+    )
+    .then(
+        result => {
+            setEmployee(result);
+        }
+    );
+},
+[]
+);
+
 
 let handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let res = await fetch(errorReportViewData, {
         method: "POST",
+        header: errorReportViewData.errorReportMethodHeaders,
         body: JSON.stringify({
           status: status,
           assignedTechnician: assignedTechnician,
@@ -35,7 +66,7 @@ let handleSubmit = async (e) => {
       let resJson = await res.json();
       if (res.status === 200) {
         setStatus("Status Updated");
-        setAssignedTechnician("Technician assigned");
+        setAssignedTechnician(assignedTechnician);
         setComment("");
         setPartTask("")
       } else {
@@ -54,19 +85,21 @@ let handleSubmit = async (e) => {
               <label for="status" class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
                   <select value={status} onChange={onChange}>
-                      <option value="outoforder">Out Of Order</option>
-                      <option value="undercontruction">Under Contruction</option>
-                      <option value="functioning">Functioning</option>
+                      <option value={isDone}>Out Of Order</option>
+                      <option value={isDone}>Under Contruction</option>
+                      <option value={isDone}>Functioning</option>
                   </select>
               </div>
           </div>
           <div class="form-group row">
               <label for="assignedTechnician" class="col-sm-2 col-form-label">Assigned Technician</label>
               <div class="col-sm-10">
-                  <select value={assignedTechnician} onChange={onChange}>
-                      <option value="roger">Roger</option>
-                      <option value="pontare">Pontare</option>
-                      <option value="vindarnaviskar">Vindarna Viskar</option>
+                  <select onChange={e => setTechnician(e.target.value)}>
+                    <option selected disabled value={-1}>Choose Technician</option>
+                        {
+                            assignedTechnicians.map(assignedTechnician => <option key={assignedTechnician.Id} 
+                            value={assignedTechnician.Id}>{assignedTechnician.Name}</option>)
+                        }
                   </select>
               </div>
           </div>
