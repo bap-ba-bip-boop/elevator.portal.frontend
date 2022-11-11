@@ -1,33 +1,38 @@
-import React from 'react'
-import '../../Style/ElevatorIndexPanel.css'
+import React from "react";
+import "../../Style/ElevatorIndexPanel.css";
 import { Link } from "react-router-dom";
+import ActionPanel from "./ActionPanel";
+import { useEffect } from "react";
 
-export const Panel = ({Elevator, DaysLeft}) => {
-    var setBackground = (timeLeft) =>
-    {
-      if(Elevator.ErrorStatus === "Ok")
-        return {};
-      if(timeLeft > 7)
-        return {};
-      else if(timeLeft > 3)
-        return {
-          backgroundColor: 'yellow'
-        };
-      else
-        return {
-          backgroundColor: 'red'
-        };
+export const Panel = ({ Elevator, DaysLeft }) => {
+  useEffect(() => {
+    return () => {
+      console.log(Elevator);
+    };
+  }, []);
+
+  const { errorReport, buildingId, buildingName, Name, deadline } = Elevator;
+
+  const setBackground = (timeLeft) => {
+    if (ErrorStatus === "Ok") {
+      return {};
     }
-    return (
-      <div className='ElevatorIndexPanelContainer' style={setBackground(DaysLeft)}>
-        <Link to={"Building/"+Elevator.BuildingId}>{Elevator.BuildingName}</Link>
+    if (timeLeft > 7) {
+      return {};
+    } else if (timeLeft > 3) {
+      return {
+        backgroundColor: "yellow",
+      };
+    } else {
+      return {
+        backgroundColor: "red",
+      };
+    }
+  };
 
-        <p>{Elevator.Name}</p>
-        <span>Status:</span>
-        {Elevator.ErrorStatus !== "Ok" ? <Link to={"Report/"+Elevator.ErrorReportId}>{Elevator.ErrorStatus}</Link> : <span>{Elevator.ErrorStatus}</span>}
-        <p>DeadLine: {Elevator.DeadLine}</p>
-        <p>DaysLeft: {DaysLeft}</p>
-        <Link to={"Elevator/"+Elevator.ElevatorId}>Show Elevator</Link>
-      </div>
-    )
-}
+  return (
+    <div className="ElevatorIndexPanelContainer">
+      <ActionPanel Elevator={Elevator} />
+    </div>
+  );
+};

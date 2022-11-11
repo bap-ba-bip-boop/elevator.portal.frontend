@@ -8,6 +8,7 @@ export async function GetTechnician(id) {
   return console.log(response);
 }
 
+<<<<<<< HEAD:src/Services/technicianApiService.jsx
 export async function GetAllTechnicians() {
   const response = await fetch(`${technicianApiEndpoints.getAllTechnicians}`).then((response) => response.json());
   return response;
@@ -16,3 +17,5 @@ export async function GetAllTechnicians() {
 export function Test() {
   return console.log("hej");
 }
+=======
+>>>>>>> 0e931dcdb01ed2e3f55117e96a5e8fba4195ba5c:src/Services/technicianApiService.js
