@@ -9,6 +9,8 @@ import { Statistics } from "./Pages/Statistics/Statistics";
 import { Report } from "./Pages/Report/Report";
 import "./Style/override.css";
 
+
+
 export const App = () => {
   return (
     <BrowserRouter>

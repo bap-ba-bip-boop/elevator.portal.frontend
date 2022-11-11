@@ -1,95 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import { getData } from '../../Data/JSONData'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { OpenCloseDoors, GetElevatorById } from '../../Services/elevatorFunctionService';
+import ActionPanel from '../../Components/Elevators/ActionPanel';
 
-export const Elevator = ({ElevatorId}) => {
+export const Elevator = () => {
 
     const [elevator, setElevator] = useState(() => null);
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
-    const apiElevatorGETUrl = "";
-    const apiElevatorPOSTUrl = "";
+    const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
 
-    useEffect( () => {
-        getData(
-            `${apiElevatorGETUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
-            "GET",
-            {
-                "Content-Type": "application/json"
-            }
-        )
-        .then(
-            result => {
-                setElevator(result);
-            }
-        );
+    const {ElevatorId} = useParams();
+
+    useEffect( () =>
+    {
+        const contain = async () =>
+            await GetElevatorById(ElevatorId)
+            .then(result => setElevator(result));
+        contain();
     },
     []
     );
 
-    const OpenCloseDoors = event =>
+    
+
+    const ResetElevator = (event) =>
     {
         event.preventDefault();
 
-        sendDeviceMethodCall("OpenCloseDoor");
-    }
+        var confirmed = confirm("Are you sure you want to reset the Elevator");
 
-    const processResponse = (Success, Message) =>
-    {
-        var response = {};
-        response.Message = Message;
-        response.Success = Success;
-        console.log(response);
-        setDeviceMethodResponse(response);
-    }
-
-    const sendDeviceMethodCall = (methodName) =>
-    {
-        var messageBody = {
-            "Id" : "",
-            "FunctionName": ""
-        };
-
-        messageBody.ElevatorId = elevator.deviceId;
-        messageBody.FunctionName = methodName;
-
-        fetch(
-            apiElevatorPOSTUrl,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(messageBody)
-            }
-        )
-        .then(
-            r => r.json()
-            )
-        .then(
-            result => processResponse(result.success, result.message)
-            )
-        .catch(
-            err => {
-                console.log("Error Posting data: " + err);
-            }
-          );
+        if (confirmed)
+        {
+            sendDeviceMethodCall("ResetElevator");
+        }
+        else
+        {
+            processResponse(false, "Reset Cancelled")
+        }
     }
 
     return (
         <>
-            <Link to='/'>Back</Link>
             <h2>{elevator && elevator.name}</h2>
             <h3>Building: {elevator && elevator.buildingName}</h3>
             <h3>Company: {elevator && elevator.companyName}</h3>
             <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
             <p>Elevatortype: {elevator && elevator.elevatorType}</p>
 
-            <div>
-                <h2>Button Panel:</h2>
-                <input type="submit"  onClick={e => OpenCloseDoors(e)} value="Open Doors"/>
-                {deviceMethodResponse && (deviceMethodResponse.Success === true ? <p>{deviceMethodResponse.Message}</p> : <p>{deviceMethodResponse.Message}</p>)}
-            </div>
+            <ActionPanel ElevatorId={ElevatorId}/>
+            
         </>
     )
 }
