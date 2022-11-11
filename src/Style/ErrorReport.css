@@ -1,0 +1,9 @@
+* {
+    padding: 2px;
+   
+}
+
+button {
+    display: flex;
+    justify-content: flex-end;
+}
