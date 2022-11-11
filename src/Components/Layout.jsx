@@ -1,17 +1,19 @@
-import React from 'react'
+import React from "react";
 import { Outlet, Link } from "react-router-dom";
-import { Footer } from './Footer';
-import { Header } from './Header';
+import AddTechToErrRepInput from "./AddTechToErrRepInput";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 import { Navbar } from "./Navbar";
-
+import TechniciansList from "./TechniciansList";
 
 export const Layout = () => {
   return (
     <>
+      <AddTechToErrRepInput />
       <Header />
       <Navbar />
       <Outlet />
       <Footer />
     </>
-  )
-}
+  );
+};

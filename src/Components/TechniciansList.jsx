@@ -1,13 +1,14 @@
 import { React, useState, useEffect } from "react";
 import { GetAllTechnicians } from "../Services/technicianApiService";
 
-export default function TechnichiansList() {
+export default function TechniciansList() {
   const [technicians, setTechnicians] = useState([]);
 
   useEffect(() => {
-    GetAllTechnicians()
-      .then(console.log(technicians))
-      .then((data) => setTechnicians(data));
+    GetAllTechnicians().then((response) => {
+      setTechnicians(response);
+      console.log(response);
+    });
   }, []);
   if (!technicians) return <div>Loading...</div>;
 
