@@ -1,7 +1,10 @@
 import React from 'react'
 
-export const ActionButton = () => {
+export const ActionButton = ({buttonFunction, name}) => {
+
+
+
   return (
-    <div>ActionButton</div>
+    <button onClick={() => buttonFunction()}>{name}</button>
   )
 }

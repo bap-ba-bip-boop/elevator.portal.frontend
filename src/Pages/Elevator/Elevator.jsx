@@ -23,9 +23,7 @@ export const Elevator = () => {
     []
     );
 
-    const ProcessOpenClose = () =>
-        OpenCloseDoors(elevator.id)
-        .then(item => processResponse(item));
+    
 
     const ResetElevator = (event) =>
     {
@@ -43,48 +41,6 @@ export const Elevator = () => {
         }
     }
 
-    const processResponse = ({success, value, message}) =>
-    {
-        var response = {};
-        response.Message = message;
-        response.Value = value;
-        response.Success = success;
-        setDeviceMethodResponse(response);
-    }
-
-    const sendDeviceMethodCall = (methodName) =>
-    {
-        var messageBody = {
-            "Id" : "",
-            "FunctionName": ""
-        };
-
-        messageBody.ElevatorId = elevator.deviceId;
-        messageBody.FunctionName = methodName;
-
-        fetch(
-            apiElevatorPOSTUrl,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(messageBody)
-            }
-        )
-        .then(
-            r => r.json()
-            )
-        .then(
-            result => processResponse(result.success, result.message)
-            )
-        .catch(
-            err => {
-                console.log("Error Posting data: " + err);
-            }
-          );
-    }
-
     return (
         <>
             <h2>{elevator && elevator.name}</h2>
@@ -93,7 +49,7 @@ export const Elevator = () => {
             <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
             <p>Elevatortype: {elevator && elevator.elevatorType}</p>
 
-            <ActionPanel />
+            <ActionPanel ElevatorId={ElevatorId}/>
             
         </>
     )

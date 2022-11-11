@@ -24,6 +24,12 @@ export async function OpenCloseDoors(ElevatorID){
     .then((response) => response.json());
 }
 
+export async function ResetElevators(ElevatorID, ){
+    return await fetch(`${API_URL}/Elevator/Method`,
+    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: '*'}))
+    .then((response) => response.json());
+}
+
 export async function GetAllElevators(){
     return await fetch(`${API_URL}/elevator`).then((response) => response.json());
 }
