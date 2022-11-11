@@ -4,6 +4,10 @@ import { useEffect } from 'react';
 import { Panel } from '../../Components/Elevators/Panel';
 import { GetAllElevators } from '../../Services/elevatorServices.jsx';
 
+
+import Stack from '@mui/material/Stack';
+import {Panel} from '../../Components/Elevators/Panel'
+
 export const Elevators = () => {
 
     var [sortingValue, setSortingValue] = useState(() => "");
@@ -60,17 +64,18 @@ export const Elevators = () => {
             <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
             {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
         </div>
-        <section>
-        {
-        elevators.map( Elevator => 
-            <Panel
-            key={Elevator.id}
-            Elevator = {Elevator}
-            DaysLeft = {calculateDaysLeft(Elevator.DeadLine)}
-            />
-            )
-        }
-        </section>
+        
+        <Stack direction="row" spacing={2}>
+          {
+          elevators.map( Elevator => 
+              <Panel
+                key={Elevator.id}
+                Elevator = {Elevator}
+                DaysLeft = {calculateDaysLeft(Elevator.DeadLine)}
+                />
+              )
+          }
+        </Stack>
     </>
     )
 }
