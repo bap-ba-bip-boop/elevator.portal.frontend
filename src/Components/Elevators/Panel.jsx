@@ -4,14 +4,6 @@ import { Link } from "react-router-dom";
 import ActionPanel from "./ActionPanel";
 import { useEffect } from "react";
 
-<<<<<<< HEAD
-export const Panel = ({ Elevator, DaysLeft }) => {
-  useEffect(() => {
-    return () => {
-      console.log(Elevator);
-    };
-  }, []);
-=======
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -26,9 +18,6 @@ export const Panel = ({Elevator, DaysLeft}) => {
             console.log(Elevator);
         };
     }, []);
-
-    const {errorReport, buildingId, buildingName, Name, deadline} = Elevator;
->>>>>>> 978852672a4ce88baeef433f746e9cbfd1b0c113
 
   const { errorReport, buildingId, buildingName, Name, deadline } = Elevator;
 
@@ -49,14 +38,6 @@ export const Panel = ({Elevator, DaysLeft}) => {
     }
   };
 
-<<<<<<< HEAD
-  return (
-    <div className="ElevatorIndexPanelContainer">
-      <ActionPanel Elevator={Elevator} />
-    </div>
-  );
-};
-=======
     console.log(Elevator)
 
     return (
@@ -89,4 +70,3 @@ export const Panel = ({Elevator, DaysLeft}) => {
         <Link to={"Elevator/"+Elevator.id}>Show Elevator</Link>
       </div>
 */
->>>>>>> 978852672a4ce88baeef433f746e9cbfd1b0c113

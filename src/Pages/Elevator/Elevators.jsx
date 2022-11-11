@@ -6,8 +6,6 @@ import { GetAllElevators } from "../../Services/elevatorServices.jsx";
 
 import Stack from "@mui/material/Stack";
 
-import Stack from "@mui/material/Stack";
-
 export const Elevators = () => {
   var [sortingValue, setSortingValue] = useState(() => "");
   var [elevators, SetElevators] = useState([]);
