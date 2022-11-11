@@ -1,25 +1,27 @@
-import React from 'react'
-import { Outlet, Link } from "react-router-dom";
-import { Footer } from './Footer';
-import { Header } from './Header';
-import { Navbar } from "./Navbar";
+import {Container} from "@mui/material";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import React from "react";
+import {Outlet} from "react-router-dom";
+import {Footer} from "./Footer";
+import {Header} from "./Header";
+import {Navbar} from "./Navbar";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
+const theme = createTheme({
+    palette: {
+        mode: "light"
+    }
 });
 
 export const Layout = () => {
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <Header />
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </ThemeProvider>
-  )
-}
+    return (
+        <ThemeProvider theme={theme}>
+            <Container maxWidth={"md"}>
+                <Header/>
+                <Navbar/>
+                <Outlet/>
+                <Footer/>
+            </Container>
+        </ThemeProvider>
+    );
+};

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { getData } from '../../Data/JSONData'
-import { Link, useParams } from "react-router-dom";
-import { OpenCloseDoors, GetElevatorById } from '../../Services/elevatorFunctionService';
-import ActionPanel from '../../Components/Elevators/ActionPanel';
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import ActionPanel from "../../Components/Elevators/ActionPanel";
+import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
+import {GetElevatorById} from "../../Services/elevatorFunctionService";
 
 export const Elevator = () => {
 
@@ -10,20 +10,21 @@ export const Elevator = () => {
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
 
     const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
-
     const {ElevatorId} = useParams();
 
     useEffect( () =>
     {
-        const contain = async () =>
-            await GetElevatorById(ElevatorId)
-            .then(result => setElevator(result));
-        contain();
+        const result = async () => await GetElevatorById(ElevatorId)
+            .then(result => {
+                setElevator(result);
+                console.log(result);
+            });
+        result();
     },
     []
     );
 
-    
+
 
     const ResetElevator = (event) =>
     {
@@ -48,9 +49,9 @@ export const Elevator = () => {
             <h3>Company: {elevator && elevator.companyName}</h3>
             <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
             <p>Elevatortype: {elevator && elevator.elevatorType}</p>
-
+            {elevator && <MetaPanel Elevator={elevator}/> }
             <ActionPanel ElevatorId={ElevatorId}/>
-            
+
         </>
     )
 }

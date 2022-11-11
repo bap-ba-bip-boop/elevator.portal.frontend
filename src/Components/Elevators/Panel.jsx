@@ -1,19 +1,14 @@
-import React from 'react'
-import '../../Style/ElevatorIndexPanel.css'
-import { Link } from "react-router-dom";
-import ActionPanel from './ActionPanel';
-import { useEffect } from 'react';
-
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { ReportDetails } from '../Reports/ReportDetails';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import "../../Style/ElevatorIndexPanel.css";
+import {ReportDetails} from "../Reports/ReportDetails";
+import {StyledLink} from "../StyledLink.jsx";
 
 export const Panel = ({Elevator, DaysLeft}) => {
-    var setBackground = (timeLeft) =>
-    {
+    const setBackground = (timeLeft) => {
       if(Elevator.ErrorStatus === "Ok")
         return {};
       if(timeLeft > 7)
@@ -27,14 +22,11 @@ export const Panel = ({Elevator, DaysLeft}) => {
           backgroundColor: 'red'
         };
     }
-
-    console.log(Elevator)
-
     return (
       <Card sx={{ minWidth: 275}}>
       <CardContent>
         <Typography>
-          <Link color='primary' to={"Building/"+Elevator.buildingId}>{Elevator.buildingName}</Link>
+          <StyledLink color='primary' to={"Building/"+Elevator.buildingId}>{Elevator.buildingName}</StyledLink>
         </Typography>
         <Typography variant="h5" component="">
           {Elevator.name}
@@ -44,7 +36,7 @@ export const Panel = ({Elevator, DaysLeft}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={"Elevator/"+Elevator.id}>Show Elevator</Link>
+        <StyledLink to={"Elevator/"+Elevator.id}>Show Elevator</StyledLink>
       </CardActions>
     </Card>
     )

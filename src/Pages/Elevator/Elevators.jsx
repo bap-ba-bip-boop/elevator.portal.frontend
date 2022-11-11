@@ -1,11 +1,7 @@
-import React, {useState} from 'react'
-import { useMemo } from 'react';
-import { useEffect } from 'react';
-import { GetAllElevators } from '../../Services/elevatorFunctionService';
-
-
-import Stack from '@mui/material/Stack';
-import {Panel} from '../../Components/Elevators/Panel'
+import Stack from "@mui/material/Stack";
+import React, {useState} from "react";
+import {Panel} from "../../Components/Elevators/Panel";
+import {GetAllElevators} from "../../Services/elevatorFunctionService";
 
 export const Elevators = () => {
 
@@ -66,7 +62,7 @@ export const Elevators = () => {
             {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
         </div>
         
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" justifyContent={"center"} spacing={2}>
           {
           elevators.map( Elevator => 
               <Panel
