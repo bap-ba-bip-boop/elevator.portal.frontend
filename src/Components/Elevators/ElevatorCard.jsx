@@ -7,7 +7,7 @@ import "../../Style/ElevatorIndexPanel.css";
 import {ReportDetails} from "../Reports/ReportDetails";
 import {StyledLink} from "../StyledLink.jsx";
 
-export const Panel = ({Elevator}) => {
+export const ElevatorCard = ({Elevator}) => {
     return (
       <Card sx={{ minWidth: 275}}>
       <CardContent>
