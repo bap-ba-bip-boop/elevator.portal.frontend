@@ -5,7 +5,7 @@ import {Layout} from "./Components/Layout";
 import {Elevator} from "./Pages/Elevator/Elevator";
 import {Elevators} from "./Pages/Elevator/Elevators";
 import {ErrorReport} from "./Pages/Report/ErrorReport.jsx";
-import UpdateErrorReport from "./Pages/Report/UpdateErrorReport.jsx";
+import {UpdateErrorReport} from "./Pages/Report/UpdateErrorReport";
 import {Statistics} from "./Pages/Statistics/Statistics";
 import "./Style/override.css";
 
@@ -21,7 +21,7 @@ export const App = () => {
                         <Route index element={<Elevators/>}/>
                         <Route path="Elevator/:ElevatorId" element={<Elevator/>}/>
                         <Route path="ErrorReports" element={<ErrorReport/>}/>
-                        <Route path="ErrorReports/:ReportId" element={<UpdateErrorReport/>}/>
+                        <Route path="ErrorReports/Update/:reportId" element={<UpdateErrorReport/>}/>
                         <Route path="Statistics" element={<Statistics/>}/>
                     </Route>
                 </Routes>

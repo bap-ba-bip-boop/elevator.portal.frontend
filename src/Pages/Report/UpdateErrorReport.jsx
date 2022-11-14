@@ -1,87 +1,150 @@
-import React, {Component} from "react";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { getTechnicians } from '../../Services/employeeServices'
+import { GetErrorReportById } from '../../Services/reportService'
+import { useQuery } from '@tanstack/react-query'
+import { Header } from '../../Components/Header'
 
-export class UpdateErrorReport extends Component {
-    constructor(props) {
-        super(props)
+export const UpdateErrorReport = () => {
 
-        this.state = {
-            status: '',
-            assignedTechnician: '',
-            comments: ''
+    const [rows, setRows] = useState([]);
+    const [comment, setComment] = useState('');
+    const [subject, setSubject] = useState('');
+    const [assignedTechnician, setAssignedTechnician] = useState(null);
+    const [isDone, setisDone] = useState(null);
+
+
+    const {reportId} = useParams();
+    const {isLoading, error, data:technicians} = useQuery({ queryKey: ['employee'], queryFn: getTechnicians });
+    const {data:report} = useQuery({ queryKey: ['errorreport',reportId], queryFn: () => 
+    GetErrorReportById(reportId)
+    .then(response => {
+        console.log(response)
+        setRows([...response.rows])
+    }) });
+
+    const PostComment = () => {
+        var dataToSend = {
+            "reportComment" : comment,
+            "reportSubject" : subject,
+            "errorReportId" : reportId
+        };
+
+        fetch('https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow'), {
+            method: 'POST',
+            mode : 'cors',
+            headers :
+                {
+                    'Accept': 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+
+            body: JSON.stringify(dataToSend)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let comment = dataToSend;
+                console.log(comment);
+                comment.push(data);
+            })
         }
-    }
+    };
 
-    handleStatusChange = event => {
-        this.setState({
-            status: event.target.value
-        })
-    }
+    const UpdateErrorReport = () => {
+        var dataToUpdate = {
+            'isDone' : isDone,
+            'assignedTechnician' : assignedTechnician
+        };
 
-    handleAssignedTechnicianChange = event => {
-        this.setState({
-            assignedTechnician: event.target.value
-        })
-    }
+        fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/${reportId}`), {
+            method: 'PUT',
+            mode : 'cors',
+            headers :
+                {
+                    'Accept': 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            ,
+            body: JSON.stringify(dataToUpdate)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let comment = dataToUpdate;
+                console.log(comment);
+                comment.push(data);
+            })
+        }
 
-    handleCommentsChange = event => {
-        this.setState({
-            comments: event.target.value
-        })
-    }
+        
+    };
+        
+    if(isLoading)
+    return <div>Loading...</div>
 
-    handleSubmit = event => {
-        alert(`${this.state.status} ${this.state.assignedTechnician} ${this.state.comments}`)
-        event.preventDefault()
-    }
-  
-    /* 
-        const listComments = data.CommentContent.map((comment) => 
+    if(error)
+    return <div>An error has occured</div>
+
+  return (
+    <>
+
+        <form>
+          <div className="form-group row">
+              <label className="col-sm-2 col-form-label">Status</label>
+              <div className="col-sm-10">
+                  <select onClick={(e) => setisDone(e.target.value)}>
+                      <option value={false}>Out Of Order</option>
+                      <option value={true}>Functioning</option>
+                  </select>
+              </div>
+          </div>
+          <div className="form-group row">
+              <label className="col-sm-2 col-form-label">Assigned Technician</label>
+              <div className="col-sm-10">
+                  <select>
+                    <option onClick={(e) => setAssignedTechnician(e.target.value)}>--Select technician--</option>
+                        {
+                            technicians?.map((technician) => (<option key={technician.id}
+                            value={technician.id}>{technician.employeeName}</option>))
+                        }
+                  </select>
+              </div>
+          </div>
+         
+          <br>
+          </br>
+          <button type="submit" onClick={UpdateErrorReport}>Save</button>
+
+
+      </form>
+       
+       
+        <form>
+
+            <div className='CommentSubject'>
+                <input onChange={(e) => setSubject(e.target.value)} placeholder='Subject'/>
+            </div>
+        
+            <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Comment</label>
+                <div className="col-sm-10">
+                    <textarea onChange={(e) => setComment(e.target.value)}/>
+                </div>
+            </div>
+                <button type="submit" onClick={PostComment}>Send Comment</button>
+            </form>
+
+
+        <h2>Comments: </h2>
+       {
+        rows?.map(row => (
             <div className='CommentSection'>
-                <h4 className='CommentUser'>{comment.Name}</h4>
-                <p className='CommentContent'>{comment.Content}</p>
+            <div className='CommentSectionSubject'>
+                <h2>{row.reportSubject}</h2>
             </div>
-        );
-    */
-
-    render() {
-        const { status, assignedTechnician, comments } = this.state
-     return (
-        <form onSubmit={this.handleSubmit}>
-            <div>
-                <label>Status</label>
-                <select value={status} onChange={this.handleStatusChange}>
-                    <option value="outoforder">Out of order</option>
-                    <option value="undercontruction">Under Contruction</option>
-                    <option value="functioning">Functioning</option>
-                </select>
+                <p className='CommentSectionText'>{row.reportComment}</p>
             </div>
-            <div>
-                <label>Assigned Technician</label>
-                <select value={assignedTechnician} onChange={this.handleAssignedTechnicianChange}>
-                    <option value="roger">Roger</option>
-                    <option value="pontare">Pontare</option>
-                    <option value="vindarnaviskar">Vindarna viskar</option>
-                </select>
-            </div>
-            <div>
-                <label>Comments</label>
-                <textarea value={comments} onChange={this.handleCommentsChange}/>
-            </div>
-            <button type="submit">Send Comment</button>
-            <br>
-            </br>
-
-            {/* 
-            <div>
-                <h3>Comments: </h3>
-                {listComments}
-            </div>
-         */}
-            <button type="submit">Submit</button>
-        </form>
-      
-    )
-  }
+        ))
+       }
+    </>
+  )
 }
-
-export default UpdateErrorReport
