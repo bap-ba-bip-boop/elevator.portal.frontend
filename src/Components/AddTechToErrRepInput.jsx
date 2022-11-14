@@ -54,9 +54,13 @@ export default function AddTechToErrRepInput() {
           />
         </div>
         <ul>
-          {renderTechs().map((tech) => (
-            <li onClick={() => handleSelectedTech(option.id)}>{tech.employeeName}</li>
-          ))}
+          {renderTechs()
+            .slice(0, 5)
+            .map((option) => (
+              <li key={option.id} onClick={() => handleSelectedTech(option.id)} className="searchResults">
+                {option.employeeName}
+              </li>
+            ))}
         </ul>
       </div>
     </>
