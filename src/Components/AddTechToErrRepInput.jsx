@@ -18,9 +18,11 @@ export default function AddTechToErrRepInput() {
     isLoading,
     error,
     data: technicans,
-  } = useQuery({
-    queryKey: ["technicians"],
-    queryFn: GetAllTechnicians,
+  } = useQueries({
+    queries: [
+      { queryKey: ["technicians"], queryFn: GetAllTechnicians },
+      { queryKey: ["currentTech"], queryFn: get },
+    ],
   });
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function AddTechToErrRepInput() {
   return (
     <>
       <div className="ElevatorIndexPanelContainer">
-        <p>Current tech name:</p>
+        <p>Current tech name: {}</p>
         <div>
           <input
             value={searchTech}
@@ -57,7 +59,18 @@ export default function AddTechToErrRepInput() {
           {renderTechs()
             .slice(0, 5)
             .map((option) => (
-              <li key={option.id} onClick={() => handleSelectedTech(option.id)} className="searchResults">
+              <li
+                key={option.id}
+                onClick={() =>
+                  fetch("https://localhost:7174/api/ErrorReport/technichianId", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      errorReportId: ReportId,
+                      technicianId: option.id,
+                    }),
+                  })
+                }
+                className="searchResults">
                 {option.employeeName}
               </li>
             ))}
