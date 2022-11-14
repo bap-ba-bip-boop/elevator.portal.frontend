@@ -1,3 +1,4 @@
+import {Button} from "@mui/material";
 import React from 'react'
 
 export const ActionButton = ({buttonFunction, name}) => {
@@ -5,6 +6,6 @@ export const ActionButton = ({buttonFunction, name}) => {
 
 
   return (
-    <button onClick={() => buttonFunction()}>{name}</button>
+    <Button onClick={() => buttonFunction()}>{name}</Button>
   )
 }

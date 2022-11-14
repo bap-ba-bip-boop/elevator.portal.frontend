@@ -1,6 +1,4 @@
-import './ErrorReport.css';
-import React from "react"
-import { Component } from "react"
+import React, {Component} from "react";
 
 export class UpdateErrorReport extends Component {
     constructor(props) {

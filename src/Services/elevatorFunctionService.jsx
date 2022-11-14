@@ -1,6 +1,7 @@
-const API_URL = "https://localhost:7174/api";
-var headersWithJSON = (json_body) => {
-    const data = {
+const API_URL = "http://192.168.1.47:1500/api";
+
+const headersWithJSON = (json_body) => {
+    return {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -9,7 +10,6 @@ var headersWithJSON = (json_body) => {
     },
     body: JSON.stringify(json_body)
     }
-    return data;
 }
 
 export async function ToggleFunctionality(ElevatorID){
@@ -31,7 +31,8 @@ export async function ResetElevators(ElevatorID, ){
 }
 
 export async function GetAllElevators(){
-    return await fetch(`${API_URL}/elevator`).then((response) => response.json());
+    return await fetch(`${API_URL}/elevator`)
+        .then((response) => response.json());
 }
 
 export async function GetElevatorById(id){
