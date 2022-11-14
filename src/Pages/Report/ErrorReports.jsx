@@ -1,7 +1,16 @@
 import React from 'react'
 
 export const Reports = () => {
+
+  const query = useQuery({ queryKey: ['todos'], queryFn: fetchTodos })
+
   return (
-    <div>Reports</div>
+    <>
+      
+    </>
   )
+}
+
+const DetailedReports = () =>{
+
 }

@@ -10,7 +10,6 @@ export const Elevator = () => {
     const [elevatorMeta, setElevatorMeta] = useState([]);
 
     const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
-    const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
     const {ElevatorId} = useParams();
 
     useEffect( () => {

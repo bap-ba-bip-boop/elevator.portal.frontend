@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.1.47:1500/api";
+const API_URL = "https://grupp5elevatorapidev.azurewebsites.net/api";
 
 const headersWithJSON = (json_body) => {
     return {

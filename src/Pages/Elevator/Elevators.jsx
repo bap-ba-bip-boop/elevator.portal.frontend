@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack";
 import {useEffect, useState} from "react";
 import {Panel} from "../../Components/Elevators/Panel";
-import {GetAllElevators} from "../../Services/elevatorServices.jsx";
+import { GetAllElevators } from "../../Services/elevatorFunctionService";
 
 export const Elevators = () => {
 
