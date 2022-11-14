@@ -1,8 +1,9 @@
-import './ErrorReport.css';
+//import '/Style/ErrorReport.css';
+import '../../Style/ErrorReport.css'
 import React from "react"
 import { Component } from "react"
 
-export class UpdateErrorReport extends Component {
+export class Report extends Component {
     constructor(props) {
         super(props)
 
@@ -36,15 +37,6 @@ export class UpdateErrorReport extends Component {
         event.preventDefault()
     }
   
-    /* 
-        const listComments = data.CommentContent.map((comment) => 
-            <div className='CommentSection'>
-                <h4 className='CommentUser'>{comment.Name}</h4>
-                <p className='CommentContent'>{comment.Content}</p>
-            </div>
-        );
-    */
-
     render() {
         const { status, assignedTechnician, comments } = this.state
      return (
@@ -53,7 +45,7 @@ export class UpdateErrorReport extends Component {
                 <label>Status</label>
                 <select value={status} onChange={this.handleStatusChange}>
                     <option value="outoforder">Out of order</option>
-                    <option value="undercontruction">Under Contruction</option>
+                    <option value="undercontruction">Under Construction</option>
                     <option value="functioning">Functioning</option>
                 </select>
             </div>
@@ -72,18 +64,10 @@ export class UpdateErrorReport extends Component {
             <button type="submit">Send Comment</button>
             <br>
             </br>
-
-            {/* 
-            <div>
-                <h3>Comments: </h3>
-                {listComments}
-            </div>
-         */}
             <button type="submit">Submit</button>
         </form>
-      
     )
   }
 }
 
-export default UpdateErrorReport
+export default Report
