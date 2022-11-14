@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import React from 'react';
 import {useQuery} from '@tanstack/react-query';
 import { GetAllErrorReports } from "../../Services/reportService"
-import { ReportCard } from "../../Components/Elevators/ReportCard";
+import { ReportCard } from "../../Components/Reports/ReportCard";
 
 
 export const Reports = () => {
