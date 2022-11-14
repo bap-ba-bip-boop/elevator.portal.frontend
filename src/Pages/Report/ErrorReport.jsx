@@ -1,8 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { getData } from '../../Data/JSONData'
-
-import errorReportViewData from './ErrorReportSettingsData.json'
 
 export const ErrorReport = ({ErrorReportId}) => {
 
@@ -20,11 +17,7 @@ const setSelectedPage = "";
 
 
 useEffect( () => {
-    getData(
-        `${errorReportViewData.apiErrorReportViewUrl}/${ErrorReportId}`,
-        errorReportViewData.apiErrorReportViewMethod,
-        errorReportViewData.apiErrorReportViewHeaders
-    )
+    GetErrorReportById(ErrorReportId)
     .then(
         result => {
             setErrorReport(result);

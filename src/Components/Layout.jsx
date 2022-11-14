@@ -1,26 +1,30 @@
+import {Box, Container} from "@mui/material";
+
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
-import AddTechToErrRepInput from "./AddTechToErrRepInput";
-import { Footer } from "./Footer";
-import { Header } from "./Header";
-import { Navbar } from "./Navbar";
+import {Outlet} from "react-router-dom";
+import {Footer} from "./Footer";
+import {Header} from "./Header";
+import {Navbar} from "./Navbar";
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
+const theme = createTheme({
+    palette: {
+        mode: "light"
+    }
 });
 
 export const Layout = () => {
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <Header />
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </ThemeProvider>
-  )
-}
+    return (
+        <ThemeProvider theme={theme}>
+            <Container>
+                <Box minHeight={'95vh'}>
+                    <Header/>
+                    <Navbar/>
+                    <Outlet/>
+                    <Footer/>
+                </Box>
+            </Container>
+        </ThemeProvider>
+    );
+};

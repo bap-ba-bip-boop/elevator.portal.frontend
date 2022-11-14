@@ -1,56 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { getData } from '../../Data/JSONData'
-import { Link, useParams } from "react-router-dom";
-import { OpenCloseDoors, GetElevatorById } from '../../Services/elevatorFunctionService';
-import ActionPanel from '../../Components/Elevators/ActionPanel';
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import ActionPanel from "../../Components/Elevators/ActionPanel";
+import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
+import {GetElevatorById} from "../../Services/elevatorFunctionService";
+import {useQuery} from '@tanstack/react-query';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export const Elevator = () => {
-
-    const [elevator, setElevator] = useState(() => null);
-    const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
-
-    const apiElevatorPOSTUrl = "https://localhost:7174/api/Elevator";
-
     const {ElevatorId} = useParams();
+    const {isLoading, error, data:elevator } = useQuery({ queryKey: ['elevators', ElevatorId], queryFn: () => GetElevatorById(ElevatorId)});
 
-    useEffect( () =>
-    {
-        const contain = async () =>
-            await GetElevatorById(ElevatorId)
-            .then(result => setElevator(result));
-        contain();
-    },
-    []
-    );
+    if(isLoading)
+        return <Box><Typography>Loading...</Typography></Box>
+    if(error)
+        return <Box><Typography>Could not find elevator</Typography></Box>
+    return <ElevatorDetails Elevator={elevator}/>;
+}
 
-    
-
-    const ResetElevator = (event) =>
-    {
-        event.preventDefault();
-
-        var confirmed = confirm("Are you sure you want to reset the Elevator");
-
-        if (confirmed)
-        {
-            sendDeviceMethodCall("ResetElevator");
-        }
-        else
-        {
-            processResponse(false, "Reset Cancelled")
-        }
-    }
-
+const ElevatorDetails = ({Elevator}) =>
+{
+    const {name, buildingName, companyName, isFunctioning, elevatorType } = Elevator;
     return (
         <>
-            <h2>{elevator && elevator.name}</h2>
-            <h3>Building: {elevator && elevator.buildingName}</h3>
-            <h3>Company: {elevator && elevator.companyName}</h3>
-            <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
-            <p>Elevatortype: {elevator && elevator.elevatorType}</p>
-
-            <ActionPanel ElevatorId={ElevatorId}/>
-            
+            <h2>{name}</h2>
+            <h3>Building: {buildingName}</h3>
+            <h3>Company: {companyName}</h3>
+            <p>{isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
+            <p>Elevatortype: {elevatorType}</p>
+            <MetaPanel Elevator={Elevator}/>
+            <ActionPanel Elevator={Elevator}/>
         </>
     )
 }
