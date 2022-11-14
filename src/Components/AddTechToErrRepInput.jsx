@@ -8,25 +8,6 @@ export default function AddTechToErrRepInput() {
   const { ReportId } = useParams(); //this might become a prop later
   console.log("ReportId: " + ReportId);
 
-  function handleSelectedTech(selectedId) {
-    setCurrentTech(technicians.find((tech) => tech.id === selectedId).employeeName);
-    setSelectedTech(selectedId);
-    console.log(selectedTech);
-
-    const errorReport = {
-      errorReportId: reportId,
-      technicianId: selectedId,
-    };
-
-    return (
-      <>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem unde vitae dignissimos earum. Consequuntur
-          natus accusantium error commodi rem tenetur.
-        </p>
-      </>
-    );
-  }
   function handleInputChange(e) {
     e.preventDefault();
     setsearchTech(e.target.value);
@@ -41,6 +22,19 @@ export default function AddTechToErrRepInput() {
     queryKey: ["technicians"],
     queryFn: GetAllTechnicians,
   });
+
+  useEffect(() => {
+    console.log("searchTech: " + searchTech);
+  }, [searchTech]);
+
+  function renderTechs() {
+    if (searchTech === "") return technicans;
+
+    if (searchTech !== "")
+      return technicans.filter((tech) => tech.employeeName.toLowerCase().includes(searchTech.toLowerCase()));
+
+    return <>error</>;
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Something has happened...</div>;
@@ -60,7 +54,7 @@ export default function AddTechToErrRepInput() {
           />
         </div>
         <ul>
-          {technicans.map((tech) => (
+          {renderTechs().map((tech) => (
             <li>{tech.employeeName}</li>
           ))}
         </ul>
