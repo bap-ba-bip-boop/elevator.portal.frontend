@@ -1,95 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { getData } from '../../Data/JSONData'
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import ActionPanel from "../../Components/Elevators/ActionPanel";
+import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
+import {GetElevatorById} from "../../Services/elevatorFunctionService";
+import {useQuery} from '@tanstack/react-query';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-export const Elevator = ({ElevatorId}) => {
+export const Elevator = () => {
+    const {ElevatorId} = useParams();
+    const {isLoading, error, data:elevator } = useQuery({ queryKey: ['elevators', ElevatorId], queryFn: () => GetElevatorById(ElevatorId)});
 
-    const [elevator, setElevator] = useState(() => null);
-    const [deviceMethodResponse, setDeviceMethodResponse] = useState(() => null)
+    if(isLoading)
+        return <Box><Typography>Loading...</Typography></Box>
+    if(error)
+        return <Box><Typography>Could not find elevator</Typography></Box>
+    return <ElevatorDetails Elevator={elevator}/>;
+}
 
-    const apiElevatorGETUrl = "";
-    const apiElevatorPOSTUrl = "";
-
-    useEffect( () => {
-        getData(
-            `${apiElevatorGETUrl}/${ElevatorId}`,//kommer säkerligen behövas skrivas om
-            "GET",
-            {
-                "Content-Type": "application/json"
-            }
-        )
-        .then(
-            result => {
-                setElevator(result);
-            }
-        );
-    },
-    []
-    );
-
-    const OpenCloseDoors = event =>
-    {
-        event.preventDefault();
-
-        sendDeviceMethodCall("OpenCloseDoor");
-    }
-
-    const processResponse = (Success, Message) =>
-    {
-        var response = {};
-        response.Message = Message;
-        response.Success = Success;
-        console.log(response);
-        setDeviceMethodResponse(response);
-    }
-
-    const sendDeviceMethodCall = (methodName) =>
-    {
-        var messageBody = {
-            "Id" : "",
-            "FunctionName": ""
-        };
-
-        messageBody.ElevatorId = elevator.deviceId;
-        messageBody.FunctionName = methodName;
-
-        fetch(
-            apiElevatorPOSTUrl,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(messageBody)
-            }
-        )
-        .then(
-            r => r.json()
-            )
-        .then(
-            result => processResponse(result.success, result.message)
-            )
-        .catch(
-            err => {
-                console.log("Error Posting data: " + err);
-            }
-          );
-    }
-
+const ElevatorDetails = ({Elevator}) =>
+{
+    const {name, buildingName, companyName, isFunctioning, elevatorType } = Elevator;
     return (
         <>
-            <Link to='/'>Back</Link>
-            <h2>{elevator && elevator.name}</h2>
-            <h3>Building: {elevator && elevator.buildingName}</h3>
-            <h3>Company: {elevator && elevator.companyName}</h3>
-            <p>{elevator && elevator.isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
-            <p>Elevatortype: {elevator && elevator.elevatorType}</p>
-
-            <div>
-                <h2>Button Panel:</h2>
-                <input type="submit"  onClick={e => OpenCloseDoors(e)} value="Open Doors"/>
-                {deviceMethodResponse && (deviceMethodResponse.Success === true ? <p>{deviceMethodResponse.Message}</p> : <p>{deviceMethodResponse.Message}</p>)}
-            </div>
+            <h2>{name}</h2>
+            <h3>Building: {buildingName}</h3>
+            <h3>Company: {companyName}</h3>
+            <p>{isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</p>
+            <p>Elevatortype: {elevatorType}</p>
+            <MetaPanel Elevator={Elevator}/>
+            <ActionPanel Elevator={Elevator}/>
         </>
     )
 }

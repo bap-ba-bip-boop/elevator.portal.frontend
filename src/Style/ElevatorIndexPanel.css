@@ -1,9 +1,35 @@
+.ElevatorIndexPanelContainer {
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+}
 
-.ElevatorIndexPanelContainer
-{
-    border: 1px solid black;
-    margin: 5px;
-    padding: 10px;
-    display: block;
-    border-radius: 5px;
+.ErrorReportSearchContainer {
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.searchResults:hover {
+  cursor: pointer;
+  transition: 400ms;
+  background-color: grey;
+}
+
+.searchResults:active {
+  transition: 200ms;
+  background-color: red;
+  transition: ease-out;
+}
+
+.ElevatorIndexPanelContainer {
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
 }
