@@ -1,5 +1,5 @@
 
-const BaseURL = "https://grupp5elevatorapidev.azurewebsites.net/api";
+const BaseURL = "https://localhost:7174/api";//"https://grupp5elevatorapidev.azurewebsites.net/api";
 
 const headersWithJSON = (type, json_body) => {
     return {
