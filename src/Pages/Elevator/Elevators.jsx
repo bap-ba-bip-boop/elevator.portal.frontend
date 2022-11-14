@@ -1,10 +1,11 @@
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import {useEffect, useState} from "react";
-import {Panel} from "../../Components/Elevators/Panel";
-import { GetAllElevators } from "../../Services/elevatorFunctionService";
-import {useQuery} from '@tanstack/react-query'
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
+import {useState} from "react";
+import {ElevatorCard} from "../../Components/Elevators/ElevatorCard";
+import { GetAllElevators } from "../../Services/elevatorFunctionService";
+import {useQuery} from '@tanstack/react-query';
 
 
 export const Elevators = () => {
@@ -22,7 +23,7 @@ export const Elevators = () => {
         <Stack direction="row" justifyContent={"center"} spacing={2}>
           {
           elevators?.map( Elevator => 
-              <Panel
+              <ElevatorCard
                 key={Elevator.id}
                 Elevator = {Elevator}
                 />

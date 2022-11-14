@@ -3,8 +3,6 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
 export const Navbar = () => {
-  const [value, setValue] = useState("");
-
   return (
       <Box sx={{ borderBottom: 1, marginBottom:5, borderColor: 'divider'}}  >
         <Tabs value={"Elevators"} aria-label="basic tabs example" centered>
