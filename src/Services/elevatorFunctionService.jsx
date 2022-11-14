@@ -1,3 +1,5 @@
+import {postQuery, getQuery} from "./query";
+
 const API_URL = "https://grupp5elevatorapidev.azurewebsites.net/api";
 
 const headersWithJSON = (json_body) => {
@@ -12,29 +14,22 @@ const headersWithJSON = (json_body) => {
     }
 }
 
-export async function ToggleFunctionality(ElevatorID){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'ToggleFunctionality'}))
-    .then((response) => response.json());
+export const ToggleFunctionality = (ElevatorID) => {
+    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'ToggleFunctionality'});
 }
 
-export async function OpenCloseDoors(ElevatorID){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'OpenCloseDoor'}))
-    .then((response) => response.json());
+export const OpenCloseDoors = (ElevatorID) =>{
+    return postQuery('/Elevator/Method',{ElevatorId: ElevatorID, FunctionName: 'OpenCloseDoor'});
 }
 
-export async function ResetElevators(ElevatorID, ){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: '*'}))
-    .then((response) => response.json());
+export const ResetElevators = (ElevatorID, payload) => {
+    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: payload});
 }
 
-export async function GetAllElevators(){
-    return await fetch(`${API_URL}/elevator`)
-        .then((response) => response.json());
+export const GetAllElevators = () => {
+    return getQuery('/Elevator');
 }
 
-export async function GetElevatorById(id){
-    return await fetch(`${API_URL}/elevator/${id}`).then((response) => response.json());
+export const GetElevatorById = (id) =>{
+    return getQuery(`/Elevator/${id}`);
 }
