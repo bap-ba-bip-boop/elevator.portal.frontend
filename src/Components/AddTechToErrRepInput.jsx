@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { React, useState, useEffect } from "react";
-import { GetAllTechnicians } from "../Services/technicianApiService";
+import { GetAllTechnicians, PostCurrentTech, GetCurrentTechOnErrorReport } from "../Services/technicianApiService";
 import "../Style/ElevatorIndexPanel.css";
 import { useParams } from "react-router-dom";
 
@@ -18,11 +18,18 @@ export default function AddTechToErrRepInput() {
     isLoading,
     error,
     data: technicans,
-  } = useQueries({
-    queries: [
-      { queryKey: ["technicians"], queryFn: GetAllTechnicians },
-      { queryKey: ["currentTech"], queryFn: get },
-    ],
+  } = useQuery({
+    queryKey: ["technicians"],
+    queryFn: GetAllTechnicians,
+  });
+
+  const {
+    isLoading: currentTechLoading,
+    error: currentTechError,
+    data: currentTechData,
+  } = useQuery({
+    queryKey: ["currentTech"],
+    queryFn: GetCurrentTechOnErrorReport(ReportId),
   });
 
   useEffect(() => {
@@ -41,10 +48,17 @@ export default function AddTechToErrRepInput() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Something has happened...</div>;
 
+  function renderCurrentTechName() {
+    if (currentTechLoading) return <div>Loading...</div>;
+    if (currentTechError) return <div>Can't find who's assigned</div>;
+
+    return currentTechData.employeeName;
+  }
+
   return (
     <>
       <div className="ElevatorIndexPanelContainer">
-        <p>Current tech name: {}</p>
+        <p>Current tech name:{renderCurrentTechName()}</p>
         <div>
           <input
             value={searchTech}
@@ -59,18 +73,7 @@ export default function AddTechToErrRepInput() {
           {renderTechs()
             .slice(0, 5)
             .map((option) => (
-              <li
-                key={option.id}
-                onClick={() =>
-                  fetch("https://localhost:7174/api/ErrorReport/technichianId", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      errorReportId: ReportId,
-                      technicianId: option.id,
-                    }),
-                  })
-                }
-                className="searchResults">
+              <li key={option.id} onClick={() => console.log(option.id)} className="searchResults">
                 {option.employeeName}
               </li>
             ))}
