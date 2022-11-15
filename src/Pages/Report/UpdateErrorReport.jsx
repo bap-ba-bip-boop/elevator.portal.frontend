@@ -26,8 +26,7 @@ export const UpdateErrorReport = () => {
     const PostComment = () => {
         var dataToSend = {
             "reportComment" : comment,
-            "reportSubject" : subject,
-            "errorReportId" : reportId
+            "reportSubject" : subject
         };
 
         fetch('https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow'), {
@@ -39,9 +38,13 @@ export const UpdateErrorReport = () => {
                     'Content-Type' : 'application/json'
                 },
 
-            body: JSON.stringify(dataToSend)
-            .then(response => response.json())
-            .then(data => {
+            body: JSON.stringify(newData)
+            .then(response => 
+                {
+                response.json()
+                console.log(response)
+                }
+            ).then(data => {
                 console.log(data);
                 let comment = dataToSend;
                 console.log(comment);
@@ -121,6 +124,9 @@ export const UpdateErrorReport = () => {
         <form>
 
             <div className='CommentSubject'>
+                <div className='CommentSubjectLabel'>
+                    <label>Subject</label>
+                </div>
                 <input onChange={(e) => setSubject(e.target.value)} placeholder='Subject'/>
             </div>
         
