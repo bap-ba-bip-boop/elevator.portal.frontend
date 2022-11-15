@@ -24,9 +24,10 @@ export default function AddTechToErrRepInput() {
   });
 
   const {
-    isLoading: currentTechLoading,
+    isFetching: currentTechLoading,
     error: currentTechError,
     data: currentTechData,
+    refetch: refetchCurrentTech,
   } = useQuery({
     queryKey: ["currentTech"],
     queryFn: () => GetCurrentTechOnErrorReport(ReportId),
@@ -75,7 +76,10 @@ export default function AddTechToErrRepInput() {
             .map((option) => (
               <li
                 key={option.id}
-                onClick={() => console.log("techId: " + option.id + " reportId: " + ReportId)}
+                onClick={async () => {
+                  await PostCurrentTech(option.id, ReportId);
+                  refetchCurrentTech();
+                }}
                 className="searchResults">
                 {option.employeeName}
               </li>
