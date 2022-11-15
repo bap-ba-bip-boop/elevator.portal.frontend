@@ -7,15 +7,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
 import React, {useState} from "react";
-import {OpenCloseDoors, ResetElevators, ToggleFunctionality} from "../../Services/elevatorFunctionService.jsx";
+import {
+    MoveToFloor,
+    OpenCloseDoors,
+    ResetElevators,
+    ToggleFunctionality
+} from "../../Services/elevatorFunctionService.jsx";
 import {ActionButton} from "./ActionButton.jsx";
+import FloorPanel from "./Floor/FloorPanel.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props}/>;
 });
 
-const ActionPanel = ({ElevatorId, DeviceMeta}) => {
-
+const ActionPanel = ({Elevator}) => {
+    const {id:ElevatorId, deviceMeta:MetaData} = Elevator;
     const [showAlertDialouge, setShowAlertDialouge] = useState(() => false);
     const [responseMessage, setResponseMessage] = useState(() => "");
 
@@ -24,6 +30,21 @@ const ActionPanel = ({ElevatorId, DeviceMeta}) => {
         responseMessage += message;
         setResponseMessage(responseMessage);
     };
+
+    const ProcessChangeFloor = (currentFloor, floor) => {
+        switch (floor) {
+            case "0":
+                setResponseMessage("Nice try...");
+                return;
+            case currentFloor:
+                setResponseMessage('You cannot go to the floor you are currently on...');
+                return;
+        }
+
+        MoveToFloor(ElevatorId, {FloorNumber: floor, WeightAmount: "0"})
+            .then(response => processResponse(response))
+    }
+
     const ProcessOpenClose = () => {
         OpenCloseDoors(ElevatorId)
             .then(response => processResponse(response));
@@ -66,16 +87,18 @@ const ActionPanel = ({ElevatorId, DeviceMeta}) => {
 
             <Box
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'}}>
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                }}>
                 <Typography variant={"h6"} marginBottom={1}>Button Panel</Typography>
-            <ButtonGroup size="large" aria-label="large button group">
-                <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
-                <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>
-                <ActionButton buttonFunction={PreocessResetElevator} name={"Reset"}/>
-            </ButtonGroup>
-            <p>{responseMessage}</p>
+                <FloorPanel changeFloor={ProcessChangeFloor} Info={MetaData} />
+                <ButtonGroup size="large" aria-label="large button group">
+                    <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
+                    <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>
+                    <ActionButton buttonFunction={PreocessResetElevator} name={"Reset"}/>
+                </ButtonGroup>
+                <p>{responseMessage}</p>
             </Box>
         </div>
     );

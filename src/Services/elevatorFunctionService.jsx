@@ -13,6 +13,9 @@ const headersWithJSON = (json_body) => {
     body: JSON.stringify(json_body)
     }
 }
+export const MoveToFloor = (ElevatorID, payload) =>{
+    return postQuery('/Elevator/Method',{ElevatorId: ElevatorID, FunctionName: 'MoveToFloor', payload: payload});
+}
 
 export const ToggleFunctionality = (ElevatorID) => {
     return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'ToggleFunctionality'});
@@ -23,7 +26,7 @@ export const OpenCloseDoors = (ElevatorID) =>{
 }
 
 export const ResetElevators = (ElevatorID, payload) => {
-    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: payload});
+    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', payload: payload});
 }
 
 export const GetAllElevators = () => {
