@@ -1,13 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { getData } from '../../Data/JSONData'
+// import { Comment } from '../../Reports/Comment'
+import { QueryClient, useMutation } from 'react-query'
 
-import errorReportViewData from './ErrorReportSettingsData.json'
 
 export const ErrorReport = ({ErrorReportId}) => {
 
-const [errorReport, setErrorReport] = useState(() => null);
-
+const queryClient = new QueryClient()
+const {ElevatorId} = useParams();
 
 const [status, setStatus] = useState('')
 const [assignedTechnician, setAssignedTechnician] = useState('')
@@ -16,38 +16,32 @@ const [partTask, setPartTask] = useState('')
 
 const onChange = event => setValue(event.target.value);
 
-const setSelectedPage = "";
+<QueryClientProvider client={queryClient}>
+  <ErrorReport />
+  <ReactQueryDevtools />
+</QueryClientProvider>
 
 
-useEffect( () => {
-    getData(
-        `${errorReportViewData.apiErrorReportViewUrl}/${ErrorReportId}`,
-        errorReportViewData.apiErrorReportViewMethod,
-        errorReportViewData.apiErrorReportViewHeaders
-    )
-    .then(
-        result => {
-            setErrorReport(result);
-        }
-    );
-},
-[]
-);
+function ErrorReport() {
+  const { data: elevator} = useQuery('elevator', getElevator)
+  const { data, error, isLoading} = useQuery({
+    queryKey: ['errorReport'],
+    queryFn: () =>
+      fetch('https://localhost:7174/api/ErrorReport').then(res =>
+        res.json())
+  });
+}
 
-useEffect( () => {
-    getData(
-        `${employeeViewData.apiEmployeeViewUrl}/${EmployeeId}`,
-        employeeViewData.apiEmployeeViewMethod,
-        employeeViewData.apiEmployeeViewHeaders
-    )
-    .then(
-        result => {
-            setEmployee(result);
-        }
-    );
-},
-[]
-);
+if (isLoading) return 'Loading...'
+
+if (error) return 'An error has occurred: ' + error.message
+
+
+const mutation = useMutation(postComment, {
+  onSuccess: () => {
+    queryClient.invalidateQueries('comment')
+  }
+})
 
 
 let handleSubmit = async (e) => {
@@ -85,9 +79,8 @@ let handleSubmit = async (e) => {
               <label for="status" class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
                   <select value={status} onChange={onChange}>
-                      <option value={isDone}>Out Of Order</option>
-                      <option value={isDone}>Under Contruction</option>
-                      <option value={isDone}>Functioning</option>
+                      <option value={isDone}>Done</option>
+                      <option value={isDone}>Not Done</option>
                   </select>
               </div>
           </div>
@@ -97,8 +90,9 @@ let handleSubmit = async (e) => {
                   <select onChange={e => setTechnician(e.target.value)}>
                     <option selected disabled value={-1}>Choose Technician</option>
                         {
-                            assignedTechnicians.map(assignedTechnician => <option key={assignedTechnician.Id} 
-                            value={assignedTechnician.Id}>{assignedTechnician.Name}</option>)
+                            data.map((assignedTechnician) => (
+                              <li key={assignedTechnician.id}>{assignedTechnician.make}</li>
+                            ))
                         }
                   </select>
               </div>
