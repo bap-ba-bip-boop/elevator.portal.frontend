@@ -55,11 +55,6 @@ export default function AddTechToErrRepInput() {
     return <span>{currentTechData}</span>;
   }
 
-  function handleOnClick(e) {
-    const techId = document.getElementById("techId").value;
-    console.log("techId: " + techId + " reportId: " + ReportId);
-  }
-
   return (
     <>
       <div className="ElevatorIndexPanelContainer">
@@ -78,7 +73,10 @@ export default function AddTechToErrRepInput() {
           {renderTechs()
             .slice(0, 5)
             .map((option) => (
-              <li key={option.id} onClick={(e) => handleOnClick(e)} className="searchResults">
+              <li
+                key={option.id}
+                onClick={() => console.log("techId: " + option.id + " reportId: " + ReportId)}
+                className="searchResults">
                 {option.employeeName}
               </li>
             ))}
