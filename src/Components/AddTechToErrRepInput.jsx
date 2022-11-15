@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { GetAllTechnicians, PostCurrentTech, GetCurrentTechOnErrorReport } from "../Services/technicianApiService";
 import "../Style/ElevatorIndexPanel.css";
 import { useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function AddTechToErrRepInput() {
     data: currentTechData,
   } = useQuery({
     queryKey: ["currentTech"],
-    queryFn: GetCurrentTechOnErrorReport(ReportId),
+    queryFn: () => GetCurrentTechOnErrorReport(ReportId),
   });
 
   useEffect(() => {
@@ -49,10 +49,15 @@ export default function AddTechToErrRepInput() {
   if (error) return <div>Something has happened...</div>;
 
   function renderCurrentTechName() {
-    if (currentTechLoading) return <div>Loading...</div>;
-    if (currentTechError) return <div>Can't find who's assigned</div>;
+    if (currentTechLoading) return <span>Loading...</span>;
+    if (currentTechError) return <span>ERROR TERROR</span>;
 
-    return currentTechData.employeeName;
+    return <span>{currentTechData}</span>;
+  }
+
+  function handleOnClick(e) {
+    const techId = document.getElementById("techId").value;
+    console.log("techId: " + techId + " reportId: " + ReportId);
   }
 
   return (
@@ -73,7 +78,7 @@ export default function AddTechToErrRepInput() {
           {renderTechs()
             .slice(0, 5)
             .map((option) => (
-              <li key={option.id} onClick={() => console.log(option.id)} className="searchResults">
+              <li key={option.id} onClick={(e) => handleOnClick(e)} className="searchResults">
                 {option.employeeName}
               </li>
             ))}
