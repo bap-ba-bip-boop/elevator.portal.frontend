@@ -26,15 +26,19 @@ export async function GetCurrentTechOnErrorReport(reportId) {
   return response;
 }
 
+//byt till react query
 export async function PostCurrentTech(techId, reportId) {
-  const response = await fetch(`${technicianApiEndpoints.PostCurrentTechnican}`, {
+  const response = await fetch(technicianApiEndpoints.PostCurrentTechnican, {
     method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       technicianId: techId,
       errorReportId: reportId,
     }),
-  }).then((response) => response.json());
-  return response;
+  });
 }
 
 export function Test() {
