@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { QueryClient, useMutation } from 'react-query'
 
 
-export const ErrorReport = ({ErrorReportId}) => {
+export const ErrorReport = ({ErrorReport}) => {
 
 const queryClient = new QueryClient()
 const {ElevatorId} = useParams();
@@ -23,7 +23,8 @@ const onChange = event => setValue(event.target.value);
 
 
 function ErrorReport() {
-  const { data: elevator} = useQuery('elevator', getElevator)
+  
+  const { data: assignedTechnician} = useQuery('assignedTechnician', getTechnician)
   const { data, error, isLoading} = useQuery({
     queryKey: ['errorReport'],
     queryFn: () =>
@@ -78,7 +79,7 @@ let handleSubmit = async (e) => {
           <div class="form-group row">
               <label for="status" class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
-                  <select value={status} onChange={onChange}>
+                  <select onChange={onChange}>
                       <option value={isDone}>Done</option>
                       <option value={isDone}>Not Done</option>
                   </select>
