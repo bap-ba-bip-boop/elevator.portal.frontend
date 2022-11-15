@@ -12,9 +12,9 @@ import {
     OpenCloseDoors,
     ResetElevators,
     ToggleFunctionality
-} from "../../Services/elevatorFunctionService.jsx";
+} from "../../../Services/elevatorFunctionService.jsx";
 import {ActionButton} from "./ActionButton.jsx";
-import FloorPanel from "./Floor/FloorPanel.jsx";
+import FloorPanel from "../Floor/FloorPanel.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props}/>;

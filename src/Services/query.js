@@ -1,5 +1,4 @@
 const BaseURL = "https://grupp5elevatorapidev.azurewebsites.net/api";
-
 const headersWithJSON = (type, json_body) => {
     return {
         method: type,
@@ -7,7 +6,7 @@ const headersWithJSON = (type, json_body) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: json
+        body: JSON.stringify(json_body)
     }
 }
 
