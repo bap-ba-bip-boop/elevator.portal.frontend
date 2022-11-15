@@ -1,3 +1,4 @@
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,6 +10,7 @@ import { Statistics } from "./Pages/Statistics/Statistics";
 import { ErrorReport } from "./Pages/Report/ErrorReport";
 import "./Style/override.css";
 
+const queryClient = new QueryClient();
 
 
 export const App = () => {

@@ -1,39 +1,21 @@
-const API_URL = "https://localhost:7174/api";
-var headersWithJSON = (json_body) => {
-    const data = {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(json_body)
-    }
-    return data;
+import {postQuery, getQuery} from "./query";
+
+export const ToggleFunctionality = (ElevatorID) => {
+    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'ToggleFunctionality'});
 }
 
-export async function ToggleFunctionality(ElevatorID){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'ToggleFunctionality'}))
-    .then((response) => response.json());
+export const OpenCloseDoors = (ElevatorID) =>{
+    return postQuery('/Elevator/Method',{ElevatorId: ElevatorID, FunctionName: 'OpenCloseDoor'});
 }
 
-export async function OpenCloseDoors(ElevatorID){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'OpenCloseDoor'}))
-    .then((response) => response.json());
+export const ResetElevators = (ElevatorID, payload) => {
+    return postQuery('/Elevator/Method', {ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: payload});
 }
 
-export async function ResetElevators(ElevatorID, ){
-    return await fetch(`${API_URL}/Elevator/Method`,
-    headersWithJSON({ElevatorId: ElevatorID, FunctionName: 'RemoveMetaData', Payload: '*'}))
-    .then((response) => response.json());
+export const GetAllElevators = () => {
+    return getQuery('/Elevator');
 }
 
-export async function GetAllElevators(){
-    return await fetch(`${API_URL}/elevator`).then((response) => response.json());
-}
-
-export async function GetElevatorById(id){
-    return await fetch(`${API_URL}/elevator/${id}`).then((response) => response.json());
+export const GetElevatorById = (id) =>{
+    return getQuery(`/Elevator/${id}`);
 }
