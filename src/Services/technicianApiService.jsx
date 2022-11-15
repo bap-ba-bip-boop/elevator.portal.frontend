@@ -1,7 +1,7 @@
 const technicianApiEndpoints = {
   getTechnician: "https://localhost:7174/api/Employee/d7eeddea-7e7e-45bf-b855-00707f9da0aa",
   getAllTechnicians: "https://localhost:7174/api/Employee",
-  postCurrentTechOnErrorReport: "https://localhost:7174/api/ErrorReport/getTechName?errorReportId=",
+  GetCurrentTechOnErrorReport: "https://localhost:7174/api/ErrorReport/getTechName?errorReportId=",
 };
 
 export async function GetTechnician(id) {
@@ -15,8 +15,10 @@ export async function GetAllTechnicians() {
 }
 
 export async function GetCurrentTechOnErrorReport(reportId) {
-  console.log("Test logg");
-  const response = await fetch(`${technicianApiEndpoints.getAllTechnicians + { reportId }}`).then((response) =>
+  console.log("reportId in service: " + reportId);
+  console.log(`${technicianApiEndpoints.GetCurrentTechOnErrorReport + reportId}`);
+
+  const response = await fetch(`${technicianApiEndpoints.GetCurrentTechOnErrorReport + reportId}`).then((response) =>
     response.json()
   );
 
