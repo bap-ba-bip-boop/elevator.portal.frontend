@@ -25,8 +25,8 @@ const UpdateErrorReport = () => {
 
   const PostComment = () => {
     var dataToSend = {
-      reportComment: comment,
-      reportSubject: subject,
+      "reportComment" : comment,
+      "reportSubject" : subject
     };
 
     fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow"),
@@ -40,6 +40,7 @@ const UpdateErrorReport = () => {
 
         body: JSON.stringify(newData)
           .then((response) => {
+            response.errorReportId = reportId;
             response.json();
             console.log(response);
           })
@@ -54,8 +55,8 @@ const UpdateErrorReport = () => {
 
   const UpdateErrorReport = () => {
     var dataToUpdate = {
-      isDone: isDone,
-      assignedTechnician: assignedTechnician,
+      "isDone" : isDone,
+      "assignedTechnician" : assignedTechnician
     };
 
     fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/${reportId}`),
