@@ -51,7 +51,7 @@ const UpdateErrorReport = () => {
         console.log('hello')
 
         
-      fetch('https://localhost:7174/api/errorreportrow', requestOptions)
+      fetch('https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow', requestOptions)
       .then(response => 
       {
         console.log(response);
