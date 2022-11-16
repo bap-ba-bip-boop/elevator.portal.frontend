@@ -4,6 +4,7 @@ import { getTechnicians } from "../../Services/employeeServices";
 import { GetErrorReportById } from "../../Services/reportService";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "../../Components/Header";
+import { gridDensityHeaderGroupingMaxDepthSelector } from "@mui/x-data-grid";
 
 const UpdateErrorReport = () => {
   const [rows, setRows] = useState([]);
@@ -12,12 +13,12 @@ const UpdateErrorReport = () => {
   const [assignedTechnician, setAssignedTechnician] = useState(null);
   const [isDone, setisDone] = useState(null);
 
-  const { reportId } = useParams();
+  const { ReportId } = useParams();
   const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"], queryFn: getTechnicians });
   const { data: report } = useQuery({
-    queryKey: ["errorreport", reportId],
+    queryKey: ["errorreport", ReportId],
     queryFn: () =>
-      GetErrorReportById(reportId).then((response) => {
+      GetErrorReportById(ReportId).then((response) => {
         console.log(response);
         setRows([...response.rows]);
       }),
@@ -26,7 +27,8 @@ const UpdateErrorReport = () => {
   const PostComment = () => {
     var dataToSend = {
       "reportComment" : comment,
-      "reportSubject" : subject
+      "reportSubject" : subject,
+      "errorReportId" : ReportId
     };
 
     fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow"),
@@ -34,22 +36,14 @@ const UpdateErrorReport = () => {
         method: "POST",
         mode: "cors",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Accept" : "application/json",
+          "Content-Type": "application/json"
         },
-
-        body: JSON.stringify(newData)
-          .then((response) => {
-            response.errorReportId = reportId;
+        body: JSON.stringify(dataToSend).then(
+          (response) => {
             response.json();
             console.log(response);
           })
-          .then((data) => {
-            console.log(data);
-            let comment = dataToSend;
-            console.log(comment);
-            comment.push(data);
-          }),
       };
   };
 
@@ -59,13 +53,13 @@ const UpdateErrorReport = () => {
       "assignedTechnician" : assignedTechnician
     };
 
-    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/${reportId}`),
+    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/${ReportId}`),
       {
         method: "PUT",
         mode: "cors",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Accept" : "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(dataToUpdate)
           .then((response) => response.json())
@@ -84,7 +78,7 @@ const UpdateErrorReport = () => {
 
   return (
     <>
-      <form>
+      <form onSubmit={UpdateErrorReport}>
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Status</label>
           <div className="col-sm-10">
@@ -109,7 +103,7 @@ const UpdateErrorReport = () => {
         </div>
 
         <br></br>
-        <button type="submit" onClick={UpdateErrorReport}>
+        <button type="submit">
           Save
         </button>
       </form>
@@ -128,7 +122,7 @@ const UpdateErrorReport = () => {
             <textarea onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
-        <button type="submit" onClick={PostComment}>
+        <button onClick={PostComment} type="submit">
           Send Comment
         </button>
       </form>
