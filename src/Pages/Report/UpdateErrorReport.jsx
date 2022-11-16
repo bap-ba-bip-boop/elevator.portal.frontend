@@ -14,6 +14,9 @@ const UpdateErrorReport = () => {
   const [isDone, setisDone] = useState(null);
 
   const { ReportId } = useParams();
+
+
+
   const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"], queryFn: getTechnicians });
   const { data: report } = useQuery({
     queryKey: ["errorreport", ReportId],
@@ -24,30 +27,44 @@ const UpdateErrorReport = () => {
       }),
   });
 
-  const PostComment = () => {
+  
     var dataToSend = {
-      "reportComment" : comment,
       "reportSubject" : subject,
+      "reportComment" : comment,
       "errorReportId" : ReportId
     };
 
-    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow"),
-      {
-        method: "POST",
+
+    const requestOptions = {
+      method: "POST",
         mode: "cors",
         headers: {
-          "Accept" : "application/json",
-          "Content-Type": "application/json"
+          'Content-Type' : 'application/json'
         },
-        body: JSON.stringify(dataToSend).then(
-          (response) => {
-            response.json();
-            console.log(response);
-          })
+        body: JSON.stringify(dataToSend)
       };
-  };
 
-  const UpdateErrorReport = () => {
+
+      const PostComment = (e) => {
+
+        e.preventDefault();
+        console.log('hello')
+
+        
+      fetch('https://localhost:7174/api/errorreportrow', requestOptions)
+      .then(response => 
+      {
+        console.log(response);
+        setRows(null);
+      })
+   
+    };
+
+
+
+
+
+  const OnSave = () => {
     var dataToUpdate = {
       "isDone" : isDone,
       "assignedTechnician" : assignedTechnician
@@ -78,7 +95,7 @@ const UpdateErrorReport = () => {
 
   return (
     <>
-      <form onSubmit={UpdateErrorReport}>
+      <form onSubmit={OnSave}>
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Status</label>
           <div className="col-sm-10">
@@ -94,7 +111,7 @@ const UpdateErrorReport = () => {
             <select>
               <option onClick={(e) => setAssignedTechnician(e.target.value)}>--Select technician--</option>
               {technicians?.map((technician) => (
-                <option key={technician.id} value={technician.id}>
+                <option key={technician.id} >
                   {technician.employeeName}
                 </option>
               ))}
@@ -108,7 +125,7 @@ const UpdateErrorReport = () => {
         </button>
       </form>
 
-      <form>
+      <form onSubmit={PostComment} >
         <div className="CommentSubject">
           <div className="CommentSubjectLabel">
             <label>Subject</label>
@@ -122,22 +139,21 @@ const UpdateErrorReport = () => {
             <textarea onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
-        <button onClick={PostComment} type="submit">
+        <button  type="submit">
           Send Comment
         </button>
       </form>
 
       <h2>Comments: </h2>
       {rows?.map((row) => (
-        <div className="CommentSection">
+        <div className="CommentSection" key={row.id}>
           <div className="CommentSectionSubject">
-            <h2>{row.reportSubject}</h2>
+            <h2 key={row.id}>{row.reportSubject}</h2>
           </div>
-          <p className="CommentSectionText">{row.reportComment}</p>
+          <p className="CommentSectionText" key={row.id}>{row.reportComment}</p>
         </div>
       ))}
     </>
   );
-};
-
+      };
 export default UpdateErrorReport;
