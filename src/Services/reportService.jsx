@@ -1,6 +1,5 @@
-// const API_URL = "https://grupp5elevatorapidev.azurewebsites.net/api";
+const API_URL = "https://grupp5elevatorapidev.azurewebsites.net/api";
 
- const API_URL = "https://localhost:7174/api";
 
 
 
