@@ -63,39 +63,13 @@ const UpdateErrorReport = () => {
 
 
 
-
-  const OnSave = () => {
-    var dataToUpdate = {
-      "isDone" : isDone,
-      "assignedTechnician" : assignedTechnician
-    };
-
-    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/${ReportId}`),
-      {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Accept" : "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dataToUpdate)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            let comment = dataToUpdate;
-            console.log(comment);
-            comment.push(data);
-          }),
-      };
-  };
-
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>An error has occured</div>;
 
   return (
     <>
-      <form onSubmit={OnSave}>
+      <form>
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Status</label>
           <div className="col-sm-10">
@@ -156,4 +130,6 @@ const UpdateErrorReport = () => {
     </>
   );
       };
+
+      
 export default UpdateErrorReport;
