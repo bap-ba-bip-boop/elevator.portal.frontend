@@ -14,19 +14,22 @@ const queryClient = new QueryClient();
 
 
 export const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Elevators />} />
-          <Route path="Elevator/:ElevatorId" element={<Elevator />} />
-          <Route path="Reports" element={<ErrorReports />} />
-          <Route path="Report/:ReportId" element={<ErrorReport />} />
-          <Route path="Statistics" element={<Statistics />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout/>}>
+                    <Route index element={<Elevators/>}/>
+                    <Route path="Elevator/:ElevatorId" element={<Elevator/>}/>
+                    <Route path="ErrorReports">
+                        <Route index element={<Reports/>}/>
+                        <Route path=":ReportId" element={<ErrorReport/>}/>
+                    </Route>
+                    <Route path="Statistics" element={<Statistics/>}/>
+                    <Route path="*" element={<Navigate to="/"/>}/>
+                </Route>
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
 };

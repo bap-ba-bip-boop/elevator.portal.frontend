@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { GetAllTechnicians } from "../Services/technicianApiService";
+import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
 
 export default function TechniciansList() {
   const [technicians, setTechnicians] = useState([]);
