@@ -1,4 +1,4 @@
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {queryClient, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
