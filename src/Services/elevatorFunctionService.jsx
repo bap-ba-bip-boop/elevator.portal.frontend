@@ -13,7 +13,12 @@ const headersWithJSON = (json_body) => {
     body: JSON.stringify(json_body)
     }
 }
-export const MoveToFloor = (ElevatorID, payload) =>{
+
+export const UpdateMetaData = (ElevatorID, payload) => {
+    return postQuery('/Elevator/Method',{ElevatorId: ElevatorID, FunctionName: 'UpdateMeta', payload: payload});
+}
+
+export const MoveToFloor = (ElevatorID, payload) => {
     return postQuery('/Elevator/Method',{ElevatorId: ElevatorID, FunctionName: 'MoveToFloor', payload: payload});
 }
 

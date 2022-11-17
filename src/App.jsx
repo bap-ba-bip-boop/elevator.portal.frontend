@@ -7,6 +7,10 @@ import {Elevators} from "./Pages/Elevator/Elevators";
 import {ErrorReport} from "./Pages/Report/ErrorReport";
 import {Reports} from "./Pages/Report/Reports.jsx";
 import {Statistics} from "./Pages/Statistics/Statistics";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import "./Style/override.css";
 
 const queryClient = new QueryClient();
