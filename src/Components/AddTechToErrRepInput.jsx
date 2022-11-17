@@ -4,9 +4,9 @@ import { GetAllTechnicians, PostCurrentTech, GetCurrentTechOnErrorReport } from 
 import "../Style/ElevatorIndexPanel.css";
 import { useParams } from "react-router-dom";
 
-export default function AddTechToErrRepInput() {
-  const { ReportId } = useParams(); //this might become a prop later
-  console.log("ReportId: " + ReportId);
+export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
+  console.log("Error report " + ErrorReport);
+  const { technicianName, id, assignedTechnician } = ErrorReport;
 
   function handleInputChange(e) {
     e.preventDefault();
@@ -14,52 +14,31 @@ export default function AddTechToErrRepInput() {
   }
 
   const [searchTech, setsearchTech] = useState("");
-  const {
-    isLoading,
-    error,
-    data: technicans,
-  } = useQuery({
-    queryKey: ["technicians"],
-    queryFn: GetAllTechnicians,
-  });
-
-  const {
-    isFetching: currentTechLoading,
-    error: currentTechError,
-    data: currentTechData,
-    refetch: refetchCurrentTech,
-  } = useQuery({
-    queryKey: ["currentTech"],
-    queryFn: () => GetCurrentTechOnErrorReport(ReportId),
-  });
 
   useEffect(() => {
     console.log("searchTech: " + searchTech);
   }, [searchTech]);
 
   function renderTechs() {
-    if (searchTech === "") return technicans;
+    if (searchTech === "") return Technicans;
 
     if (searchTech !== "")
-      return technicans.filter((tech) => tech.employeeName.toLowerCase().includes(searchTech.toLowerCase()));
+      return Technicans.filter((tech) => tech.employeeName.toLowerCase().includes(searchTech.toLowerCase()));
 
-    return <>error</>;
-  }
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Something has happened...</div>;
-
-  function renderCurrentTechName() {
-    if (currentTechLoading) return <span>Loading...</span>;
-    if (currentTechError) return <span>ERROR TERROR</span>;
-
-    return <span>{currentTechData}</span>;
+    return (
+      <>
+        <div>Error</div>
+      </>
+    );
   }
 
   return (
     <>
-      <div className="ElevatorIndexPanelContainer">
-        <p>Current tech name:{renderCurrentTechName()}</p>
+      <div className="ErrorReportSearchContainer">
+        <p>
+          Current tech name: {technicianName} <br />
+          Id: {assignedTechnician}
+        </p>
         <div>
           <input
             value={searchTech}
@@ -77,8 +56,7 @@ export default function AddTechToErrRepInput() {
               <li
                 key={option.id}
                 onClick={async () => {
-                  await PostCurrentTech(option.id, ReportId);
-                  refetchCurrentTech();
+                  await PostCurrentTech(option.id, id);
                 }}
                 className="searchResults">
                 {option.employeeName}
