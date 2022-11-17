@@ -12,7 +12,6 @@ import "./Style/override.css";
 
 const queryClient = new QueryClient();
 
-
 export const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
