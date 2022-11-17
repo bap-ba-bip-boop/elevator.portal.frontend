@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     MoveToFloor,
     OpenCloseDoors,
@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props}/>;
 });
 
-const ActionPanel = ({Elevator, selectedValues, onUpdate}) => {
+const ActionPanel = ({Elevator, selectedValues, pushValue, setPushFunction}) => {
     const {id: ElevatorId, deviceMeta: MetaData} = Elevator;
     const [showAlertDialouge, setShowAlertDialouge] = useState(() => false);
     const [responseMessage, setResponseMessage] = useState(() => "");
@@ -31,6 +31,12 @@ const ActionPanel = ({Elevator, selectedValues, onUpdate}) => {
         responseMessage += message;
         setResponseMessage(responseMessage);
     };
+
+
+    useEffect(() => {
+        console.log(pushValue);
+    }, [pushValue]);
+
 
     const ProcessChangeFloor = (currentFloor, floor) => {
         switch (floor) {

@@ -1,17 +1,17 @@
 import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {DataGrid} from "@mui/x-data-grid";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
-const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox}) => {
-    const [rows, setRows] = useState(() => []);
+const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox, onUpdate}) => {
+    const [rows, setRows] = useState([]);
     const [selectionModel, setSelectionModel] = useState([]);
 
     useEffect(() => {
         return () => {
             let values = [];
             metaData.forEach((row, index) => {
-                values.push({"id": row.key, "key": row.key, "value": row.value});
+                values.push({'id': index, 'key': row.key, 'value': row.value});
             });
             setRows(values);
         };
@@ -20,20 +20,29 @@ const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox}) =
     const handleSelection = (selection) => {
         setSelectionModel(selection);
         onChange(selection);
-    }
-
-    const onUpdate = (selection) => {
-        console.log(selection);
-    }
+    };
 
     const columns = [
         {field: "key", headerName: "Key", flex: 1, editable: false},
         {field: "value", headerName: "Value", flex: 1, editable: editable}
     ];
+
+    const handleEdit = useCallback(async (newRow) => {
+        await onUpdate(newRow);
+        return {...newRow, isNew: false};
+    }, [rows]);
+
+    const handleProcessRowUpdateError = useCallback(
+        (error) => {
+            console.log(error);
+        }, []);
+
     return (
-        <Box sx={{width: "50%"}} marginY={3}>
+        <Box flex={1} flexGrow={1} marginBottom={5} minWidth={"25em"}>
             <Typography variant={"h5"} marginBottom={1}>{header}</Typography>
             <DataGrid
+                rows={rows}
+                columns={columns}
                 disableSelectionOnClick={true}
                 checkboxSelection={hasCheckbox}
                 onSelectionModelChange={
@@ -41,13 +50,11 @@ const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox}) =
                         handleSelection(newModel);
                     }
                 }
-                onCellEditCommit={(cell)=>{
-                    onUpdate(cell);
-                }}
-                selectionModel={selectionModel}
+                processRowUpdate={handleEdit}
+                onProcessRowUpdateError={handleProcessRowUpdateError}
+                hideFooter={true}
                 autoHeight={true}
-                rows={rows}
-                columns={columns}
+                selectionModel={selectionModel}
                 experimentalFeatures={{newEditingApi: true}}
             />
         </Box>

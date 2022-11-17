@@ -1,4 +1,4 @@
-import {Grid, ListItem, ListItemText} from "@mui/material";
+import {Divider, Grid, ListItem, ListItemText, ListSubheader} from "@mui/material";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
@@ -27,38 +27,60 @@ export const Elevator = () => {
 
 
 const ElevatorDetails = ({Elevator}) => {
-    const {name, buildingName, companyName, isFunctioning, elevatorType} = Elevator;
+    const {id ,name, buildingName, companyName, isFunctioning, elevatorType} = Elevator;
     const [selectedValues, setSelectedValues] = useState([]);
+    const [updateValue, setUpdateValue] = useState(() =>{});
 
     const selectedValuesChange = (values) => {
         setSelectedValues(values);
     };
 
-    const updateValue = () => {
-
+    const pushUpdateFunction = (value) => {
+        setUpdateValue(value);
     };
 
+
     return (
-        <Grid container alignItems={"center"} direction={"column"}>
-            <List>
-                <ListItem key={name}>
-                    <ListItemText primary={"Name:"} secondary={name}/>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary={"Building:"} secondary={buildingName}/>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary={"Company:"} secondary={companyName}/>
-                </ListItem>
-                <ListItem>
-                    <ListItemText>{isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</ListItemText>
-                </ListItem>
-                <ListItem>
-                    <ListItemText primary={"Elevator-type:"} secondary={elevatorType}/>
-                </ListItem>
-            </List>
-            <MetaPanel Elevator={Elevator} onChange={selectedValuesChange}/>
-            <ActionPanel Elevator={Elevator} selectedValues={selectedValues}/>
-        </Grid>
-    );
+        <>
+            <Box
+                display={"flex"}
+                flexDirection={"row"}
+                flexWrap={"wrap"}
+                flexGrow={1}>
+                <Grid container display={"flex"} justifyContent={"space-evenly"} flexGrow={1}>
+                    <Grid item minWidth={'20em'}>
+                        <Typography variant={"h5"} marginBottom={1}>{"Details"}</Typography>
+                        <List sx={{border:'1px solid lightgray'}}>
+                            <ListItem key={name}>
+                                <ListItemText primary={"Name:"} secondary={name}/>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText primary={"Building:"} secondary={buildingName}/>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText primary={"Company:"} secondary={companyName}/>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText>{isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</ListItemText>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText primary={"Elevator-type:"} secondary={elevatorType}/>
+                            </ListItem>
+                        </List>
+                    </Grid>
+                    <Grid item>
+                        <MetaPanel Elevator={Elevator} onChange={selectedValuesChange} pushUpdate={pushUpdateFunction} />
+                    </Grid>
+                </Grid>
+                <Box flex={1} justifyContent={"center"}>
+                    <ActionPanel Elevator={Elevator} selectedValues={selectedValues} pushValue={updateValue} setPushFunction={pushUpdateFunction}/>
+                </Box>
+            </Box>
+        </>
+    )
+        ;
 };
