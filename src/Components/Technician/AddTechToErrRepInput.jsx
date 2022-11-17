@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
-import { GetAllTechnicians } from "../Services/technicianApiService";
-import "../Style/ElevatorIndexPanel.css";
+import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
+import "../../Style/ElevatorIndexPanel.css";
 
 export default function AddTechToErrRepInput(props) {
   const [technicians, setTechnicians] = useState([]);

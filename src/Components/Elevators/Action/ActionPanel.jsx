@@ -58,7 +58,7 @@ const ActionPanel = ({Elevator}) => {
     };
     const acceptCloseAlertDialog = () => {
         setShowAlertDialouge(false);
-        ResetElevators(ElevatorId)
+        ResetElevators(ElevatorId, {})
             .then(response => processResponse(response));
     };
     const closeAlertDialog = () => {
