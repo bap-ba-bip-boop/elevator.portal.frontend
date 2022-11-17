@@ -6,7 +6,7 @@ import {GetElevatorById} from "../../Services/elevatorFunctionService";
 import {useQuery} from '@tanstack/react-query';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { HistoryLogPanel } from "../../Components/Elevators/HistoryLogPanel";
+import { HistoryLogPanel } from "../../Components/Elevators/HistoryLog/HistoryLogPanel";
 
 export const Elevator = () => {
     const {ElevatorId} = useParams();
