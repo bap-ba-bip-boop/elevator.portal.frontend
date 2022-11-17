@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import ActionPanel from "../../Components/Elevators/ActionPanel";
+import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
 import {useQuery} from '@tanstack/react-query';
