@@ -7,6 +7,7 @@ import {Elevators} from "./Pages/Elevator/Elevators";
 import {Reports} from "./Pages/Report/Reports.jsx";
 import {ErrorReport} from "./Pages/Report/ErrorReport";
 import {Statistics} from "./Pages/Statistics/Statistics";
+
 import "./Style/override.css";
 
 const queryClient = new QueryClient();
