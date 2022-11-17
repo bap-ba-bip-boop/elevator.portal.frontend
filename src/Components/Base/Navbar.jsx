@@ -14,7 +14,7 @@ export const Navbar = () => {
         <Tabs value={value} aria-label="basic tabs example" onChange={handleChange} centered>
           <Tab component={Link} to={"/"} label="Elevators" />
           <Tab component={Link} to={"ErrorReports"} label="Error Reports" />
-          <Tab component={Link} label="Statistics" value={"Statistics"} />
+          <Tab component={Link} to={'Statistics'} label="Statistics" value={"Statistics"} />
         </Tabs>
       </Box>
   );
