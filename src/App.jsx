@@ -1,4 +1,4 @@
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {queryClient, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -15,6 +15,7 @@ const queryClient = new QueryClient();
 
 export const App = () => {
   return (
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -26,5 +27,6 @@ export const App = () => {
         </Route>
       </Routes>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 };

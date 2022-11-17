@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import {ElevatorCard} from "../../Components/Elevators/ElevatorCard";
 import { GetAllElevators } from "../../Services/elevatorFunctionService";
-import {useQuery} from '@tanstack/react-query';
+import {queryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
 
 
 export const Elevators = () => {
@@ -20,6 +20,7 @@ export const Elevators = () => {
 
   return (
     <>
+    <QueryClientProvider client={queryClient}>
         <Stack direction="row" justifyContent={"center"} spacing={2}>
           {
           elevators?.map( Elevator => 
@@ -34,6 +35,8 @@ export const Elevators = () => {
         <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
         {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
       </div>
+      </QueryClientProvider>
     </>
+    
   );
 };
