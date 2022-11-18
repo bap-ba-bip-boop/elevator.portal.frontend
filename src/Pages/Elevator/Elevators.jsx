@@ -1,11 +1,12 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery} from 'react-query'
 
 import {useState} from "react";
 import {ElevatorCard} from "../../Components/Elevators/ElevatorCard";
 import {GetAllElevators} from "../../Services/elevatorFunctionService";
+
 
 
 export const Elevators = () => {

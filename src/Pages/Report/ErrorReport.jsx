@@ -2,24 +2,22 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 // import { Comment } from '../../Reports/Comment'
 import { QueryClient, useMutation } from 'react-query'
+import { json } from 'react-router-dom'
+import { PartTasks } from '../../Components/Reports/PartTasks'
 
 
 export const ErrorReport = ({ErrorReport}) => {
 
-const queryClient = new QueryClient()
+
 const {ElevatorId} = useParams();
 
 const [status, setStatus] = useState('')
 const [assignedTechnician, setAssignedTechnician] = useState('')
 const [comment, setComment] = useState('')
 const [partTask, setPartTask] = useState('')
+const tasksRef = useRef()
 
 const onChange = event => setValue(event.target.value);
-
-<QueryClientProvider client={queryClient}>
-  <ErrorReport />
-  <ReactQueryDevtools />
-</QueryClientProvider>
 
 
 function ErrorReport() {
@@ -38,17 +36,52 @@ if (isLoading) return 'Loading...'
 if (error) return 'An error has occurred: ' + error.message
 
 
-const mutation = useMutation(postComment, {
-  onSuccess: () => {
-    queryClient.invalidateQueries('comment')
-  }
-})
+useEffect(() => {
+  const storedTasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+  if(storedTasks) storedTasks(storedTasks)
+}, [])
+
+useEffect(() => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks))
+}, [tasks])
+
+
+function addTasks(){
+  let taskName = tasksRef.current.value
+  let id = Math.floor(Math.random()*10000)
+  if(taskName === '') return alert ('Please Add a Task')
+
+  SetTasks(prevTodos => {
+    return [...tasks, {id:id, name:taskName, complete:false}]
+  })
+  tasksRef.current.value = null
+}
+
+function toggleTask(id){
+  const newTasks = [...tasks]
+  const task = newTasks.find(task => task.id === id)
+  task.complete = !task.complete
+  setTasks(newTasks)
+}
+
+function removeTasks() {
+  const newTasks = tasks.filter(task => !task.complete)
+  setTasks(newTasks)
+}
+function removeAllTasks() {
+  setTasks([])
+}
+
+function clearStorage(){
+  localStorage.clear()
+  alert('Storage has been cleared, refresh page to see results')
+}
 
 
 let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch(errorReportViewData, {
+      let res = await fetch('https://localhost:7174/api/ErrorReport', {
         method: "POST",
         header: errorReportViewData.errorReportMethodHeaders,
         body: JSON.stringify({
@@ -109,26 +142,19 @@ let handleSubmit = async (e) => {
           </br>
           
       </form></>
-      <div class="partTask">
-            <h2>Part Tasks</h2>
-            <div class="item">
-                <p>Deluppgift 1</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 2</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 3</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 4</p>
-                <input type="checkbox" />
-            </div>
-            <button type="submit" >Submit</button>
-        </div></>
+      <div class="container">
+        <h1 className='part-tasks'>Part Tasks</h1>    
+        {
+          tasks.length == 0 ? '': <h1 className='total-tasks'>{tasks.filter(task => !task.complete).length} left to do</h1>
+        }   
+
+        <input className='input-field' ref = {tasksRef} placeholder = 'Add Task..'/>
+          <button onClick={addTasks} text='Add Task' /> 
+          <button onClick={removeTasks} text='Remove Task' />   
+          <button onClick={removeAllTasks} text='Remove All Tasks' />   
+          <button onClick={clearStorage} text='Clear Storage' />  
+          {tasks.length > 0 ? <PartTasks tasks={tasks} toggleTask = {toggleTask} /> : 'No tasks to show'}                 
+      </div></>
   )
 }
 

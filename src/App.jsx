@@ -1,11 +1,10 @@
-import {queryClient, QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider} from 'react-query';
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { Layout } from "./Components/Layout";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Layout } from "./Components/Base/Layout";
 import { Elevators } from "./Pages/Elevator/Elevators";
 import { Elevator } from "./Pages/Elevator/Elevator";
-import { ErrorReports } from "./Pages/Report/ErrorReports";
+import { Reports } from "./Pages/Report/Reports.jsx";
 import { Statistics } from "./Pages/Statistics/Statistics";
 import { ErrorReport } from "./Pages/Report/ErrorReport";
 import "./Style/override.css";
@@ -14,7 +13,7 @@ const queryClient = new QueryClient();
 
 export const App = () => {
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient} contextSharing={true}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout/>}>

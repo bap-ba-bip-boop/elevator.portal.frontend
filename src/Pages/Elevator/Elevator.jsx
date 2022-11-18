@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
-import {useQuery} from '@tanstack/react-query';
+import {useQuery} from 'react-query';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
