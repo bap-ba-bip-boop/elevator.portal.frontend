@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import "../../Style/ElevatorIndexPanel.css";
 import {ReportDetails} from "../Reports/ReportDetails";
-import {StyledLink} from "../StyledLink.jsx";
+import {StyledLink} from "../Base/StyledLink.jsx";
 
-export const Panel = ({Elevator}) => {
+export const ElevatorCard = ({Elevator}) => {
     return (
       <Card sx={{ minWidth: 275}}>
       <CardContent>

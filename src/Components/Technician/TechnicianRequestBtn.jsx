@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Test, GetTechnician } from "../Services/technicianApiService";
+import { Test, GetTechnician } from "../../Services/technicianApiService.jsx";
 
 export default function TechnicianRequestBtn() {
   const [technicianId, setTechnicianId] = useState(0);

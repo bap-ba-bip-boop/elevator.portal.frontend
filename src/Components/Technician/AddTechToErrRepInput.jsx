@@ -1,17 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import { GetAllTechnicians, PostCurrentTech, GetCurrentTechOnErrorReport } from "../Services/technicianApiService";
-import "../Style/ElevatorIndexPanel.css";
-import { useParams } from "react-router-dom";
-
-export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
-  console.log("Error report " + ErrorReport);
-  const { technicianName, id, assignedTechnician } = ErrorReport;
-
-  function handleInputChange(e) {
-    e.preventDefault();
-    setsearchTech(e.target.value);
-  }
+import { React, useState, useEffect } from "react";
+import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
+import "../../Style/ElevatorIndexPanel.css";
 
   const [searchTech, setsearchTech] = useState("");
 
