@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 
 export const App = () => {
     return (
-        <QueryClientProvider client={queryClient} contextSharing={true}>
+        <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout/>}>

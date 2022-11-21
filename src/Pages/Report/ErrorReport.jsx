@@ -26,7 +26,7 @@ function ErrorReport() {
   const { data, error, isLoading} = useQuery({
     queryKey: ['errorReport'],
     queryFn: () =>
-      fetch('https://localhost:7174/api/ErrorReport').then(res =>
+      fetch('https://grupp5elevatorapidev.azurewebsites.net/api/ErrorReport').then(res =>
         res.json())
   });
 }
