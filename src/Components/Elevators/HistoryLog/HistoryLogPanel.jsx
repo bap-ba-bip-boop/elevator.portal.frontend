@@ -7,21 +7,31 @@ import { HistoryAmountButtons } from './HistoryAmountButtons';
 
 export const HistoryLogPanel = ({Elevator}) => {
 
-    console.log(Elevator)
     const {id} = Elevator;
 
-    const [page, setPage] = useState( () => 1 );
-    const [amount, setAmount] = useState( () => 10 );
-    const [logList, setLogList] = useState( () => [] );
+    const [values, setValues] = useState( {} );
+    
+    useEffect(
+        ()=>{
+            setValues({page: 1, amount: 10,logList: [] });
+        },[]
+        );
 
     useEffect(
-        () => {
-            getLogs(id, amount, page).then( result => {
-                let values = [];
+        ()=>{
+            console.log("values: ", values);
+            updateTable();
+        },[values.page, values.amount]
+    );
+
+    const updateTable = () => {
+        console.log("updating table...");
+            getLogs(id, values.amount, values.page).then( result => {
+                let items = [];
                 for(var element of result)
                 {
                     var t = new Date(element.timeStamp)
-                    values.push(
+                    items.push(
                     {
                         "id": `${element.elevatorId} ${element.timeStamp}`,
                         "timeStamp": `${t.getFullYear()}/${t.getMonth()}/${t.getDate()} ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`,
@@ -29,43 +39,53 @@ export const HistoryLogPanel = ({Elevator}) => {
                     }
                     );
                 }
-                setLogList( logList.concat(values) ); 
+                console.log("items: ", items);
+                //setLogList( logList.concat(values) ); 
+                setValues(
+                    {...values,
+                        logList: values.logList.concat(items)
+                    }
+                );
             });
-            },
-        [page]
-    );
+    }
 
     const changeAmount = (newAmount) =>
     {
-        if(amount !== newAmount){
-            setAmount(newAmount)
-            setLogList([]);
-            setPage(1);
-        }
+        console.log(newAmount);
+
+        setValues({
+            amount: newAmount,
+            logList: [],
+            page: 1
+        });
     }
 
     const nextPage = () =>
     {
-        setPage( page + 1 );
+        console.log(values.page + 1);
+        setValues({
+            ...values,
+            page: values.page + 1
+        });
     }
 
     const columns = [
-        {field: "id", headerName: "Id", flex: 2},
+        {field: "id", headerName: "Id", flex: 3},
         {field: "timeStamp", headerName: "Timestamp", flex: 1},
         {field: "eventType", headerName: "Event Type", flex: 1},
-        {field: "logDescription", headerName: "Description", flex: 2}
+        {field: "logDescription", headerName: "Description", flex: 1}
     ];
 
   return (
     <>
     <HistoryAmountButtons changeAmount={changeAmount}/>
-        <DataGrid 
-            rows = {logList}
+       {values.logList && <DataGrid 
+            rows = {values.logList}
             columns={columns} 
             autoHeight={true}
             hideFooter={true}
             />
-        <ActionButton name={"Get More"} buttonFunction={nextPage}/>
+       }<ActionButton name={"Get More"} buttonFunction={nextPage}/>
     </>
   )
 }

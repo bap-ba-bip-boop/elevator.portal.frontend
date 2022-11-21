@@ -3,17 +3,12 @@ import { ActionButton } from '../ActionButton';
 
 export const HistoryAmountButtons = ({changeAmount}) => {
 
-    const setAmount = (amount) =>
-    {
-        changeAmount(amount)
-    }
-
   return (
     <>
-        <ActionButton buttonFunction={setAmount} name={10} functionArgs={10}/>
-        <ActionButton buttonFunction={setAmount} name={20} functionArgs={20}/>
-        <ActionButton buttonFunction={setAmount} name={50} functionArgs={50}/>
-        <ActionButton buttonFunction={setAmount} name={100} functionArgs={100}/>
+        <ActionButton buttonFunction={changeAmount} name={10} functionArgs={10}/>
+        <ActionButton buttonFunction={changeAmount} name={20} functionArgs={20}/>
+        <ActionButton buttonFunction={changeAmount} name={50} functionArgs={50}/>
+        <ActionButton buttonFunction={changeAmount} name={100} functionArgs={100}/>
     </>
   )
 }
