@@ -1,12 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { GetAllTechnicians, PostCurrentTech, GetCurrentTechOnErrorReport } from "../Services/technicianApiService";
 import "../Style/ElevatorIndexPanel.css";
-import { useParams } from "react-router-dom";
 
 export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
   console.log("Error report " + ErrorReport);
-  const { technicianName, id, assignedTechnician } = ErrorReport;
+  const { technicianName, id: reportId, assignedTechnician } = ErrorReport;
+  const [currentTech, setCurrentTech] = useState({ id: assignedTechnician, name: technicianName });
 
   function handleInputChange(e) {
     e.preventDefault();
@@ -18,6 +17,12 @@ export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
   useEffect(() => {
     console.log("searchTech: " + searchTech);
   }, [searchTech]);
+
+  async function updateCurrentTech(ErrRepId, selectedTechId, selectedTechName) {
+    await PostCurrentTech(selectedTechId, ErrRepId).then(
+      setCurrentTech({ id: selectedTechId, name: selectedTechName })
+    );
+  }
 
   function renderTechs() {
     if (searchTech === "") return Technicans;
@@ -36,8 +41,8 @@ export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
     <>
       <div className="ErrorReportSearchContainer">
         <p>
-          Current tech name: {technicianName} <br />
-          Id: {assignedTechnician}
+          Current tech name: {currentTech.name} <br />
+          Id: {currentTech.id}
         </p>
         <div>
           <input
@@ -55,9 +60,7 @@ export default function AddTechToErrRepInput({ ErrorReport, Technicans }) {
             .map((option) => (
               <li
                 key={option.id}
-                onClick={async () => {
-                  await PostCurrentTech(option.id, id);
-                }}
+                onClick={(e) => updateCurrentTech(reportId, option.id, option.employeeName)}
                 className="searchResults">
                 {option.employeeName}
               </li>
