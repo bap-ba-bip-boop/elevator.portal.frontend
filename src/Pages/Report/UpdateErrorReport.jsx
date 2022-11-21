@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getTechnicians } from "../../Services/employeeServices";
 import { GetErrorReportById } from "../../Services/reportService";
 import { useQuery } from "@tanstack/react-query";
+import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 import { Header } from "../../Components/Header";
 import { gridDensityHeaderGroupingMaxDepthSelector } from "@mui/x-data-grid";
 
@@ -15,53 +16,45 @@ const UpdateErrorReport = () => {
 
   const { ReportId } = useParams();
 
-
-
-  const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"], queryFn: getTechnicians });
-  const { data: report } = useQuery({
+  const { data: technicians } = useQuery({ queryKey: ["employee"], queryFn: getTechnicians });
+  const {
+    isLoading,
+    error,
+    data: report,
+  } = useQuery({
     queryKey: ["errorreport", ReportId],
     queryFn: () =>
       GetErrorReportById(ReportId).then((response) => {
         console.log(response);
         setRows([...response.rows]);
+        return response;
       }),
   });
 
-  
-    var dataToSend = {
-      "reportSubject" : subject,
-      "reportComment" : comment,
-      "errorReportId" : ReportId
-    };
+  var dataToSend = {
+    reportSubject: subject,
+    reportComment: comment,
+    errorReportId: ReportId,
+  };
 
+  const requestOptions = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSend),
+  };
 
-    const requestOptions = {
-      method: "POST",
-        mode: "cors",
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
-      };
+  const PostComment = (e) => {
+    e.preventDefault();
+    console.log("hello");
 
-
-      const PostComment = (e) => {
-
-        e.preventDefault();
-        console.log('hello')
-
-        
-      fetch('https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow', requestOptions)
-      .then(response => 
-      {
-        console.log(response);
-        setRows(null);
-      })
-   
-    };
-
-
-
+    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow", requestOptions).then((response) => {
+      console.log(response);
+      setRows(null);
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -82,24 +75,15 @@ const UpdateErrorReport = () => {
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Assigned Technician</label>
           <div className="col-sm-10">
-            <select>
-              <option onClick={(e) => setAssignedTechnician(e.target.value)}>--Select technician--</option>
-              {technicians?.map((technician) => (
-                <option key={technician.id} >
-                  {technician.employeeName}
-                </option>
-              ))}
-            </select>
+            <AddTechToErrRepInput ErrorReport={report} Technicans={technicians} />
           </div>
         </div>
 
         <br></br>
-        <button type="submit">
-          Save
-        </button>
+        <button type="submit">Save</button>
       </form>
 
-      <form onSubmit={PostComment} >
+      <form onSubmit={PostComment}>
         <div className="CommentSubject">
           <div className="CommentSubjectLabel">
             <label>Subject</label>
@@ -113,9 +97,7 @@ const UpdateErrorReport = () => {
             <textarea onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
-        <button  type="submit">
-          Send Comment
-        </button>
+        <button type="submit">Send Comment</button>
       </form>
 
       <h2>Comments: </h2>
@@ -124,12 +106,13 @@ const UpdateErrorReport = () => {
           <div className="CommentSectionSubject">
             <h2 key={row.id}>{row.reportSubject}</h2>
           </div>
-          <p className="CommentSectionText" key={row.id}>{row.reportComment}</p>
+          <p className="CommentSectionText" key={row.id}>
+            {row.reportComment}
+          </p>
         </div>
       ))}
     </>
   );
-      };
+};
 
-      
 export default UpdateErrorReport;
