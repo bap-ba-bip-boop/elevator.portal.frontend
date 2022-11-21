@@ -21,7 +21,22 @@ export const App = () => {
             <Route index element={<Elevators />} />
             <Route path="Elevator/:ElevatorId" element={<Elevator />} />
             <Route path="ErrorReports" element={<ErrorReport />} />
-            <Route path="ErrorReports/:ReportId" element={<UpdateErrorReport />} />
+            <Route path="ErrorReports/:ReportId/update" element={<UpdateErrorReport />} />
+            <Route path="Statistics" element={<Statistics />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Elevators />} />
+            <Route path="Elevator/:ElevatorId" element={<Elevator />} />
+            <Route path="ErrorReports" element={<ErrorReport />} />
+            <Route path="ErrorReports/Update/:reportId" element={<UpdateErrorReport />} />
             <Route path="Statistics" element={<Statistics />} />
           </Route>
         </Routes>
