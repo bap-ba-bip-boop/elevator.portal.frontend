@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTechnicians } from "../../Services/employeeServices";
+import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
 import { GetErrorReportById } from "../../Services/reportService";
 import { useQuery } from "@tanstack/react-query";
 import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
-import { Header } from "../../Components/Header";
-import { gridDensityHeaderGroupingMaxDepthSelector } from "@mui/x-data-grid";
 
 const UpdateErrorReport = () => {
   const [rows, setRows] = useState([]);
   const [comment, setComment] = useState("");
   const [subject, setSubject] = useState("");
-  const [assignedTechnician, setAssignedTechnician] = useState(null);
   const [isDone, setisDone] = useState(null);
+  const [ErrorReport, setErrorReport] = useState(null);
 
   const { ReportId } = useParams();
 
-  const { data: technicians } = useQuery({ queryKey: ["employee"], queryFn: getTechnicians });
+  const { data: technicians } = useQuery({ queryKey: ["employee"], queryFn: GetAllTechnicians });
+
   const {
     isLoading,
     error,
@@ -25,7 +24,7 @@ const UpdateErrorReport = () => {
     queryKey: ["errorreport", ReportId],
     queryFn: () =>
       GetErrorReportById(ReportId).then((response) => {
-        console.log(response);
+        console.log("response: ", response);
         setRows([...response.rows]);
         return response;
       }),
