@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 
 const UpdateErrorReport = () => {
-  const [rows, setRows] = useState([]);
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [subject, setSubject] = useState("");
   const [isDone, setisDone] = useState(null);
@@ -25,15 +25,15 @@ const UpdateErrorReport = () => {
     queryFn: () =>
       GetErrorReportById(ReportId).then((response) => {
         console.log("response: ", response);
-        setRows([...response.rows]);
+        setComments([...response.comments]);
         return response;
       }),
   });
 
   var dataToSend = {
-    reportSubject: subject,
-    reportComment: comment,
-    errorReportId: ReportId,
+    commentSubject: subject,
+    commentText: comment,
+    errorReportId: ReportId
   };
 
   const requestOptions = {
@@ -49,9 +49,9 @@ const UpdateErrorReport = () => {
     e.preventDefault();
     console.log("hello");
 
-    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow", requestOptions).then((response) => {
+    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/ErrorReport/CreateComment", requestOptions).then((response) => {
       console.log(response);
-      setRows(null);
+      setComments(null);
     });
   };
 
@@ -82,6 +82,10 @@ const UpdateErrorReport = () => {
         <button type="submit">Save</button>
       </form>
 
+
+      <form>
+
+      </form>
       <div class="partTask">
             <h2>Part Tasks</h2>
             <div class="item">
@@ -121,13 +125,13 @@ const UpdateErrorReport = () => {
       </form>
 
       <h2>Comments: </h2>
-      {rows?.map((row) => (
-        <div className="CommentSection" key={row.id}>
+      {comments?.map((comment) => (
+        <div className="CommentSection" key={comment.id}>
           <div className="CommentSectionSubject">
-            <h2 key={row.id}>{row.reportSubject}</h2>
+            <h2 key={comment.id}>{comment.commentSubject}</h2>
           </div>
-          <p className="CommentSectionText" key={row.id}>
-            {row.reportComment}
+          <p className="CommentSectionText" key={comment.id}>
+            {comment.commentText}
           </p>
         </div>
       ))}
