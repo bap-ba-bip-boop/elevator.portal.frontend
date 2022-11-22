@@ -7,6 +7,7 @@ import { Elevators } from "./Pages/Elevator/Elevators";
 import { ErrorReport } from "./Pages/Report/ErrorReport";
 import { Reports } from "./Pages/Report/Reports.jsx";
 import { Statistics } from "./Pages/Statistics/Statistics";
+import { Login } from "./Pages/Login/Login";
 import UpdateErrorReport from "./Pages/Report/UpdateErrorReport";
 
 import "./Style/override.css";
@@ -20,6 +21,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Elevators />} />
+            <Route path="Login" element={<Login />} />
             <Route path="Elevator/:ElevatorId" element={<Elevator />} />
             <Route path="ErrorReports" element={<Reports/>} />
             <Route path="ErrorReports/:ReportId" element={<ErrorReport />} />
