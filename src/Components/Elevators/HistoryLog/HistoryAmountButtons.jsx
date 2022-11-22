@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionButton } from '../ActionButton';
+import {ActionButton} from '../Action/ActionButton'
 
 export const HistoryAmountButtons = ({changeAmount}) => {
 

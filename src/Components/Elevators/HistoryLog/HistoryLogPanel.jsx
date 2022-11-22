@@ -1,7 +1,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, {useEffect, useState} from 'react'
 import { getLogs } from '../../../Services/elevatorLogServices';
-import {ActionButton} from '../ActionButton';
+import {ActionButton} from '../Action/ActionButton'
 import { HistoryAmountButtons } from './HistoryAmountButtons';
 
 
