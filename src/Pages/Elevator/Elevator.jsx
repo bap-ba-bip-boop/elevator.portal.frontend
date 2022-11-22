@@ -4,8 +4,10 @@ import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
 import {useQuery} from 'react-query';
+import { Link } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
 
 export const Elevator = () => {
     const {ElevatorId} = useParams();
@@ -23,6 +25,8 @@ const ElevatorDetails = ({Elevator}) =>
     const {name, buildingName, companyName, isFunctioning, elevatorType } = Elevator;
     return (
         <>
+            <Link to={`/Elevator/${Elevator.Id}/CreateReport`}>Create Error Report</Link>
+
             <h2>{name}</h2>
             <h3>Building: {buildingName}</h3>
             <h3>Company: {companyName}</h3>
