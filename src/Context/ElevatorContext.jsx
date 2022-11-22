@@ -46,10 +46,21 @@ export const ElevatorProvider = ({Elevator, children}) => {
     };
 
     return <ElevatorContext.Provider value={{
-            UpdateFloor, flipFunctioning, DeviceMeta, TypeMeta, floor, Name, Building, Company, Type, selectedValues, updateValue}}>
+        UpdateFloor,
+        flipFunctioning,
+        DeviceMeta,
+        TypeMeta,
+        floor,
+        Name,
+        Building,
+        Company,
+        Type,
+        selectedValues,
+        updateValue
+    }}>
         {children}
-        </ElevatorContext.Provider>;
-    };
+    </ElevatorContext.Provider>;
+};
 
 const compactArray = (arr) => Object.assign(...arr.map(item => {
         let arr = [];

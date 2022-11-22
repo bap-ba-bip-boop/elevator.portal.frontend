@@ -8,13 +8,14 @@ const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox, on
     const [selectionModel, setSelectionModel] = useState([]);
 
     useEffect(() => {
-        return () => {
-            let values = [];
-            metaData.forEach((row, index) => {
-                values.push({'id': index, 'key': row.key, 'value': row.value});
-            });
-            setRows(values);
-        };
+        let values = [];
+        console.log(metaData);
+        let index = 0;
+        for(const [key,value] of Object.entries(metaData)){
+            values.push({"id": index, "key": key, "value": value});
+            index++;
+        }
+        setRows(values);
     }, []);
 
     const handleSelection = (selection) => {

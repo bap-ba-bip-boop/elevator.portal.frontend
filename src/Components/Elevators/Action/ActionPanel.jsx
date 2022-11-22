@@ -55,7 +55,7 @@ const ActionPanel = () => {
         ToggleFunctionality(ElevatorId)
             .then(response => processResponse(response));
     };
-    const PreocessResetElevator = () => {
+    const ProcessResetElevator = () => {
         setShowAlertDialouge(true);
     };
 
@@ -100,7 +100,7 @@ const ActionPanel = () => {
                 <ButtonGroup size="large" aria-label="large button group">
                     <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
                     <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>
-                    <ActionButton buttonFunction={PreocessResetElevator} name={"Reset"}
+                    <ActionButton buttonFunction={ProcessResetElevator} name={"Reset"}
                                   isDisabled={(selectionAmount === 0)}/>
                 </ButtonGroup>
                 <p>{responseMessage}</p>
