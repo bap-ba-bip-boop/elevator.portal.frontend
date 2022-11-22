@@ -13,14 +13,19 @@ export const HistoryLogPanel = ({Elevator}) => {
     
     useEffect(
         ()=>{
-            setValues({page: 1, amount: 10,logList: [] });
+            setValues({page: 1, amount: 10, logList: [] });
         },[]
         );
 
     useEffect(
         ()=>{
             console.log("values: ", values);
-            updateTable();
+            console.log("Amount of keys: ", Object.keys(values).length);
+            if(Object.keys(values).length !== 0)
+            {
+                updateTable();
+            }
+            
         },[values.page, values.amount]
     );
 
@@ -39,10 +44,11 @@ export const HistoryLogPanel = ({Elevator}) => {
                     }
                     );
                 }
-                console.log("items: ", items);
+                console.log("items: ", items)
                 //setLogList( logList.concat(values) ); 
                 setValues(
-                    {...values,
+                    {
+                        ...values,
                         logList: values.logList.concat(items)
                     }
                 );
