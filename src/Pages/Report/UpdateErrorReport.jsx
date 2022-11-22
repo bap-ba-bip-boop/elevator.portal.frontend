@@ -82,7 +82,28 @@ const UpdateErrorReport = () => {
         <button type="submit">Save</button>
       </form>
 
-      <form onSubmit={PostComment}>
+      <div class="partTask">
+            <h2>Part Tasks</h2>
+            <div class="item">
+                <p>Deluppgift 1</p>
+                <input type="checkbox" />
+            </div>
+            <div class="item">
+                <p>Deluppgift 2</p>
+                <input type="checkbox" />
+            </div>
+            <div class="item">
+                <p>Deluppgift 3</p>
+                <input type="checkbox" />
+            </div>
+            <div class="item">
+                <p>Deluppgift 4</p>
+                <input type="checkbox" />
+            </div>
+            <button type="submit" >Submit</button>
+        </div>
+
+      <form onSubmit={PostComment} >
         <div className="CommentSubject">
           <div className="CommentSubjectLabel">
             <label>Subject</label>
