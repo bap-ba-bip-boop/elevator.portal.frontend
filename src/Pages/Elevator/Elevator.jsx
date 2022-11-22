@@ -1,12 +1,13 @@
-import {Divider, Grid, ListItem, ListItemText, ListSubheader} from "@mui/material";
+import {Divider, Grid, ListItem, ListItemText} from "@mui/material";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import {useQuery} from "@tanstack/react-query";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
+import {ElevatorProvider, useElevatorContext} from "../../Context/ElevatorContext.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
 
 export const Elevator = () => {
@@ -22,24 +23,16 @@ export const Elevator = () => {
     if (error) {
         return <Box><Typography>Could not find elevator</Typography></Box>;
     }
-    return <ElevatorDetails Elevator={elevator}/>;
+
+    return (
+        <ElevatorProvider Elevator={elevator}>
+            <ElevatorDetails/>
+        </ElevatorProvider>
+    );
 };
 
-
 const ElevatorDetails = ({Elevator}) => {
-    const {id ,name, buildingName, companyName, isFunctioning, elevatorType} = Elevator;
-    const [selectedValues, setSelectedValues] = useState([]);
-    const [updateValue, setUpdateValue] = useState(() =>{});
-
-    const selectedValuesChange = (values) => {
-        setSelectedValues(values);
-    };
-
-    const pushUpdateFunction = (value) => {
-        setUpdateValue(value);
-    };
-
-
+    const {Name, Building, Company, Type, isFunctioning} = useElevatorContext();
     return (
         <>
             <Box
@@ -48,36 +41,36 @@ const ElevatorDetails = ({Elevator}) => {
                 flexWrap={"wrap"}
                 flexGrow={1}>
                 <Grid container display={"flex"} justifyContent={"space-evenly"} flexGrow={1}>
-                    <Grid item minWidth={'20em'}>
+                    <Grid item minWidth={"20em"}>
                         <Typography variant={"h5"} marginBottom={1}>{"Details"}</Typography>
-                        <List sx={{border:'1px solid lightgray'}}>
+                        <List sx={{border: "1px solid lightgray"}}>
                             <ListItem key={name}>
-                                <ListItemText primary={"Name:"} secondary={name}/>
+                                <ListItemText primary={"Name:"} secondary={Name}/>
                             </ListItem>
-                            <Divider />
+                            <Divider/>
                             <ListItem>
-                                <ListItemText primary={"Building:"} secondary={buildingName}/>
+                                <ListItemText primary={"Building:"} secondary={Building}/>
                             </ListItem>
-                            <Divider />
+                            <Divider/>
                             <ListItem>
-                                <ListItemText primary={"Company:"} secondary={companyName}/>
+                                <ListItemText primary={"Company:"} secondary={Company}/>
                             </ListItem>
-                            <Divider />
+                            <Divider/>
                             <ListItem>
                                 <ListItemText>{isFunctioning === true ? "Elevator is Functioning" : "Elevator does not Function"}</ListItemText>
                             </ListItem>
-                            <Divider />
+                            <Divider/>
                             <ListItem>
-                                <ListItemText primary={"Elevator-type:"} secondary={elevatorType}/>
+                                <ListItemText primary={"Elevator-type:"} secondary={Type}/>
                             </ListItem>
                         </List>
                     </Grid>
                     <Grid item>
-                        <MetaPanel Elevator={Elevator} onChange={selectedValuesChange} pushUpdate={pushUpdateFunction} />
+                        <MetaPanel/>
                     </Grid>
                 </Grid>
                 <Box flex={1} justifyContent={"center"}>
-                    <ActionPanel Elevator={Elevator} selectedValues={selectedValues} pushValue={updateValue} setPushFunction={pushUpdateFunction}/>
+                    <ActionPanel/>
                 </Box>
             </Box>
         </>

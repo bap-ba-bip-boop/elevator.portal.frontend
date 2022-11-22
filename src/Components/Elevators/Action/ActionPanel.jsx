@@ -6,7 +6,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 import {
     MoveToFloor,
     OpenCloseDoors,
@@ -20,8 +21,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props}/>;
 });
 
-const ActionPanel = ({Elevator, selectedValues, pushValue, setPushFunction}) => {
-    const {id: ElevatorId, deviceMeta: MetaData} = Elevator;
+const ActionPanel = () => {
+    const {id: ElevatorId, selectedValues} = useElevatorContext();
     const [showAlertDialouge, setShowAlertDialouge] = useState(() => false);
     const [responseMessage, setResponseMessage] = useState(() => "");
     const selectionAmount = selectedValues?.length;
@@ -31,12 +32,6 @@ const ActionPanel = ({Elevator, selectedValues, pushValue, setPushFunction}) => 
         responseMessage += message;
         setResponseMessage(responseMessage);
     };
-
-
-    useEffect(() => {
-        console.log(pushValue);
-    }, [pushValue]);
-
 
     const ProcessChangeFloor = (currentFloor, floor) => {
         switch (floor) {
@@ -101,7 +96,7 @@ const ActionPanel = ({Elevator, selectedValues, pushValue, setPushFunction}) => 
                     alignItems: "center"
                 }}>
                 <Typography variant={"h6"} marginBottom={1}>Button Panel</Typography>
-                <FloorPanel changeFloor={ProcessChangeFloor} Info={MetaData}/>
+                <FloorPanel changeFloor={ProcessChangeFloor}/>
                 <ButtonGroup size="large" aria-label="large button group">
                     <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
                     <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>

@@ -2,9 +2,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import {Box, Grid, IconButton, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useRef} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 
-const FloorPanel = ({changeFloor, Info}) => {
-    const floor = Info.find(item => item.key === "CurrentFloor").value;
+const FloorPanel = ({changeFloor}) => {
+    const {floor} = useElevatorContext();
     const floorRef = useRef(0);
 
     function SubmitButton() {
