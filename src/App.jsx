@@ -21,7 +21,8 @@ export const App = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<Elevators />} />
             <Route path="Elevator/:ElevatorId" element={<Elevator />} />
-            <Route path="ErrorReports" element={<ErrorReport />} />
+            <Route path="ErrorReports" element={<Reports/>} />
+            <Route path="ErrorReports/:ReportId" element={<ErrorReport />} />
             <Route path="ErrorReports/:ReportId/update" element={<UpdateErrorReport />} />
             <Route path="Statistics" element={<Statistics />} />
           </Route>
