@@ -7,7 +7,7 @@ import { StyledLink } from "../Base/StyledLink";
 
 export const LoginWidget = () => {
 
-
+    
 
     return (
     <Box position={"absolute"} right={"0"} marginTop={4}>
