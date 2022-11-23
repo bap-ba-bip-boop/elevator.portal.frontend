@@ -3,22 +3,22 @@ import { PartTasks } from '../../Components/Reports/PartTasks'
 import  { GetAllTechnicians } from '../../Services/technicianApiService.jsx'
 import { useQuery } from "react-query";
 import { useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { postQuery } from '../../Services/query';
 
-const LOCAL_STORAGE_KEY = 'elevatorTasks';
+
+// const LOCAL_STORAGE_KEY = 'elevatorTasks';
 
 export const CreateErrorReport = () => {
 
 const {ElevatorId} = useParams();
-console.log(ElevatorId);
-  
-
-const [status, setStatus] = useState('')
 const [assignedTechnician, setTechnician] = useState('')
-const [tasks, setTasks] = useState('')
-const [isDone, setIsDone] = useState(null)
-const tasksRef = useRef()
+// const [tasks, setTasks] = useState('')
+// const tasksRef = useRef()
+const [message, setMessage] = useState('')
 
-const onChange = event => setValue(event.target.value);
+
+// const onChange = event => setValue(event.target.value);
 
 
 const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"], 
@@ -69,30 +69,40 @@ const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"
 // }
 
 
-let handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
-      let res = await fetch('https://grupp5elevatorapidev.azurewebsites.net/api/ErrorReport', {
-        method: "POST",
-        mode : 'cors',
-        header: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify({
-          "isDone": isDone,
-          "assignedTechnician": assignedTechnician,
-          "elevatorId" : ElevatorId
-        }),
-      });
-      let resJson = await res.json();
-      if (res.status === 200) {
-        setStatus("Status Updated");
-        setTechnician("");
-        setComment("");
-        setTasks("")
-      } else {
-        setMessage("Some error occured");
-      }
+      const values = {
+        Elevator : ElevatorId,
+        IsDone : false,
+        AssignedTechnician: assignedTechnician
+        
+     }
+     console.log(values)
+     postQuery('/ErrorReport', values).then(res => console.log(res));
+      // let res = await fetch('https://grupp5elevatorapidev.azurewebsites.net/api/ErrorReport', {
+      //   method: 'POST',
+      //   mode : 'cors',
+      //   header: {
+      //     'Content-Type' : 'application/json'
+      //   },
+      //   body: JSON.stringify({
+      //      Elevator : ElevatorId,
+      //      IsDone : isDone,
+      //      AssignedTechnician: assignedTechnician
+          
+      //   }),
+      // });
+      // // let resJson = await res.json();
+      // if (res.status === 200) {
+      //   setStatus("Status Updated");
+      //   setTechnician("");
+      //   // setComment("");
+      //   // setTasks("")
+      // } else {
+      //   setMessage("Some error occured");
+      // }
     } catch (err) {
       console.log(err);
     }
@@ -108,24 +118,19 @@ let handleSubmit = async (e) => {
 
 
   return (
-    <><><form onSubmit={handleSubmit}>
-          <div className="form-group row">
-              <label forhtml="status" className="col-sm-2 col-form-label">Status</label>
-              <div className="col-sm-10">
-                  <select onChange={(e) => setIsDone(e.target.value)}>
-                      <option value={true}>Done</option>
-                      <option value={false}>Not Done</option>
-                  </select>
-              </div>
-          </div>
+    
+    <><>
+    <h1> Create New Error Report</h1>
+    <form onSubmit={handleSubmit}>
+          
           <div className="form-group row">
               <label forhtml="assignedTechnician" className="col-sm-2 col-form-label">Assigned Technician</label>
               <div className="col-sm-10">
-                  <select onChange={(e) => setTechnician(e.target.value)}>
+                  <select onChange={(e) => setTechnician(e.target.value) } value={assignedTechnician.id}>
                     <option>Choose Technician</option>
                         {
                             technicians?.map((assignedTechnician) => (
-                              <option key={assignedTechnician.id}>{assignedTechnician.employeeName}</option>
+                              <option value={assignedTechnician.id} key={assignedTechnician.id}>{assignedTechnician.employeeName}</option>
                             ))
                         }
                   </select>
@@ -134,6 +139,7 @@ let handleSubmit = async (e) => {
           
           <br>
           </br>
+        <button type="submit">Submit</button>
           
       </form></>
       {/* <div className="container">

@@ -7,12 +7,13 @@ import {useQuery} from 'react-query';
 import { Link } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { StyledLink } from "../../Components/Base/StyledLink.jsx";
 
 
 export const Elevator = () => {
     const {ElevatorId} = useParams();
     const {isLoading, error, data:elevator } = useQuery({ queryKey: ['elevators', ElevatorId], queryFn: () => GetElevatorById(ElevatorId)});
-
+    console.log("elevator", elevator);
     if(isLoading)
         return <Box><Typography>Loading...</Typography></Box>
     if(error)
@@ -22,10 +23,11 @@ export const Elevator = () => {
 
 const ElevatorDetails = ({Elevator}) =>
 {
-    const {name, buildingName, companyName, isFunctioning, elevatorType } = Elevator;
+    const {id, name, buildingName, companyName, isFunctioning, elevatorType } = Elevator;
     return (
         <>
-            <Link to={`/Elevator/${Elevator.Id}/CreateReport`}>Create Error Report</Link>
+            <Link to={`/Elevator/${id}/CreateReport`}>Create Error Report</Link>
+            {/* <StyledLink to={"Elevator/"+Elevator.id+"/CreateReport"}>Create Error Report</StyledLink> */}
 
             <h2>{name}</h2>
             <h3>Building: {buildingName}</h3>
