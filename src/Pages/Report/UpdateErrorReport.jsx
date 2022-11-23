@@ -7,8 +7,6 @@ import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 
 const UpdateErrorReport = () => {
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
-  const [subject, setSubject] = useState("");
   const [isDone, setisDone] = useState(null);
   const [ErrorReport, setErrorReport] = useState(null);
 
@@ -30,30 +28,7 @@ const UpdateErrorReport = () => {
       }),
   });
 
-  var dataToSend = {
-    commentSubject: subject,
-    commentText: comment,
-    errorReportId: ReportId
-  };
-
-  const requestOptions = {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dataToSend),
-  };
-
-  const PostComment = (e) => {
-    e.preventDefault();
-    console.log("hello");
-
-    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/ErrorReport/CreateComment", requestOptions).then((response) => {
-      console.log(response);
-      setComments(null);
-    });
-  };
+ 
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -71,43 +46,65 @@ const UpdateErrorReport = () => {
             </select>
           </div>
         </div>
-        <div className="form-group row">
+        {/* <div className="form-group row">
           <label className="col-sm-2 col-form-label">Assigned Technician</label>
           <div className="col-sm-10">
             <AddTechToErrRepInput ErrorReport={report} Technicans={technicians} />
           </div>
-        </div>
+        </div> */}
 
         <br></br>
         <button type="submit">Save</button>
       </form>
 
 
-      <form>
+      <PostComment reportId={ReportId}/>
+      
+      <h2>Comments: </h2>
+      {comments?.map((comment) => (
+        <CommentItem {...comment} key={comment.id}/>
+      ))}
+    </>
+  );
+};
 
-      </form>
-      <div class="partTask">
-            <h2>Part Tasks</h2>
-            <div class="item">
-                <p>Deluppgift 1</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 2</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 3</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 4</p>
-                <input type="checkbox" />
-            </div>
-            <button type="submit" >Submit</button>
-        </div>
+const PostComment = ({reportId}) => {
 
-      <form onSubmit={PostComment} >
+
+
+  const [comment, setComment] = useState("");
+  const [subject, setSubject] = useState("");
+
+  var dataToSend = {
+    commentSubject: subject,
+    commentText: comment,
+    errorReportId: reportId,
+    employeeId : 'c14e56f7-4b72-4953-9e3d-8571f2075176'
+  };
+
+  const requestOptions = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(dataToSend),
+  };
+
+
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    debugger
+    console.log("hello");
+
+    fetch("https://localhost:7174/api/ErrorReport/CreateComment", requestOptions).then((response) => {
+      console.log(response);
+      debugger
+    });
+  };
+
+  return (
+    <form onSubmit={HandleSubmit} >
         <div className="CommentSubject">
           <div className="CommentSubjectLabel">
             <label>Subject</label>
@@ -123,20 +120,21 @@ const UpdateErrorReport = () => {
         </div>
         <button type="submit">Send Comment</button>
       </form>
+  )
+}
 
-      <h2>Comments: </h2>
-      {comments?.map((comment) => (
-        <div className="CommentSection" key={comment.id}>
-          <div className="CommentSectionSubject">
-            <h2 key={comment.id}>{comment.commentSubject}</h2>
+const CommentItem = ({commentSubject, commentText}) => {
+
+  return (
+    <div className="CommentSection">
+          <div className="CommentSectionSubject" >
+            <h2>{commentSubject}</h2>
           </div>
-          <p className="CommentSectionText" key={comment.id}>
-            {comment.commentText}
+          <p className="CommentSectionText" >
+            {commentText}
           </p>
         </div>
-      ))}
-    </>
-  );
-};
+  )
+}
 
 export default UpdateErrorReport;
