@@ -31,8 +31,27 @@ export const ReportCard = ({ Report }) => {
       <CardContent>
         <Typography>{Report.elevatorName}</Typography>
         <Typography>Address: {Report.address}</Typography>
-        <Typography component="">Deadline: {Report.deadline.split("T")[0]}</Typography>
-        <Typography>Time Left: {calculateTimeLeft(Report.deadline)}</Typography>
+        {Report.deadline ? (
+          <>
+            {Report.finishTime ? (
+              <Typography>Completed: {Report.finishTime}</Typography>
+            ) : (
+              <Typography>Completed: not yet completed</Typography>
+            )}
+            <Typography component="">Deadline: {Report.deadline.split("T")[0]}</Typography>
+            <Typography>Time Left: {calculateTimeLeft(Report.deadline)}</Typography>
+          </>
+        ) : (
+          <>
+            {" "}
+            {Report.finishTime ? (
+              <Typography>Completed: {Report.finishTime}</Typography>
+            ) : (
+              <Typography>Completed: not yet completed</Typography>
+            )}
+            <Typography component="">Deadline: NULL</Typography>
+          </>
+        )}
         <Typography>
           Assigned Technician: {Report.assignedTechnician != null ? Report.technicianName : "None Assigned"}
         </Typography>
