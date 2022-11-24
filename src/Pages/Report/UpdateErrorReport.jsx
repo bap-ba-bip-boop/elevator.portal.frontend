@@ -7,9 +7,9 @@ import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 
 const UpdateErrorReport = () => {
   const [comments, setComments] = useState([]);
-  const [isDone, setisDone] = useState(null);
+  const [isDone, setisDone] = useState(false);
   const [ErrorReport, setErrorReport] = useState(null);
-
+  const [rows, setRows] = useState(null);
   const { ReportId } = useParams();
 
   const { data: technicians } = useQuery({ queryKey: ["employee"], queryFn: GetAllTechnicians });
@@ -24,11 +24,38 @@ const UpdateErrorReport = () => {
       GetErrorReportById(ReportId).then((response) => {
         console.log("response: ", response);
         setComments([...response.comments]);
+        setRows([...response.rows])
         return response;
       }),
   });
 
- 
+
+  var dataToSend = {
+    isDone : isDone
+  }
+
+  var requestOptionsPUT = {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(dataToSend)
+  }
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`https://localhost:7174/api/ErrorReportRow/${rows.id}`, requestOptionsPUT)
+    .then(response => 
+      {
+      console.log(response);
+      response.json();
+
+      }
+    )
+  }
+
+  
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -40,7 +67,7 @@ const UpdateErrorReport = () => {
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">Status</label>
           <div className="col-sm-10">
-            <select onClick={(e) => setisDone(e.target.value)}>
+            <select>
               <option value={false}>Out Of Order</option>
               <option value={true}>Functioning</option>
             </select>
@@ -56,6 +83,40 @@ const UpdateErrorReport = () => {
         <br></br>
         <button type="submit">Save</button>
       </form>
+
+      <h2>rows: </h2>
+
+      <form onSubmit={onHandleSubmit}>
+      {
+        rows?.map((row) => (
+          <>
+            <div>
+              <div>
+                <label>
+                  Subject: 
+                  <h2 key={row.id}>{row.reportSubject}</h2>
+                </label>
+            </div>
+
+              <label>
+                Comment:
+                <h2 key={row.id}>{row.reportComment}</h2>
+              </label>
+            </div>
+          
+            <div>
+              <label>
+                isDone?
+                <input type="radio" onChange={(e) => setisDone(e.target.value)} value={true} {...rows.isDone === true ? "checked" : ""}/>
+              </label>
+            </div> 
+
+          </>
+        ))
+      }
+        <button type="submit">Update</button>
+      </form>
+
 
 
       <PostComment reportId={ReportId}/>
@@ -97,9 +158,8 @@ const PostComment = ({reportId}) => {
     debugger
     console.log("hello");
 
-    fetch("https://localhost:7174/api/ErrorReport/CreateComment", requestOptions).then((response) => {
+    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/createcomment", requestOptions).then((response) => {
       console.log(response);
-      debugger
     });
   };
 
