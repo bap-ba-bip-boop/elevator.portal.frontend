@@ -4,6 +4,8 @@ import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
 import { GetErrorReportById } from "../../Services/reportService";
 import { useQuery } from "@tanstack/react-query";
 import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
+import Textfield from "@mui/material/TextField"
+import { Button, Card, Checkbox } from "@mui/material";
 
 const UpdateErrorReport = () => {
   const [comments, setComments] = useState([]);
@@ -106,25 +108,32 @@ const UpdateErrorReport = () => {
           
             <div>
               <label>
-                isDone?
-                <input type="radio" onChange={(e) => setisDone(e.target.value)} value={true} {...rows.isDone === true ? "checked" : ""}/>
+                Is done?
+                <Checkbox type="radio" onChange={(e) => setisDone(e.target.value)} value={true} {...rows.isDone === true ? "checked" : ""}/>
               </label>
             </div> 
-
+          <br/>
           </>
         ))
       }
-        <button type="submit">Update</button>
+        <Button variant="outlined" type="submit">Update</Button>
       </form>
+
+      <br/>
 
 
 
       <PostComment reportId={ReportId}/>
       
       <h2>Comments: </h2>
+      
       {comments?.map((comment) => (
-        <CommentItem {...comment} key={comment.id}/>
+        <div>
+          <CommentItem {...comment} key={comment.id}/>
+          <br/>
+        </div>
       ))}
+      
     </>
   );
 };
@@ -167,18 +176,17 @@ const PostComment = ({reportId}) => {
     <form onSubmit={HandleSubmit} >
         <div className="CommentSubject">
           <div className="CommentSubjectLabel">
-            <label>Subject</label>
           </div>
-          <input onChange={(e) => setSubject(e.target.value)} placeholder="Subject" />
+          <Textfield variant="outlined" label="Subject" onChange={(e) => setSubject(e.target.value)} />
         </div>
-
+        <br/>
         <div className="form-group row">
-          <label className="col-sm-2 col-form-label">Comment</label>
           <div className="col-sm-10">
-            <textarea onChange={(e) => setComment(e.target.value)} />
+            <Textfield variant="outlined" label="Comment" onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
-        <button type="submit">Send Comment</button>
+        <br/>
+        <Button variant="outlined" type="submit">Send Comment</Button>
       </form>
   )
 }
@@ -186,14 +194,14 @@ const PostComment = ({reportId}) => {
 const CommentItem = ({commentSubject, commentText}) => {
 
   return (
-    <div className="CommentSection">
+    <Card variant="outlined">
           <div className="CommentSectionSubject" >
             <h2>{commentSubject}</h2>
           </div>
           <p className="CommentSectionText" >
             {commentText}
           </p>
-        </div>
+    </Card>
   )
 }
 
