@@ -10,12 +10,15 @@ import { Statistics } from "./Pages/Statistics/Statistics";
 import { Login } from "./Pages/Login/Login";
 import UpdateErrorReport from "./Pages/Report/UpdateErrorReport";
 
+import { UserProvider } from "./Context/userContext";
+
 import "./Style/override.css";
 
 const queryClient = new QueryClient();
 
 export const App = () => {
   return (
+    <UserProvider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
@@ -31,5 +34,6 @@ export const App = () => {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
+    </UserProvider>
   );
 };

@@ -8,9 +8,11 @@ import { getSecondLine } from '../../Services/employeeServices';
 import {useQuery} from '@tanstack/react-query';
 import { EmployeeLoginCard } from "../../Components/Login/EmployeeLoginCard";
 
+
+import { UserProvider } from "../../Context/userContext";
+
 export const Login = () => {
 
-    //const [secondLineList, setSecondLineList] = useState([]);
     const {isLoading, error, data:secondLineEmployees} = useQuery({ queryKey: ['secondLineEmployees'], queryFn: getSecondLine });
 
     if(isLoading)
@@ -24,6 +26,7 @@ export const Login = () => {
 
 const LoginDetailed = ({employees}) => {
     console.log(employees);
+
     return (
     <Box>
         <Typography variant="h4">Select an Account</Typography>
@@ -32,7 +35,8 @@ const LoginDetailed = ({employees}) => {
             employees.map(employee => 
                 <EmployeeLoginCard 
                 key={employee.id}
-                Employee={employee}/>
+                Employee={employee}
+                />
             )
         }
         </Stack>

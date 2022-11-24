@@ -1,27 +1,22 @@
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button"
-
-import React from 'react'
-import { StyledLink } from "../Base/StyledLink";
+import { useUserContext } from "../../Context/userContext";
+import { NoAccountLink } from "./NoAccountLink";
+import { LogedInPanel } from "./LogedInPanel";
 
 export const LoginWidget = () => {
 
-    
+    const {user} = useUserContext();
 
+    if(user !== null)
     return (
     <Box position={"absolute"} right={"0"} marginTop={4}>
-        <StyledLink to={"Login"}>Login</StyledLink>
+        <LogedInPanel /> 
     </Box>
-    )
-}
+    );
 
-/*
-<Typography>
-  Logged in as:
-</Typography>
-<Typography>
-    {"employeeName"}
-</Typography>
-<Button>Logout</Button>
-*/
+    return(
+    <Box position={"absolute"} right={"0"} marginTop={4}>
+        <NoAccountLink />
+    </Box>
+    );
+}
