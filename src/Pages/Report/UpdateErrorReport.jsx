@@ -9,7 +9,6 @@ import { Button, Card, Checkbox } from "@mui/material";
 
 const UpdateErrorReport = () => {
   const [comments, setComments] = useState([]);
-  const [isDone, setisDone] = useState(false);
   const [ErrorReport, setErrorReport] = useState(null);
   const [rows, setRows] = useState(null);
   const { ReportId } = useParams();
@@ -32,31 +31,9 @@ const UpdateErrorReport = () => {
   });
 
 
-  var dataToSend = {
-    isDone : isDone
-  }
+  
 
-  var requestOptionsPUT = {
-    method: "PUT",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(dataToSend)
-  }
-
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-    fetch(`https://localhost:7174/api/ErrorReportRow/${rows.id}`, requestOptionsPUT)
-    .then(response => 
-      {
-      console.log(response);
-      response.json();
-
-      }
-    )
-  }
-
+ 
   
 
   if (isLoading) return <div>Loading...</div>;
@@ -88,37 +65,13 @@ const UpdateErrorReport = () => {
 
       <h2>rows: </h2>
 
-      <form onSubmit={onHandleSubmit}>
+      
       {
         rows?.map((row) => (
-          <>
-            <div>
-              <div>
-                <label>
-                  Subject: 
-                  <h2 key={row.id}>{row.reportSubject}</h2>
-                </label>
-            </div>
-
-              <label>
-                Comment:
-                <h2 key={row.id}>{row.reportComment}</h2>
-              </label>
-            </div>
-          
-            <div>
-              <label>
-                Is done?
-                <Checkbox type="radio" onChange={(e) => setisDone(e.target.value)} value={true} {...rows.isDone === true ? "checked" : ""}/>
-              </label>
-            </div> 
-          <br/>
-          </>
+         <PartTaskItem row={row} key={row.id}/>
         ))
       }
-        <Button variant="outlined" type="submit">Update</Button>
-      </form>
-
+      
       <br/>
 
 
@@ -137,6 +90,76 @@ const UpdateErrorReport = () => {
     </>
   );
 };
+
+const PartTaskItem = ({row}) => {
+
+  const [checkBoxisDone, setcheckBoxisDone] = useState(row.isDone);
+
+  const ClickCheckBox = (row) => {
+    console.log(row)
+
+    const isDone = (checkBoxisDone === null || checkBoxisDone === false) ? true : false;
+
+    const dataToSend = {
+      isDone : isDone
+    }
+
+
+    var requestOptionsPUT = {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dataToSend)
+      
+    }
+
+    fetch(`https://localhost:7174/api/ErrorReportRow/${row.id}`, requestOptionsPUT)
+    .then(response => 
+      {
+      console.log(response);
+      setcheckBoxisDone(isDone);
+      }
+    )
+
+  } 
+
+ 
+  
+
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    
+  }
+
+  return (
+    <>
+    <div key={row.id}>
+      <div>
+        <label >
+          Subject: 
+          <h2 key={row.id}>{row.reportSubject}</h2>
+        </label>
+    </div>
+
+      <label>
+        Comment:
+        <h2 key={row.id}>{row.reportComment}</h2>
+      </label>
+    </div>
+  
+    <div>
+      <label>
+        Is done?
+        <Checkbox onClick={() => ClickCheckBox(row)} key={row.id} checked={checkBoxisDone === true}  />
+      </label>
+    </div> 
+  <br/>
+  </>
+  )
+}
+
 
 const PostComment = ({reportId}) => {
 
