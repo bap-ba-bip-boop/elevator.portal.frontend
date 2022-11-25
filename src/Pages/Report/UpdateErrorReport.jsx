@@ -5,7 +5,7 @@ import { GetErrorReportById } from "../../Services/reportService";
 import { useQuery } from "@tanstack/react-query";
 import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 import Textfield from "@mui/material/TextField"
-import { Button, Card, Checkbox } from "@mui/material";
+import { Button, Card, Checkbox, TextareaAutosize } from "@mui/material";
 
 const UpdateErrorReport = () => {
   const [comments, setComments] = useState([]);
@@ -30,11 +30,6 @@ const UpdateErrorReport = () => {
       }),
   });
 
-
-  
-
- 
-  
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -115,7 +110,7 @@ const PartTaskItem = ({row}) => {
       
     }
 
-    fetch(`https://localhost:7174/api/ErrorReportRow/${row.id}`, requestOptionsPUT)
+    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow/${row.id}`, requestOptionsPUT)
     .then(response => 
       {
       console.log(response);
@@ -125,28 +120,22 @@ const PartTaskItem = ({row}) => {
 
   } 
 
- 
-  
-
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-    
-  }
-
   return (
     <>
     <div key={row.id}>
       <div>
-        <label >
+        <h2>
           Subject: 
-          <h2 key={row.id}>{row.reportSubject}</h2>
-        </label>
+        </h2>
+          <p key={row.id}>{row.reportSubject}</p>
+        
     </div>
 
-      <label>
+      <h2>
         Comment:
-        <h2 key={row.id}>{row.reportComment}</h2>
-      </label>
+      </h2>
+        <p key={row.id}>{row.reportComment}</p>
+      
     </div>
   
     <div>
@@ -205,7 +194,7 @@ const PostComment = ({reportId}) => {
         <br/>
         <div className="form-group row">
           <div className="col-sm-10">
-            <Textfield variant="outlined" label="Comment" onChange={(e) => setComment(e.target.value)} />
+            <TextareaAutosize placeholder="Comment" variant="outlined" style={{width: 230, height : 100}} label="Comment" onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
         <br/>
@@ -213,6 +202,8 @@ const PostComment = ({reportId}) => {
       </form>
   )
 }
+
+
 
 const CommentItem = ({commentSubject, commentText}) => {
 
