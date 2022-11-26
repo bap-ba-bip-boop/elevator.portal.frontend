@@ -32,10 +32,6 @@ export const Elevators = () => {
                     )
                 }
             </Stack>
-            <div>
-                <button onClick={() => setSortingValue("shortestErrors")}>See Errors</button>
-                {sortingValue !== "" && <button onClick={() => setSortingValue("")}>reset</button>}
-            </div>
         </>
     );
 };

@@ -2,9 +2,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import {Box, Grid, IconButton, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useRef} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 
-const FloorPanel = ({changeFloor, Info}) => {
-    const floor = Info.find(item => item.key === "CurrentFloor").value;
+const FloorPanel = ({changeFloor}) => {
+    const {Floor} = useElevatorContext();
     const floorRef = useRef(0);
 
     function SubmitButton() {
@@ -14,13 +15,13 @@ const FloorPanel = ({changeFloor, Info}) => {
     }
 
     const handleFloorChange = () => {
-        changeFloor(floor, floorRef.current.value);
+        changeFloor(Floor, floorRef.current.value);
     };
 
     return (
         <>
             <Box flexDirection={"row"} justifyContent={"center"} marginY={3}>
-                <Typography justifyContent={"center"} display={"flex"}>You are currently on floor {floor}</Typography>
+                <Typography justifyContent={"center"} display={"flex"}>You are currently on floor {Floor}</Typography>
                 <Grid container columns={16} marginTop={2}>
                     <Grid item xs>
                         <Typography display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={1}>

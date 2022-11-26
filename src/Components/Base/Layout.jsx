@@ -1,7 +1,5 @@
-import {Box, Container} from "@mui/material";
-
+import {Container} from "@mui/material";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import React from "react";
 import {Outlet} from "react-router-dom";
 import {Footer} from "./Footer.jsx";
 import {Header} from "./Header.jsx";
@@ -17,13 +15,14 @@ const theme = createTheme({
 export const Layout = () => {
     return (
         <ThemeProvider theme={theme}>
-            <Container>
-                <Box minHeight={'95vh'}>
-                    <Header/>
-                    <Navbar/>
-                    <Outlet/>
-                    <Footer/>
-                </Box>
+            <Container
+                direction="column"
+                style={{minHeight: "calc(100vh - 50px"}}
+            >
+                <Header/>
+                <Navbar/>
+                <Outlet/>
+                <Footer/>
             </Container>
         </ThemeProvider>
     );

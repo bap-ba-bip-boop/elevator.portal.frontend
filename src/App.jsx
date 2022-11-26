@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./Components/Base/Layout.jsx";
@@ -13,21 +13,25 @@ import "./Style/override.css";
 
 const queryClient = new QueryClient();
 
+
 export const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Elevators />} />
-            <Route path="Elevator/:ElevatorId" element={<Elevator />} />
-            <Route path="ErrorReports" element={<Reports/>} />
-            <Route path="ErrorReports/:ReportId" element={<ErrorReport />} />
-            <Route path="ErrorReports/:ReportId/update" element={<UpdateErrorReport />} />
-            <Route path="Statistics" element={<Statistics />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
+    return (
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout/>}>
+                        <Route index element={<Elevators/>}/>
+                        <Route path="Elevator/:ElevatorId" element={<Elevator/>}/>
+                        <Route path="ErrorReports">
+                            <Route index element={<Reports/>}/>
+                            <Route path=":ReportId" element={<ErrorReport/>}/>
+                            <Route path=":ReportId/update" element={<UpdateErrorReport/>}/>
+                        </Route>
+                        <Route path="Statistics" element={<Statistics/>}/>
+                        <Route path="*" element={<Navigate to="/"/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
+    );
 };
