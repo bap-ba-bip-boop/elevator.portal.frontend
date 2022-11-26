@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import {useQuery} from "@tanstack/react-query";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useParams} from "react-router-dom";
 import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";

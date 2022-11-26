@@ -20,7 +20,6 @@ const MetaPanel = () => {
                 metaData={TypeMeta}
                 header={"Type"}
                 editable={false}
-                hasCheckbox={false}
             />
         }
     </Box>;

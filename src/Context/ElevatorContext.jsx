@@ -16,24 +16,14 @@ export const ElevatorProvider = ({Elevator, children}) => {
         companyName: Company,
         elevatorType: Type
     } = Elevator;
-    const [currentId, setCurrentId] = useState(() => id);
 
     const [DeviceMeta, setDeviceMeta] = useState(() => compactArray(deviceMeta));
     const [TypeMeta, setTypeMeta] = useState(() => compactArray(typeMeta));
-    const [floor, setFloor] = useState(DeviceMeta.CurrentFloor);
-    const [selectedValues, setSelectedValues] = useState([]);
+    const [Floor, setFloor] = useState(DeviceMeta.CurrentFloor);
     const [updateValue, setUpdateValue] = useState(() => {});
-    let functioning = isFunctioning;
-
-    const selectedValuesChange = (values) => {
-        setSelectedValues(values);
-    };
-
-    const pushUpdateFunction = (value) => {
-        setUpdateValue(value);
-    };
-
-    const flipFunctioning = () => functioning = !functioning;
+    const [functioning, setFunctioning] = useState(isFunctioning);
+    const [selectionValues, setSelectionValues] = useState([]);
+    const flipFunctioning = () => setFunctioning(!functioning);
 
     const UpdateFloor = (floor) => {
         setDeviceMeta(
@@ -48,15 +38,16 @@ export const ElevatorProvider = ({Elevator, children}) => {
     return <ElevatorContext.Provider value={{
         UpdateFloor,
         flipFunctioning,
+        setSelectionValues,
+        id,
         DeviceMeta,
         TypeMeta,
-        floor,
+        Floor,
         Name,
         Building,
         Company,
         Type,
-        selectedValues,
-        updateValue
+        selectionValues
     }}>
         {children}
     </ElevatorContext.Provider>;

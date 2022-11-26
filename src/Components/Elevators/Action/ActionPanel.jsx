@@ -22,10 +22,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ActionPanel = () => {
-    const {id: ElevatorId, selectedValues} = useElevatorContext();
-    const [showAlertDialouge, setShowAlertDialouge] = useState(() => false);
+    const {id: ElevatorId, selectionValues} = useElevatorContext();
+    const [showAlertDialog, setShowAlertDialog] = useState(() => false);
     const [responseMessage, setResponseMessage] = useState(() => "");
-    const selectionAmount = selectedValues?.length;
+    const selectionCount = selectionValues?.length;
 
     const processResponse = ({success, value, message}) => {
         var responseMessage = success ? "Success: " : "Failed: ";
@@ -56,22 +56,22 @@ const ActionPanel = () => {
             .then(response => processResponse(response));
     };
     const ProcessResetElevator = () => {
-        setShowAlertDialouge(true);
+        setShowAlertDialog(true);
     };
 
     const acceptCloseAlertDialog = () => {
-        setShowAlertDialouge(false);
-        ResetElevators(ElevatorId, {"keys": selectedValues})
+        setShowAlertDialog(false);
+        ResetElevators(ElevatorId, {"keys": selectionValues})
             .then(response => processResponse(response));
     };
     const closeAlertDialog = () => {
-        setShowAlertDialouge(false);
+        setShowAlertDialog(false);
     };
 
     return (
         <>
             <Dialog
-                open={showAlertDialouge}
+                open={showAlertDialog}
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={closeAlertDialog}
@@ -80,7 +80,7 @@ const ActionPanel = () => {
                 <DialogTitle>Are you sure you want to reset the following keys?</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        {selectedValues?.map((value) => <span key={value}>{value}</span>)}
+                        {selectionValues?.map((value) => <span key={value}>{value}</span>)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -101,7 +101,8 @@ const ActionPanel = () => {
                     <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
                     <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>
                     <ActionButton buttonFunction={ProcessResetElevator} name={"Reset"}
-                                  isDisabled={(selectionAmount === 0)}/>
+                                  isDisabled={(selectionCount === 0)}
+                    />
                 </ButtonGroup>
                 <p>{responseMessage}</p>
             </Box>

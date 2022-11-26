@@ -5,7 +5,7 @@ import React, {useRef} from "react";
 import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 
 const FloorPanel = ({changeFloor}) => {
-    const {floor} = useElevatorContext();
+    const {Floor} = useElevatorContext();
     const floorRef = useRef(0);
 
     function SubmitButton() {
@@ -15,13 +15,13 @@ const FloorPanel = ({changeFloor}) => {
     }
 
     const handleFloorChange = () => {
-        changeFloor(floor, floorRef.current.value);
+        changeFloor(Floor, floorRef.current.value);
     };
 
     return (
         <>
             <Box flexDirection={"row"} justifyContent={"center"} marginY={3}>
-                <Typography justifyContent={"center"} display={"flex"}>You are currently on floor {floor}</Typography>
+                <Typography justifyContent={"center"} display={"flex"}>You are currently on floor {Floor}</Typography>
                 <Grid container columns={16} marginTop={2}>
                     <Grid item xs>
                         <Typography display={"flex"} alignItems={"center"} justifyContent={"center"} marginTop={1}>

@@ -2,26 +2,19 @@ import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {DataGrid} from "@mui/x-data-grid";
 import {useCallback, useEffect, useState} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 
-const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox, onUpdate}) => {
-    const [rows, setRows] = useState([]);
+const MetaTable = ({metaData, header, editable = true, hasCheckbox = false}) => {
+    const {setSelectionValues} = useElevatorContext();
     const [selectionModel, setSelectionModel] = useState([]);
-
+    const [rows, setRows] = useState([]);
     useEffect(() => {
         let values = [];
-        console.log(metaData);
-        let index = 0;
-        for(const [key,value] of Object.entries(metaData)){
-            values.push({"id": index, "key": key, "value": value});
-            index++;
+        for (const [key, value] of Object.entries(metaData)) {
+            values.push({"id": key, "key": key, "value": value});
         }
         setRows(values);
-    }, []);
-
-    const handleSelection = (selection) => {
-        setSelectionModel(selection);
-        onChange(selection);
-    };
+    }, [metaData]);
 
     const columns = [
         {field: "key", headerName: "Key", flex: 1, editable: false},
@@ -29,7 +22,7 @@ const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox, on
     ];
 
     const handleEdit = useCallback(async (newRow) => {
-        await onUpdate(newRow);
+
         return {...newRow, isNew: false};
     }, [rows]);
 
@@ -38,17 +31,24 @@ const MetaTable = ({metaData, header, onChange, editable = true, hasCheckbox, on
             console.log(error);
         }, []);
 
+    const updateAmount = (selection) => {
+        setSelectionModel(selection);
+        setSelectionValues(selection);
+    }
+    const disabledKeys = ['CurrentFloor', 'DoorsAreOpen'];
+
     return (
         <Box flex={1} flexGrow={1} marginBottom={5} minWidth={"25em"}>
             <Typography variant={"h5"} marginBottom={1}>{header}</Typography>
             <DataGrid
+                isRowSelectable={(params) => !disabledKeys.includes(params.row.key)}
+                checkboxSelection={hasCheckbox}
                 rows={rows}
                 columns={columns}
                 disableSelectionOnClick={true}
-                checkboxSelection={hasCheckbox}
                 onSelectionModelChange={
                     (newModel) => {
-                        handleSelection(newModel);
+                        updateAmount(newModel);
                     }
                 }
                 processRowUpdate={handleEdit}
