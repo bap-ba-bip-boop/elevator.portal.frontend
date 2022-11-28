@@ -72,8 +72,8 @@ const ElevatorDetails = ({Elevator}) => {
                 </Grid>
                 <Box flex={1} justifyContent={"center"}>
                     <ActionPanel/>
+                    <HistoryLogPanel/>
                 </Box>
-                <HistoryLogPanel Elevator={Elevator}/>
             </Box>
         </>
     )
