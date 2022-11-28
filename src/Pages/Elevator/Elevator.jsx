@@ -11,6 +11,7 @@ import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
 import {ElevatorProvider, useElevatorContext} from "../../Context/ElevatorContext.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
 
+
 export const Elevator = () => {
     const {ElevatorId} = useParams();
     const {isLoading, error, data: elevator} = useQuery({

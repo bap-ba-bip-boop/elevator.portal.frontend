@@ -11,16 +11,11 @@ export const CreateErrorReport = () => {
 
 const {ElevatorId} = useParams();
 const [assignedTechnician, setTechnician] = useState('')
-const [reportRows, setReportRows] = useState('')
+const [rows, setRows] = useState(null)
 const [message, setMessage] = useState('')
 
 const { isLoading, error, data: technicians } = useQuery({ queryKey: ["employee"], 
   queryFn: GetAllTechnicians });
-
-
-// const { data : errorReportRows } = useQuery({ queryKey: ["ErrorReport"]})
-
-
 
 
 const handleSubmit = async (e) => {
@@ -50,6 +45,42 @@ const handleSubmit = async (e) => {
   }
 
 
+
+  const PartTaskItem = ({row}) => {
+
+    const [checkBoxisDone, setcheckBoxisDone] = useState(row.isDone);
+  
+    const ClickCheckBox = (row) => {
+      console.log(row)
+  
+      const isDone = (checkBoxisDone === null || checkBoxisDone === false) ? true : false;
+  
+      const dataToSend = {
+        isDone : isDone
+      }
+  
+  
+      var requestOptionsPOST = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+        
+      }
+  
+      fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow/${row.id}`, requestOptionsPUT)
+      .then(response => 
+        {
+        console.log(response);
+        setcheckBoxisDone(isDone);
+        }
+      )
+  
+    } 
+
+
   return (
     
     <><>
@@ -69,18 +100,27 @@ const handleSubmit = async (e) => {
                   </select>
               </div>
           </div>
-          <div className="form-group row">
-              <label forhtml="reportRows" className="col-sm-2 col-form-label">Add a Task</label>
-              <div className="col-sm-10">
-                  <select onChange={(e) => setReportRows(e.target.value) } value={errorReportId}>
-                        {
-                            reportRows?.map((errorReportRows) => (
-                              <option value={errorReportRows.id} key={errorReportRows.id}>{errorReportRows.IsDone}</option>
-                            ))
-                        }
-                  </select>
-              </div>
-          </div>
+          <>
+    <div key={row.id}>
+      <div>
+        <h2>
+          Subject: 
+        </h2>
+          <p key={row.id}>{row.reportSubject}</p>
+    </div>
+      <h2>
+        Comment:
+      </h2>
+        <p key={row.id}>{row.reportComment}</p>
+    </div>
+    <div>
+      <label>
+        Is done?
+        <Checkbox onClick={() => ClickCheckBox(row)} key={row.id} checked={checkBoxisDone === true}  />
+      </label>
+    </div> 
+  <br/>
+  </>
           
           <br>
           </br>
@@ -90,5 +130,8 @@ const handleSubmit = async (e) => {
       
       </>
   )
+
+  
 }
 
+}
