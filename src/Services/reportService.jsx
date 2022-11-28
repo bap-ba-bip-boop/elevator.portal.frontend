@@ -6,4 +6,6 @@ export const GetAllErrorReports = () =>{
 
 export const GetErrorReportById = (id) =>{
     return getQuery(`/ErrorReport/${id}`);
+
+
 }

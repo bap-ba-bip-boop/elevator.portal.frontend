@@ -1,9 +1,9 @@
-const BaseURL = "https://localhost:7174/api";
+const BaseURL = "https://grupp5elevatorapidev.azurewebsites.net/api";
 const headersWithJSON = (type, json_body) => {
     return {
         method: type,
         cache: "no-cache",
-       
+        mode: 'no-cors',
         headers: {
             "Content-Type": "application/json"
         },
