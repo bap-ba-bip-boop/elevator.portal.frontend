@@ -1,87 +1,138 @@
-import React, {Component} from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { GetAllTechnicians } from "../../Services/technicianApiService.jsx";
+import { GetErrorReportById } from "../../Services/reportService";
+import { useQuery } from "@tanstack/react-query";
+import AddTechToErrRepInput from "../../Components/AddTechToErrRepInput";
 
-export class UpdateErrorReport extends Component {
-    constructor(props) {
-        super(props)
+const UpdateErrorReport = () => {
+  const [rows, setRows] = useState([]);
+  const [comment, setComment] = useState("");
+  const [subject, setSubject] = useState("");
+  const [isDone, setisDone] = useState(null);
+  const [ErrorReport, setErrorReport] = useState(null);
 
-        this.state = {
-            status: '',
-            assignedTechnician: '',
-            comments: ''
-        }
-    }
+  const { ReportId } = useParams();
 
-    handleStatusChange = event => {
-        this.setState({
-            status: event.target.value
-        })
-    }
+  const { data: technicians } = useQuery({ queryKey: ["employee"], queryFn: GetAllTechnicians });
 
-    handleAssignedTechnicianChange = event => {
-        this.setState({
-            assignedTechnician: event.target.value
-        })
-    }
+  const {
+    isLoading,
+    error,
+    data: report,
+  } = useQuery({
+    queryKey: ["errorreport", ReportId],
+    queryFn: () =>
+      GetErrorReportById(ReportId).then((response) => {
+        console.log("response: ", response);
+        setRows([...response.rows]);
+        return response;
+      }),
+  });
 
-    handleCommentsChange = event => {
-        this.setState({
-            comments: event.target.value
-        })
-    }
+  var dataToSend = {
+    reportSubject: subject,
+    reportComment: comment,
+    errorReportId: ReportId,
+  };
 
-    handleSubmit = event => {
-        alert(`${this.state.status} ${this.state.assignedTechnician} ${this.state.comments}`)
-        event.preventDefault()
-    }
-  
-    /* 
-        const listComments = data.CommentContent.map((comment) => 
-            <div className='CommentSection'>
-                <h4 className='CommentUser'>{comment.Name}</h4>
-                <p className='CommentContent'>{comment.Content}</p>
+  const requestOptions = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSend),
+  };
+
+  const PostComment = (e) => {
+    e.preventDefault();
+    console.log("hello");
+
+    fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow", requestOptions).then((response) => {
+      console.log(response);
+      setRows(null);
+    });
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>An error has occured</div>;
+
+  return (
+    <>
+      <form>
+        <div className="form-group row">
+          <label className="col-sm-2 col-form-label">Status</label>
+          <div className="col-sm-10">
+            <select onClick={(e) => setisDone(e.target.value)}>
+              <option value={false}>Out Of Order</option>
+              <option value={true}>Functioning</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-group row">
+          <label className="col-sm-2 col-form-label">Assigned Technician</label>
+          <div className="col-sm-10">
+            <AddTechToErrRepInput ErrorReport={report} Technicans={technicians} />
+          </div>
+        </div>
+
+        <br></br>
+        <button type="submit">Save</button>
+      </form>
+
+      <div class="partTask">
+            <h2>Part Tasks</h2>
+            <div class="item">
+                <p>Deluppgift 1</p>
+                <input type="checkbox" />
             </div>
-        );
-    */
+            <div class="item">
+                <p>Deluppgift 2</p>
+                <input type="checkbox" />
+            </div>
+            <div class="item">
+                <p>Deluppgift 3</p>
+                <input type="checkbox" />
+            </div>
+            <div class="item">
+                <p>Deluppgift 4</p>
+                <input type="checkbox" />
+            </div>
+            <button type="submit" >Submit</button>
+        </div>
 
-    render() {
-        const { status, assignedTechnician, comments } = this.state
-     return (
-        <form onSubmit={this.handleSubmit}>
-            <div>
-                <label>Status</label>
-                <select value={status} onChange={this.handleStatusChange}>
-                    <option value="outoforder">Out of order</option>
-                    <option value="undercontruction">Under Contruction</option>
-                    <option value="functioning">Functioning</option>
-                </select>
-            </div>
-            <div>
-                <label>Assigned Technician</label>
-                <select value={assignedTechnician} onChange={this.handleAssignedTechnicianChange}>
-                    <option value="roger">Roger</option>
-                    <option value="pontare">Pontare</option>
-                    <option value="vindarnaviskar">Vindarna viskar</option>
-                </select>
-            </div>
-            <div>
-                <label>Comments</label>
-                <textarea value={comments} onChange={this.handleCommentsChange}/>
-            </div>
-            <button type="submit">Send Comment</button>
-            <br>
-            </br>
+      <form onSubmit={PostComment} >
+        <div className="CommentSubject">
+          <div className="CommentSubjectLabel">
+            <label>Subject</label>
+          </div>
+          <input onChange={(e) => setSubject(e.target.value)} placeholder="Subject" />
+        </div>
 
-            {/* 
-            <div>
-                <h3>Comments: </h3>
-                {listComments}
-            </div>
-         */}
-            <button type="submit">Submit</button>
-        </form>
-      
-    )
-  }
-}
+        <div className="form-group row">
+          <label className="col-sm-2 col-form-label">Comment</label>
+          <div className="col-sm-10">
+            <textarea onChange={(e) => setComment(e.target.value)} />
+          </div>
+        </div>
+        <button type="submit">Send Comment</button>
+      </form>
 
-export default UpdateErrorReport
+      <h2>Comments: </h2>
+      {rows?.map((row) => (
+        <div className="CommentSection" key={row.id}>
+          <div className="CommentSectionSubject">
+            <h2 key={row.id}>{row.reportSubject}</h2>
+          </div>
+          <p className="CommentSectionText" key={row.id}>
+            {row.reportComment}
+          </p>
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default UpdateErrorReport;

@@ -7,23 +7,25 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
 import React, {useState} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 import {
     MoveToFloor,
     OpenCloseDoors,
     ResetElevators,
     ToggleFunctionality
 } from "../../../Services/elevatorFunctionService.jsx";
-import {ActionButton} from "./ActionButton.jsx";
 import FloorPanel from "../Floor/FloorPanel.jsx";
+import {ActionButton} from "./ActionButton.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props}/>;
 });
 
-const ActionPanel = ({Elevator}) => {
-    const {id:ElevatorId, deviceMeta:MetaData} = Elevator;
-    const [showAlertDialouge, setShowAlertDialouge] = useState(() => false);
+const ActionPanel = () => {
+    const {id: ElevatorId, selectionValues} = useElevatorContext();
+    const [showAlertDialog, setShowAlertDialog] = useState(() => false);
     const [responseMessage, setResponseMessage] = useState(() => "");
+    const selectionCount = selectionValues?.length;
 
     const processResponse = ({success, value, message}) => {
         var responseMessage = success ? "Success: " : "Failed: ";
@@ -37,13 +39,13 @@ const ActionPanel = ({Elevator}) => {
                 setResponseMessage("Nice try...");
                 return;
             case currentFloor:
-                setResponseMessage('You cannot go to the floor you are currently on...');
+                setResponseMessage("You cannot go to the floor you are currently on...");
                 return;
         }
 
         MoveToFloor(ElevatorId, {FloorNumber: floor, WeightAmount: "0"})
-            .then(response => processResponse(response))
-    }
+            .then(response => processResponse(response));
+    };
 
     const ProcessOpenClose = () => {
         OpenCloseDoors(ElevatorId)
@@ -53,30 +55,32 @@ const ActionPanel = ({Elevator}) => {
         ToggleFunctionality(ElevatorId)
             .then(response => processResponse(response));
     };
-    const PreocessResetElevator = () => {
-        setShowAlertDialouge(true);
+    const ProcessResetElevator = () => {
+        setShowAlertDialog(true);
     };
+
     const acceptCloseAlertDialog = () => {
-        setShowAlertDialouge(false);
-        ResetElevators(ElevatorId, {})
+        setShowAlertDialog(false);
+        ResetElevators(ElevatorId, {"keys": selectionValues})
             .then(response => processResponse(response));
     };
     const closeAlertDialog = () => {
-        setShowAlertDialouge(false);
+        setShowAlertDialog(false);
     };
 
     return (
-        <div>
+        <>
             <Dialog
-                open={showAlertDialouge}
+                open={showAlertDialog}
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={closeAlertDialog}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Are you sure you want to reset the Elevators Metadata?"}</DialogTitle>
+                <DialogTitle>Are you sure you want to reset the following keys?</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
+                        {selectionValues?.map((value) => <span key={value}>{value}</span>)}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -92,15 +96,17 @@ const ActionPanel = ({Elevator}) => {
                     alignItems: "center"
                 }}>
                 <Typography variant={"h6"} marginBottom={1}>Button Panel</Typography>
-                <FloorPanel changeFloor={ProcessChangeFloor} Info={MetaData} />
+                <FloorPanel changeFloor={ProcessChangeFloor}/>
                 <ButtonGroup size="large" aria-label="large button group">
                     <ActionButton buttonFunction={ProcessOpenClose} name={"Open/Close"}/>
                     <ActionButton buttonFunction={ProcessToggleFunctionality} name={"On/Off"}/>
-                    <ActionButton buttonFunction={PreocessResetElevator} name={"Reset"}/>
+                    <ActionButton buttonFunction={ProcessResetElevator} name={"Reset"}
+                                  isDisabled={(selectionCount === 0)}
+                    />
                 </ButtonGroup>
                 <p>{responseMessage}</p>
             </Box>
-        </div>
+        </>
     );
 };
 

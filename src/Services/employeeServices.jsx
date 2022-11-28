@@ -1,13 +1,9 @@
-import {getQuery} from "./query.js";
+import { getQuery } from "./query.js";
 
-const getTechnicians = async() => {
-    return await getQuery("employee/service");
-}
+export const getSecondLine = async () => {
+  return await getQuery("employee/secondline");
+};
 
-const getSecondLine = async() => {
-    return await getQuery("employee/secondline");
-}
-
-const getEmployeeById = async(id) => {
-    return await getQuery(`employee/${id}`);
-}
+export const getEmployeeById = async (id) => {
+  return await getQuery(`employee/${id}`);
+};
