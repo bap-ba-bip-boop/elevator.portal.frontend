@@ -2,7 +2,7 @@ import {Divider, Grid, ListItem, ListItemText} from "@mui/material";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery} from "react-query";
 import React from "react";
 import {useParams} from "react-router-dom";
 import ActionPanel from "../../Components/Elevators/Action/ActionPanel.jsx";
@@ -10,6 +10,8 @@ import {HistoryLogPanel} from "../../Components/Elevators/HistoryLog/HistoryLogP
 import MetaPanel from "../../Components/Elevators/Meta/MetaPanel.jsx";
 import {ElevatorProvider, useElevatorContext} from "../../Context/ElevatorContext.jsx";
 import {GetElevatorById} from "../../Services/elevatorFunctionService";
+import { Link } from 'react-router-dom';
+
 
 
 export const Elevator = () => {
@@ -33,10 +35,14 @@ export const Elevator = () => {
     );
 };
 
+
+
 const ElevatorDetails = ({Elevator}) => {
-    const {Name, Building, Company, Type, isFunctioning} = useElevatorContext();
+    const {id ,Name, Building, Company, Type, isFunctioning} = useElevatorContext();
     return (
         <>
+
+            <Link to={`CreateReport`}>Create Error Report</Link>
             <Box
                 display={"flex"}
                 flexDirection={"row"}

@@ -20,8 +20,9 @@ export const App = () => (
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Elevators />} />
-                    <Route path=":ElevatorId/CreateReport" element={<CreateErrorReport />} />
-                    <Route path="Elevator/:ElevatorId" element={<Elevator />} />
+                    <Route index element={<Elevator />} />
+                        <Route path="Elevator/:ElevatorId" element={<Elevator />} />
+                        <Route path="Elevator/:ElevatorId/CreateReport" element={<CreateErrorReport />} />
                     <Route path="ErrorReports">
                         <Route index element={<Reports />} />
                         <Route path=":ReportId" element={<CreateErrorReport />} />
