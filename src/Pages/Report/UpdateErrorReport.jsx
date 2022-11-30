@@ -47,12 +47,12 @@ const UpdateErrorReport = () => {
             </select>
           </div>
         </div>
-        {/* <div className="form-group row">
+        <div className="form-group row">
           <label className="col-sm-2 col-form-label">Assigned Technician</label>
           <div className="col-sm-10">
             <AddTechToErrRepInput ErrorReport={report} Technicans={technicians} />
           </div>
-        </div> */}
+        </div>
 
         <br></br>
         <button type="submit">Save</button>
