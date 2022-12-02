@@ -72,7 +72,6 @@ const UpdateErrorReport = () => {
          <PartTaskItem row={row} key={row.id}/>
         ))
       }
-      
 
       </Box>
 
@@ -80,7 +79,7 @@ const UpdateErrorReport = () => {
 
       <PostComment reportId={ReportId}/>
       
-      <h2>Comments: </h2>
+        <h2 style={{margin : '10px 0px' , padding : 5}}>Comments: </h2>
       
         {
           comments?.map((comment) => (
@@ -98,74 +97,81 @@ const UpdateErrorReport = () => {
 
 const PartTaskItem = ({row}) => {
 
-  const [checkBoxisDone, setcheckBoxisDone] = useState(row.isDone);
+  //   const [checkBoxisDone, setcheckBoxisDone] = useState(row.isDone);
 
-  const ClickCheckBox = (row) => {
-    console.log(row)
+  //   const ClickCheckBox = (row) => {
+  //     console.log(row)
 
-    const isDone = (checkBoxisDone === null || checkBoxisDone === false) ? true : false;
+  //   const isDone = (checkBoxisDone === null || checkBoxisDone === false) ? true : false;
 
-    const dataToSend = {
-      isDone : isDone
-    }
+  //   const dataToSend = {
+  //     isDone : isDone
+  //   }
 
 
-    var requestOptionsPUT = {
-      method: "PUT",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(dataToSend)
-    }
+  //   var requestOptionsPUT = {
+  //     method: "PUT",
+  //     mode: "cors",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(dataToSend)
+  //   }
 
-    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow/${row.id}`, requestOptionsPUT)
-    .then(
-      (response) => 
-      {
-      console.log(response);
-      setcheckBoxisDone(isDone);
-      }
-    )
-  } 
+  //   fetch(`https://localhost:7174/api/errorreportrow/${row.id}`, requestOptionsPUT)
+  //   .then(
+  //     (response) => 
+  //     {
+  //     console.log(response);
+  //     setcheckBoxisDone(isDone);
+  //     }
+  //   ) 
+  // } 
 
   return (
-    <>
-    <div key={row.id}>
-      <div>
-        <h2>
-          Subject: 
-        </h2>
-          <p key={row.id}>{row.reportSubject}</p>
-        
-    </div>
-    <div>
-      <h2>
-        Comment:
-      </h2>
-        <p key={row.id}>{row.reportComment}</p>
-      </div>
-    </div>
+    <Box>
 
-    {row.breakdownTask && <p key={row.breakdownTask.id}>{row.breakdownTask.reason}</p>}
+      <div key={row.id}>
+
+        <div>
+          <h4>
+            Subject: 
+          </h4>
+          <p key={row.id}>{row.reportSubject}</p>
+        </div>
+
+        <div>
+          <h4>
+            Comment:
+          </h4>
+          <p key={row.id}>{row.reportComment}</p>
+        </div>
+
+      </div>
+
+      {row.breakdownTask && <p key={row.breakdownTask.id}>{row.breakdownTask.reason}</p>}
   
-    <div>
-      <label>
-        Is done?
-        <Checkbox onClick={() => ClickCheckBox(row)} key={row.id} checked={checkBoxisDone === true}  />
-      </label>
-    </div> 
-  <br/>
-  </>
+      <div>
+
+        {
+        /* <label>
+          Is done?
+          <Checkbox onClick={() => ClickCheckBox(row)} key={row.id} checked={checkBoxisDone === true}  />
+        </label> */
+        }
+
+      </div> 
+
+    </Box>
   )
 }
 
 const PostRow = ({ReportId}) => {
+  
   const [comment, setComment] = useState(null);
   const [subject, setSubject] = useState(null);
 
   var dataToSend = {
-    breakdownTask : null,
     reportComment : comment,
     reportSubject : subject,
     reportId : ReportId,
@@ -184,7 +190,7 @@ const PostRow = ({ReportId}) => {
   const OnHandleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow`, requestOptions)
+    fetch(`https://grupp5elevatorapidev.azurewebsites.net/api/errorreportrow`, requestOptionsPOST)
     .then((response) => 
     {
       console.log(response);
@@ -250,14 +256,14 @@ const PostComment = ({reportId}) => {
   return (
     <Box>
       <form onSubmit={HandleSubmit} >
-        <div className="CommentSubject">
-          <div className="CommentSubjectLabel">
+        <div>
+          <div>
           </div>
           <Textfield variant="outlined" label="Subject" onChange={(e) => setSubject(e.target.value)} />
         </div>
         <br/>
-        <div className="form-group row">
-          <div className="col-sm-10">
+        <div>
+          <div>
             <TextareaAutosize placeholder="Comment" variant="outlined" style={{width: 230, height : 100}} label="Comment" onChange={(e) => setComment(e.target.value)} />
           </div>
         </div>
@@ -273,7 +279,8 @@ const PostComment = ({reportId}) => {
 const CommentItem = ({commentSubject, commentText}) => {
 
   return (
-    <Paper sx={{padding : '10px 20px'}}>
+    <Paper sx={{padding : '10px 20px', margin : '10px 0px'}}>
+      
           <Box>
             <h3 sx={{margin : 0, textAlign : 'left'}}>{commentSubject}</h3>
           </Box>
