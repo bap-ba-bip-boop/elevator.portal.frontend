@@ -13,9 +13,9 @@ export const Reports = () => {
   const {isLoading, error, data:reports} = useQuery({ queryKey: ['reports'], queryFn: GetAllErrorReports });
 
   if(isLoading)
-        return <Box><Typography>Loading...</Typography></Box>
-    if(error)
-        return <Box><Typography>Something has happened...</Typography></Box>
+    return <Box><Typography>Loading...</Typography></Box>
+  if(error)
+    return <Box><Typography>Something has happened...</Typography></Box>
 
   return (
     <DetailedReports Reports={reports}/>
