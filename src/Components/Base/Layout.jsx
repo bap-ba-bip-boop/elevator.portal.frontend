@@ -16,6 +16,7 @@ export const Layout = () => {
     return (
         <ThemeProvider theme={theme}>
             <Container
+                maxWidth={"xl"}
                 direction="column"
                 style={{minHeight: "calc(100vh - 50px"}}
             >
