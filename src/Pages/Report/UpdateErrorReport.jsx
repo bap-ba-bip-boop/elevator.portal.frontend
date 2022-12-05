@@ -167,7 +167,7 @@ const PartTaskItem = ({row}) => {
 }
 
 const PostRow = ({ReportId}) => {
-  
+
   const [comment, setComment] = useState(null);
   const [subject, setSubject] = useState(null);
 
@@ -245,7 +245,7 @@ const PostComment = ({reportId}) => {
 
   const HandleSubmit = (e) => {
     e.preventDefault();
-    debugger
+    debugger;
     console.log("hello");
 
     fetch("https://grupp5elevatorapidev.azurewebsites.net/api/errorreport/createcomment", requestOptions).then((response) => {
@@ -257,16 +257,12 @@ const PostComment = ({reportId}) => {
     <Box>
       <form onSubmit={HandleSubmit} >
         <div>
-          <div>
-          </div>
           <Textfield variant="outlined" label="Subject" onChange={(e) => setSubject(e.target.value)} />
         </div>
         <br/>
-        <div>
           <div>
             <TextareaAutosize placeholder="Comment" variant="outlined" style={{width: 230, height : 100}} label="Comment" onChange={(e) => setComment(e.target.value)} />
           </div>
-        </div>
         <br/>
         <Button variant="outlined" type="submit">Send Comment</Button>
       </form>
