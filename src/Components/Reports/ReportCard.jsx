@@ -8,9 +8,7 @@ import { parseJSON, differenceInSeconds } from "date-fns";
 import React from "react";
 
 export const ReportCard = ({ Report }) => {
-  console.log("Report: ", Report);
   const calculateTimeLeft = (JSONTime) => {
-    console.log(JSONTime);
     const diff = differenceInSeconds(parseJSON(JSONTime), new Date());
     const days = Math.floor(diff / 86400);
     const hours = Math.floor((diff - days * 86400) / 3600);
