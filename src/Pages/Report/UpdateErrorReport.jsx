@@ -49,12 +49,12 @@ const UpdateErrorReport = () => {
             </div>
 
         {
-        /* <div>
+         <div>
           <label>Assigned Technician</label>
           <div>
             <AddTechToErrRepInput ErrorReport={report} Technicans={technicians} />
           </div>
-        </div> */
+        </div> 
         }
 
         <br/>
