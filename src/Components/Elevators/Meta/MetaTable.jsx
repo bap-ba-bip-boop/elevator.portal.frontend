@@ -1,33 +1,61 @@
 import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {DataGrid} from "@mui/x-data-grid";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
 
-const MetaTable = ({metaData, editable = true, header}) => {
-    const [rows, setRows] = useState(() => []);
-
+const MetaTable = ({metaData, header, editable = true, hasCheckbox = false}) => {
+    const {setSelectionValues} = useElevatorContext();
+    const [selectionModel, setSelectionModel] = useState([]);
+    const [rows, setRows] = useState([]);
     useEffect(() => {
-        return () => {
-            let values = [];
-            metaData.forEach((row, index) => {
-                values.push({"id": (index + 1), "key": row.key, "value": row.value});
-            });
-            setRows(values);
-        };
-    }, []);
+        let values = [];
+        for (const [key, value] of Object.entries(metaData)) {
+            values.push({"id": key, "key": key, "value": value});
+        }
+        setRows(values);
+    }, [metaData]);
 
     const columns = [
         {field: "key", headerName: "Key", flex: 1, editable: false},
         {field: "value", headerName: "Value", flex: 1, editable: editable}
     ];
+
+    const handleEdit = useCallback(async (newRow) => {
+
+        return {...newRow, isNew: false};
+    }, [rows]);
+
+    const handleProcessRowUpdateError = useCallback(
+        (error) => {
+            console.log(error);
+        }, []);
+
+    const updateAmount = (selection) => {
+        setSelectionModel(selection);
+        setSelectionValues(selection);
+    }
+    const disabledKeys = ['CurrentFloor', 'DoorsAreOpen'];
+
     return (
-        <Box sx={{width: "50%"}} marginY={3}>
+        <Box flex={1} flexGrow={1} marginBottom={5} minWidth={"25em"}>
             <Typography variant={"h5"} marginBottom={1}>{header}</Typography>
             <DataGrid
-                hideFooter={true}
-                autoHeight={true}
+                isRowSelectable={(params) => !disabledKeys.includes(params.row.key)}
+                checkboxSelection={hasCheckbox}
                 rows={rows}
                 columns={columns}
+                disableSelectionOnClick={true}
+                onSelectionModelChange={
+                    (newModel) => {
+                        updateAmount(newModel);
+                    }
+                }
+                processRowUpdate={handleEdit}
+                onProcessRowUpdateError={handleProcessRowUpdateError}
+                hideFooter={true}
+                autoHeight={true}
+                selectionModel={selectionModel}
                 experimentalFeatures={{newEditingApi: true}}
             />
         </Box>

@@ -1,9 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./Components/Base/Layout.jsx";
 import { Elevator } from "./Pages/Elevator/Elevator";
 import { Elevators } from "./Pages/Elevator/Elevators";
+import {CreateErrorReport} from "./Pages/Report/CreateErrorReport";
 import { ErrorReport } from "./Pages/Report/ErrorReport";
 import { Reports } from "./Pages/Report/Reports.jsx";
 import { Statistics } from "./Pages/Statistics/Statistics";
@@ -15,6 +16,7 @@ import { UserProvider } from "./Context/userContext";
 import "./Style/override.css";
 
 const queryClient = new QueryClient();
+
 
 export const App = () => {
   return (

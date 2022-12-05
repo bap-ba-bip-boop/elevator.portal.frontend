@@ -1,9 +1,9 @@
 import {Button} from "@mui/material";
 import React from 'react'
 
-export const ActionButton = ({buttonFunction, name, functionArgs = null}) => {
+export const ActionButton = ({buttonFunction, name, isDisabled = false, functionArgs = null}) => {
 
   return (
-    <Button onClick={() => buttonFunction(functionArgs)}>{name}</Button>
+    <Button disabled={isDisabled} onClick={() => buttonFunction(functionArgs)}>{name}</Button>
   )
 }

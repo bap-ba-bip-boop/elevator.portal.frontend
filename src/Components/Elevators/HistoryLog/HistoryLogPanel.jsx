@@ -1,13 +1,14 @@
-import { DataGrid } from '@mui/x-data-grid';
-import React, {useEffect, useState} from 'react'
-import { getLogs } from '../../../Services/elevatorLogServices';
-import {ActionButton} from '../Action/ActionButton'
-import { HistoryAmountButtons } from './HistoryAmountButtons';
+import {DataGrid} from "@mui/x-data-grid";
+import React, {useEffect, useState} from "react";
+import {useElevatorContext} from "../../../Context/ElevatorContext.jsx";
+import {getLogs} from "../../../Services/elevatorLogServices";
+import {ActionButton} from "../Action/ActionButton";
+import {HistoryAmountButtons} from "./HistoryAmountButtons";
 
 
 export const HistoryLogPanel = ({Elevator}) => {
 
-    const {id} = Elevator;
+    const {id} = useElevatorContext();
 
     const [values, setValues] = useState( {} );
     
