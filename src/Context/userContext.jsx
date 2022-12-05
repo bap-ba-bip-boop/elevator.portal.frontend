@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
+import React, { createContext, useState, useContext } from 'react'
+import { loginSecondLine } from '../Services/loginService';
+
 
 const UserContext = createContext();
 
@@ -12,12 +14,17 @@ export const UserProvider = ({children}) => {
 
     const loginUser = (newId, newName) =>{
         console.log("login called with parameters: ", newId, newName);
-        setUser(
-            {
-                userName: newName,
-                userId: newId
-            }
-        );
+        loginSecondLine(newId).then(result =>{
+            var token = result.token;
+            setUser(
+                {
+                    userName: newName,
+                    userId: newId,
+                    token: token
+                }
+            );
+        });
+        
     }
 
     const logoutUser = () => {
@@ -27,15 +34,24 @@ export const UserProvider = ({children}) => {
         );
     }
 
+    const getActiveToken = () => {
+        return user.token ?? "";
+    }
+
     return(
         <UserContext.Provider value={
             {
                 user,
                 loginUser,
-                logoutUser
+                logoutUser,
+                getActiveToken
             }
             }>
             {children}
         </UserContext.Provider>
     );
 }
+
+//export const getActiveToken = () => {
+    return user.token ?? "";
+//}

@@ -8,9 +8,6 @@ import { getSecondLine } from '../../Services/employeeServices';
 import {useQuery} from '@tanstack/react-query';
 import { EmployeeLoginCard } from "../../Components/Login/EmployeeLoginCard";
 
-
-import { UserProvider } from "../../Context/userContext";
-
 export const Login = () => {
 
     const {isLoading, error, data:secondLineEmployees} = useQuery({ queryKey: ['secondLineEmployees'], queryFn: getSecondLine });
@@ -25,7 +22,6 @@ export const Login = () => {
 }
 
 const LoginDetailed = ({employees}) => {
-    console.log(employees);
 
     return (
     <Box>
