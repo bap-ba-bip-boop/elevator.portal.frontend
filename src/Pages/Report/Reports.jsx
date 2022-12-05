@@ -7,12 +7,6 @@ import { GetAllErrorReports, GetAllCompanies } from "../../Services/reportServic
 import ErrorReportFilter from "../../Components/Reports/ErrorReportFilter";
 
 export const Reports = () => {
-  const {
-    isLoading: isLoadingCompanies,
-    error: companiesError,
-    data: companies,
-  } = useQuery({ queryKey: ["compainies"], queryFn: GetAllCompanies });
-
   const { isLoading, error, data: reports } = useQuery({ queryKey: ["reports"], queryFn: GetAllErrorReports });
   if (isLoading)
     return (
@@ -27,13 +21,13 @@ export const Reports = () => {
       </Box>
     );
 
-  return <DetailedReports Reports={reports} Companies={companies} />;
+  return <DetailedReports Reports={reports} />;
 };
 
-const DetailedReports = ({ Reports, Companies }) => {
+const DetailedReports = ({ Reports }) => {
   return (
     <>
-      <ErrorReportFilter Reports={Reports} Companies={Companies} />
+      <ErrorReportFilter Reports={Reports} />
     </>
   );
 };

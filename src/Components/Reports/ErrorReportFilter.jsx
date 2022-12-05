@@ -10,23 +10,19 @@ import Stack from "@mui/material/Stack";
 import { ReportCard } from "../../Components/Reports/ReportCard";
 import { useEffect } from "react";
 
-export default function ErrorReportFilter({ Reports, Companies }) {
-  const fullReports = { ...Reports, ...Companies };
-  console.log("full reports:", fullReports);
-
+export default function ErrorReportFilter({ Reports }) {
+  console.log("reports: ", Reports);
   const allCities = Reports.map((r) => r.building.city);
   const Cities = [...new Set(allCities)];
   const allBuildingIds = Reports.map((r) => r.building.id);
   const buildingIds = [...new Set(allBuildingIds)];
-  const companyNames = Companies.map((r) => r.companyName);
-  const compainies = [...new Set(companyNames)];
+  const compainies = [...new Set(Reports.map((r) => r.building.companyName))];
 
   const [radioValue, setRadioValue] = React.useState("BuildingId");
   const [filterOptions, setFilterOptions] = React.useState(buildingIds);
 
   const [searchValue, setSearchValue] = React.useState(filterOptions[0]);
   const [inputValue, setInputValue] = React.useState("");
-  console.log("reports: ", Reports);
 
   const handleChange = (event) => {
     setRadioValue(event.target.value);
@@ -52,12 +48,8 @@ export default function ErrorReportFilter({ Reports, Companies }) {
           return r.building.id.toLowerCase().includes(inputValue.toLowerCase());
         }
         if (radioValue === "Company") {
-          return;
-          //visa rapporterna för företaget vars id matchar id:t till namnet som matas in
-
-          return (
-            r.building.ownerId.toLowerCase().includes(inputValue.toLowerCase()) || r.building.ownerId.toLowerCase()
-          );
+          console.log("r.companyName", r.building.companyName);
+          return r.building.companyName.toLowerCase().includes(inputValue.toLowerCase());
         }
         if (radioValue === "City") {
           return r.building.city.toLowerCase().includes(inputValue.toLowerCase());
