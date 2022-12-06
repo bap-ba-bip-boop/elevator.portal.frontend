@@ -36,17 +36,11 @@ export const ElevatorProvider = ({Elevator, children}) => {
     };
 
     return <ElevatorContext.Provider value={{
-        UpdateFloor,
-        flipFunctioning,
-        setSelectionValues,
-        id,
-        DeviceMeta,
-        TypeMeta,
-        Floor,
-        Name,
-        Building,
-        Company,
-        Type,
+        UpdateFloor, flipFunctioning,
+        setSelectionValues, id,
+        DeviceMeta, TypeMeta,
+        Floor,Name, Building,
+        Company, Type,
         selectionValues
     }}>
         {children}

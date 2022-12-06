@@ -7,7 +7,7 @@ import {Layout} from "./Components/Base/Layout.jsx";
 import {Elevator} from "./Pages/Elevator/Elevator";
 import {Elevators} from "./Pages/Elevator/Elevators";
 import {CreatePage} from "./Pages/Report/Create.jsx";
-import {ErrorReport} from "./Pages/Report/ErrorReport";
+import {ViewPage} from "./Pages/Report/ErrorReport";
 import {Reports} from "./Pages/Report/Reports.jsx";
 import UpdateErrorReport from "./Pages/Report/UpdateErrorReport";
 import {Statistics} from "./Pages/Statistics/Statistics";
@@ -27,7 +27,7 @@ export const App = () => {
 							<Route path="Elevator/:ElevatorId" element={<Elevator/>}/>
 							<Route path="ErrorReports">
 								<Route index element={<Reports/>}/>
-								<Route path=":ReportId" element={<ErrorReport/>}/>
+								<Route path=":ReportId" element={<ViewPage/>}/>
 								<Route path=":ReportId/update" element={<UpdateErrorReport/>}/>
 								<Route path={"create/:breakdownId"} element={<CreatePage/>}/>
 							</Route>

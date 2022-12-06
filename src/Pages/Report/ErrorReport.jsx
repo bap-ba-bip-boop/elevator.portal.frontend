@@ -1,132 +1,89 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import {Label} from "@mui/icons-material";
+import {Avatar, Grid, ListItem, ListItemIcon, ListItemText, TextField} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-export const ErrorReport = ({ErrorReportId}) => {
+import {DesktopDatePicker} from "@mui/x-date-pickers";
+import {useQuery} from "@tanstack/react-query";
+import React from "react";
+import {useParams} from "react-router-dom";
+import GridItem from "../../Components/Reports/Create/GridItem.jsx";
+import {GetErrorReportById} from "../../Services/reportService.jsx";
 
-const [errorReport, setErrorReport] = useState(() => null);
+const PageContent = ({errorReport}) => {
 
+	const {technicianName, deadline, rows} = errorReport;
+	const IndexAvatar = ({children}) => <Avatar sx={{
+		position: "absolute",
+		bgcolor: "purple",
+		top: "43%",
+		left: -4
+	}}>{children}</Avatar>;
+	return (
+		<>
+			<Typography variant={"h2"} marginY={5} textAlign={"center"}>View Report</Typography>
+			<Grid container spacing={1}>
+				<Grid item>
+					<GridItem header={"Deadline"}>
+						<Box display={"flex"} justifyContent={"center"}>
+							<DesktopDatePicker
+								value={deadline}
+								onChange={handleDeadline}
+								renderInput={(params) => <TextField {...params}/>}
+								disablePast
+								date={deadline}
+								readOnly
+								rawValue={deadline}
+							/>
+						</Box>
+					</GridItem>
+					<GridItem header={"Technician"}>
+						<Box maxWidth={"75%"} margin={"auto"}>
+							<Typography>{technicianName}</Typography>
+						</Box>
+					</GridItem>
+				</Grid>
+				<GridItem width header={"Task-List"}>
+					<Box position={"relative"} padding={3}>
+						{
+							rows.map((field, index) =>
+								<Box key={index} position={"relative"}>
+									<Box border={"1px solid purple"} borderRadius={3} margin={2} padding={6}>
+										<IndexAvatar>{index + 1}</IndexAvatar>
+										{field.readonly === true ?
+											<Typography paddingY={2} fontSize={20} textTransform={"uppercase"}
+											            sx={{letterSpacing: 1}}>
+												{field.subject}
+											</Typography> :
+											<Typography>{field.reportSubject}</Typography>}
+										<Typography>{field.reportDescription}</Typography>
+									</Box>
+								</Box>
+							)}
+					</Box>
+				</GridItem>
+			</Grid>
+		</>
+	);
 
-const [status, setStatus] = useState('')
-const [assignedTechnician, setAssignedTechnician] = useState('')
-const [comment, setComment] = useState('')
-const [partTask, setPartTask] = useState('')
+};
 
-const onChange = event => setValue(event.target.value);
+export const ViewPage = () => {
+		const {ReportId} = useParams();
 
-const setSelectedPage = "";
+		const {isLoading, error, data: report} = useQuery({
+			queryKey: ["errorReport", ReportId],
+			queryFn: () => GetErrorReportById(ReportId)
+		});
 
+		if (isLoading) {
+			return <p>Loading...</p>;
+		}
 
-useEffect( () => {
-    GetErrorReportById(ErrorReportId)
-    .then(
-        result => {
-            setErrorReport(result);
-        }
-    );
-},
-[]
-);
+		if (error) {
+			return <p>Error!</p>;
+		}
 
-useEffect( () => {
-    getData(
-        `${employeeViewData.apiEmployeeViewUrl}/${EmployeeId}`,
-        employeeViewData.apiEmployeeViewMethod,
-        employeeViewData.apiEmployeeViewHeaders
-    )
-    .then(
-        result => {
-            setEmployee(result);
-        }
-    );
-},
-[]
-);
-
-
-let handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      let res = await fetch(errorReportViewData, {
-        method: "POST",
-        header: errorReportViewData.errorReportMethodHeaders,
-        body: JSON.stringify({
-          status: status,
-          assignedTechnician: assignedTechnician,
-          comment: comment,
-          partTask: partTask
-        }),
-      });
-      let resJson = await res.json();
-      if (res.status === 200) {
-        setStatus("Status Updated");
-        setAssignedTechnician(assignedTechnician);
-        setComment("");
-        setPartTask("")
-      } else {
-        setMessage("Some error occured");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-
-
-  return (
-    <><><form onSubmit={handleSubmit}>
-          <div class="form-group row">
-              <label for="status" class="col-sm-2 col-form-label">Status</label>
-              <div class="col-sm-10">
-                  <select value={status} onChange={onChange}>
-                      <option value={isDone}>Out Of Order</option>
-                      <option value={isDone}>Under Contruction</option>
-                      <option value={isDone}>Functioning</option>
-                  </select>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="assignedTechnician" class="col-sm-2 col-form-label">Assigned Technician</label>
-              <div class="col-sm-10">
-                  <select onChange={e => setTechnician(e.target.value)}>
-                    <option selected disabled value={-1}>Choose Technician</option>
-                        {
-                            assignedTechnicians.map(assignedTechnician => <option key={assignedTechnician.Id} 
-                            value={assignedTechnician.Id}>{assignedTechnician.Name}</option>)
-                        }
-                  </select>
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="comments" class="col-sm-2 col-form-label">Comment</label>
-              <div class="col-sm-10">
-                  <textarea value={comment} onChange={onChange} />
-              </div>
-          </div>
-          <button type="submit">Send Comment</button>
-          <br>
-          </br>
-          
-      </form></>
-      <div class="partTask">
-            <h2>Part Tasks</h2>
-            <div class="item">
-                <p>Deluppgift 1</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 2</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 3</p>
-                <input type="checkbox" />
-            </div>
-            <div class="item">
-                <p>Deluppgift 4</p>
-                <input type="checkbox" />
-            </div>
-            <button type="submit" >Submit</button>
-        </div></>
-  )
-}
-
+		return <PageContent errorReport={report}/>;
+	}
+;
