@@ -97,36 +97,7 @@ const UpdateErrorReport = () => {
 
 const PartTaskItem = ({row}) => {
 
-  //   const [checkBoxisDone, setcheckBoxisDone] = useState(row.isDone);
-
-  //   const ClickCheckBox = (row) => {
-  //     console.log(row)
-
-  //   const isDone = (checkBoxisDone === null || checkBoxisDone === false) ? true : false;
-
-  //   const dataToSend = {
-  //     isDone : isDone
-  //   }
-
-
-  //   var requestOptionsPUT = {
-  //     method: "PUT",
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(dataToSend)
-  //   }
-
-  //   fetch(`https://localhost:7174/api/errorreportrow/${row.id}`, requestOptionsPUT)
-  //   .then(
-  //     (response) => 
-  //     {
-  //     console.log(response);
-  //     setcheckBoxisDone(isDone);
-  //     }
-  //   ) 
-  // } 
+ 
 
   return (
     <Box>
@@ -150,17 +121,6 @@ const PartTaskItem = ({row}) => {
       </div>
 
       {row.breakdownTask && <p key={row.breakdownTask.id}>{row.breakdownTask.reason}</p>}
-  
-      <div>
-
-        {
-        /* <label>
-          Is done?
-          <Checkbox onClick={() => ClickCheckBox(row)} key={row.id} checked={checkBoxisDone === true}  />
-        </label> */
-        }
-
-      </div> 
 
     </Box>
   )
@@ -230,7 +190,7 @@ const PostComment = ({reportId}) => {
     commentSubject: subject,
     commentText: comment,
     errorReportId: reportId,
-    employeeId : 'c14e56f7-4b72-4953-9e3d-8571f2075176' //Borde ändras när inloggningen har lagts till.
+    employeeId : 'c14e56f7-4b72-4953-9e3d-8571f2075176' 
   };
 
   const requestOptions = {
