@@ -26,15 +26,8 @@ const PageContent = ({errorReport}) => {
 				<Grid item>
 					<GridItem header={"Deadline"}>
 						<Box display={"flex"} justifyContent={"center"}>
-							<DesktopDatePicker
-								value={deadline}
-								onChange={handleDeadline}
-								renderInput={(params) => <TextField {...params}/>}
-								disablePast
-								date={deadline}
-								readOnly
-								rawValue={deadline}
-							/>
+							<Typography>{deadline.split("T")[0]}</Typography>
+							
 						</Box>
 					</GridItem>
 					<GridItem header={"Technician"}>
