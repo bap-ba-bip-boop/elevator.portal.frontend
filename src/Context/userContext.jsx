@@ -12,8 +12,7 @@ export const UserProvider = ({children}) => {
 
     const [user, setUser] = useState(null);
 
-    const loginUser = (newId, newName) =>{
-        console.log("login called with parameters: ", newId, newName);
+    const loginUser = (newId, newName) => {
         loginSecondLine(newId).then(result =>{
             var token = result.token;
             setUser(
@@ -24,7 +23,6 @@ export const UserProvider = ({children}) => {
                 }
             );
         });
-        
     }
 
     const logoutUser = () => {
@@ -51,7 +49,3 @@ export const UserProvider = ({children}) => {
         </UserContext.Provider>
     );
 }
-
-//export const getActiveToken = () => {
-    return user.token ?? "";
-//}
