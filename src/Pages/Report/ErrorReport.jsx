@@ -27,6 +27,7 @@ const PageContent = ({errorReport}) => {
 					<GridItem header={"Deadline"}>
 						<Box display={"flex"} justifyContent={"center"}>
 							<Typography>{deadline.split("T")[0]}</Typography>
+
 						</Box>
 					</GridItem>
 					<GridItem header={"Technician"}>
